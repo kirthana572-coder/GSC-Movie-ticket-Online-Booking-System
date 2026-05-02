@@ -1,4 +1,4 @@
-# 🎬 GSC Movie Ticket Online Booking System
+# GSC Movie Ticket Online Booking System
 
 ## Project Description
 This system is a web-based movie ticket booking system for Golden Screen Cinema (GSC). It allows customers to browse movies, select seats, and make bookings online with physical payment at the cinema counter. The system also supports staff and admin operations such as payment verification, ticket generation, and system management.
