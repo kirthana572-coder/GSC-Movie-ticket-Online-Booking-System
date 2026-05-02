@@ -81,7 +81,7 @@ session_start();
 
         <!-- Forgot Password Link -->
         <div class="text-end mt-2">
-            <a href="forgotpassword.html" style="font-size: 14px;">Forgot Password?</a>
+            <a href="forgotpassword.php" style="font-size: 14px;">Forgot Password?</a>
         </div>
 
         <hr>
