@@ -20,7 +20,7 @@ if (strlen($new_password) < 6) {
     header("Location: /GSC-Movie-ticket-Online-Booking-System/changepassword.php");
     exit();
 }
-if ($new_password !== $confirm) {
+if ($new_password !== $confirm_password) {
     $_SESSION['error'] = "Passwords do not match.";
     header("Location: /GSC-Movie-ticket-Online-Booking-System/changepassword.php");
     exit();

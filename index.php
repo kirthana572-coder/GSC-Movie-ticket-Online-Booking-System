@@ -1,6 +1,8 @@
 <?php
 session_start();
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,12 +12,17 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+
 <body>
 
 <!-- Header -->
 <nav class="navbar navbar-dark bg-dark">
   <div class="container">
-    <span class="navbar-brand">Golden Screen Cinema (GSC)</span>
+
+    <span class="navbar-brand">
+        Golden Screen Cinema (GSC)
+    </span>
+
     <div class="text-white">
         <?php if (isset($_SESSION['user_id'])): ?>
             Welcome, <?= htmlspecialchars($_SESSION['full_name']) ?> 
@@ -28,12 +35,14 @@ session_start();
   </div>
 </nav>
 
+
 <!-- Welcome Section -->
 <div class="container text-center mt-5">
 
     <?php if (isset($_SESSION['user_id'])): ?>
         <!-- 已登录状态 -->
         <h1>Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>!</h1>
+        
         <p class="lead mt-3">
             You are logged in as <strong><?= ucfirst($_SESSION['role']) ?></strong>.
             <br>Choose an option below to get started.
@@ -58,7 +67,7 @@ session_start();
 
         <div class="mt-4">
             <a href="register.php" class="btn btn-warning btn-lg me-3">Register</a>
-            <a href="signin.php" class="btn btn-outline-dark btn-lg">Sign In</a>
+            <a href="login.php" class="btn btn-outline-dark btn-lg">Sign In</a>
         </div>
     <?php endif; ?>
 

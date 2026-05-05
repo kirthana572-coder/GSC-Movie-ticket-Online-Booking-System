@@ -1,11 +1,12 @@
-<!-- ================= REGISTER PAGE ================= -->
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Register - GSC</title>
 
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -33,58 +34,66 @@
 
                 <h3 class="text-center mb-3">Register</h3>
 
-                <form>
+        
+                <!-- SHOW ERROR -->
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger">
+                        <?php echo $_SESSION['error']; ?>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
+
+                <!-- SHOW SUCCESS -->
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success">
+                        <?php echo $_SESSION['success']; ?>
+                    </div>
+                    <?php unset($_SESSION['success']); ?>
+                <?php endif; ?>
+
+
+                <!-- connect to PHP -->
+                <form action="auth/register.php" method="POST">
 
                     <!-- Full Name -->
                     <div class="mb-3">
                         <label>Full Name</label>
-                        <input type="text" class="form-control">
+                        <input type="text" name="full_name" class="form-control" required>
                     </div>
 
                     <!-- Email -->
                     <div class="mb-3">
                         <label>Email</label>
-                        <input type="email" class="form-control">
+                        <input type="email" name="email" class="form-control" required>
                     </div>
 
-                    <!-- Password with toggle -->
+                    <!-- Password -->
                     <div class="mb-3">
                         <label>Password</label>
-
                         <div class="input-group">
-                            <input type="password" id="password" class="form-control">
-
-                            <!-- Show/Hide password -->
-                            <span class="input-group-text toggle-btn"
-                                  onclick="togglePassword('password', this)">
-                                👁️
-                            </span>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                            <span class="input-group-text toggle-btn" onclick="togglePassword('password', this)">👁️</span>
                         </div>
                     </div>
 
-                    <!-- Confirm Password with toggle -->
+                    <!-- Confirm Password -->
                     <div class="mb-3">
                         <label>Confirm Password</label>
-
                         <div class="input-group">
-                            <input type="password" id="confirmPassword" class="form-control">
-
-                            <!-- Show/Hide confirm password -->
-                            <span class="input-group-text toggle-btn"
-                                  onclick="togglePassword('confirmPassword', this)">
-                                👁️
-                            </span>
+                            <input type="password" id="confirmPassword" name="confirm_password" class="form-control" required>
+                            <span class="input-group-text toggle-btn" onclick="togglePassword('confirmPassword', this)">👁️</span>
                         </div>
                     </div>
 
-                    <!-- Register Button -->
-                    <button class="btn btn-warning w-100">Register</button>
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-warning w-100">
+                        Register
+                    </button>
 
                 </form>
 
-                <!-- Link to Sign In -->
                 <div class="text-center mt-3">
-                    <a href="signin.html">Already have account? Sign In</a>
+                    <a href="login.php">Already have account? Sign In</a>
                 </div>
 
             </div>
@@ -93,13 +102,11 @@
     </div>
 </div>
 
-
-<!-- JavaScript: Toggle Password Function -->
+<!-- Toggle Password -->
 <script>
 function togglePassword(fieldId, icon) {
     const field = document.getElementById(fieldId);
 
-    // Switch password visibility
     if (field.type === "password") {
         field.type = "text";
         icon.textContent = "🙈";

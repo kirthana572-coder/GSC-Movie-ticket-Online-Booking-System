@@ -2,16 +2,19 @@
 session_start();
 require_once '../config/db.php';
 
+// Only allow Post
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../register.php");
     exit();
 }
 
+// Get from data
 $full_name = trim($_POST['full_name'] ?? '');
 $email     = trim($_POST['email'] ?? '');
 $password  = $_POST['password'] ?? '';
 $confirm   = $_POST['confirm_password'] ?? '';
 
+// Validation
 if (empty($full_name) || empty($email) || empty($password)) {
     $_SESSION['error'] = "All fields are required.";
     header("Location: ../register.php");
@@ -36,6 +39,7 @@ if ($password !== $confirm) {
     exit();
 }
 
+// Check email exist
 $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -49,6 +53,7 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
+// Hash password
 $hash = password_hash($password, PASSWORD_DEFAULT);
 $role = 'customer';
 

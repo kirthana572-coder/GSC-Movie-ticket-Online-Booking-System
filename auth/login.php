@@ -16,7 +16,12 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
-$stmt = $conn->prepare("SELECT id, full_name, email, password_hash, role FROM users WHERE email = ?");
+// Get user from database
+$stmt = $conn->prepare("
+    SELECT id, full_name, email, password_hash, role 
+    FROM users 
+    WHERE email = ?
+");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -29,12 +34,16 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
+//Check password
 if (!password_verify($password, $user['password_hash'])) {
     $_SESSION['error'] = "Invalid email or password.";
     header("Location: ../signin.php");
     exit();
 }
 
+session_regenerate_id(true);
+
+// Success
 $_SESSION['user_id']   = $user['id'];
 $_SESSION['full_name'] = $user['full_name'];
 $_SESSION['email']     = $user['email'];

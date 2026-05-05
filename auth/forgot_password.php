@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $email = trim($_POST['email'] ?? '');
 
+//Valid email
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['error'] = "Please enter a valid email.";
     header("Location: /GSC-Movie-ticket-Online-Booking-System/forgotpassword.php");
@@ -35,13 +36,18 @@ $token = bin2hex(random_bytes(32));
 $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
 // 保存令牌和过期时间
-$stmt = $conn->prepare("UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE email = ?");
+$stmt = $conn->prepare("
+    UPDATE users 
+    SET reset_token = ?, reset_token_expiry = ? 
+    WHERE email = ?
+");
 $stmt->bind_param("sss", $token, $expiry, $email);
 $stmt->execute();
 $stmt->close();
 
 // 本地开发环境：直接显示重置链接（模拟发送邮件）
 $reset_link = "http://localhost/GSC-Movie-ticket-Online-Booking-System/reset_password.php?token=" . $token;
+
 $_SESSION['success'] = "Reset link generated! <br><a href='$reset_link'>Click here to reset your password</a> (For demo purposes).";
 header("Location: /GSC-Movie-ticket-Online-Booking-System/forgotpassword.php");
 exit();
