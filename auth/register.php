@@ -62,7 +62,7 @@ $stmt->bind_param("ssss", $full_name, $email, $hash, $role);
 
 if ($stmt->execute()) {
     $_SESSION['success'] = "Registration successful! Please sign in.";
-    header("Location: ../signin.php");
+    header("Location: ../login.php");
 } else {
     $_SESSION['error'] = "Registration failed.";
     header("Location: ../register.php");

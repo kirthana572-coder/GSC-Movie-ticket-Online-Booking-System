@@ -80,7 +80,7 @@ body {
         <button type="submit" class="btn btn-dark w-100">Sign In</button>
 
         <div class="text-end mt-2">
-            <a href="forgot_password.php">Forgot Password?</a>
+            <a href="forgotpassword.php">Forgot Password?</a>
         </div>
 
         <hr>
