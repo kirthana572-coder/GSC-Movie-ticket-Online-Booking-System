@@ -2,7 +2,7 @@
 require_once '../includes/auth_check.php';
 require_once '../config/db.php';
 
-// 自动过期：30分钟未支付且场次未开始的订单标记为 Expired
+// 自动过期逻辑（30分钟未支付且场次未开始）
 $conn->query("
     UPDATE bookings b
     JOIN showtimes s ON b.showtime_id = s.id
@@ -11,7 +11,7 @@ $conn->query("
       AND b.booking_date < DATE_SUB(NOW(), INTERVAL 30 MINUTE)
 ");
 
-// 为刚过期的订单发送通知（避免重复）
+// 为刚过期的订单发送通知
 $expired_orders = $conn->query("
     SELECT b.id, b.user_id 
     FROM bookings b
@@ -69,13 +69,24 @@ $bookings = $conn->query("
                     $statusClass = 'bg-warning text-dark';
                     if ($b['payment_status'] === 'Paid') $statusClass = 'bg-success';
                     if (in_array($b['payment_status'], ['Cancelled', 'Expired'])) $statusClass = 'bg-danger';
+
+                    // 计算过期时间戳（booking_date + 30分钟）
+                    $expireTimestamp = strtotime($b['booking_date']) + (30 * 60);
                 ?>
                 <tr>
                     <td><?= htmlspecialchars($b['title']) ?></td>
                     <td><?= htmlspecialchars($b['branch_name']) ?></td>
                     <td><?= date('d M Y', strtotime($b['show_date'])) ?></td>
                     <td><?= date('h:i A', strtotime($b['show_time'])) ?></td>
-                    <td><span class="badge <?= $statusClass ?>"><?= $b['payment_status'] ?></span></td>
+                    <td>
+                        <span class="badge <?= $statusClass ?>"><?= $b['payment_status'] ?></span>
+                        <?php if ($b['payment_status'] === 'Pending'): ?>
+                            <br>
+                            <small class="text-danger countdown" data-expire="<?= $expireTimestamp ?>">
+                                Calculating...
+                            </small>
+                        <?php endif; ?>
+                    </td>
                     <td><?= date('d M Y H:i', strtotime($b['booking_date'])) ?></td>
                     <td>
                         <?php if ($b['payment_status'] === 'Pending'): ?>
@@ -94,6 +105,35 @@ $bookings = $conn->query("
         <div class="alert alert-info">No bookings yet. <a href="movies.php">Book now</a></div>
     <?php endif; ?>
 </div>
+
+<!-- 动态倒计时 JavaScript -->
+<script>
+function updateCountdowns() {
+    const now = Math.floor(Date.now() / 1000); // 当前时间戳（秒）
+    const elements = document.querySelectorAll('.countdown');
+    elements.forEach(el => {
+        const expire = parseInt(el.dataset.expire);
+        if (!expire) return;
+        const remaining = expire - now;
+        if (remaining <= 0) {
+            el.textContent = 'Expired';
+            el.classList.remove('text-danger');
+            el.classList.add('text-muted');
+            // 可选：自动刷新页面以更新状态
+            // location.reload();
+        } else {
+            const minutes = Math.floor(remaining / 60);
+            const seconds = remaining % 60;
+            el.textContent = `Expires in: ${minutes}m ${seconds}s`;
+        }
+    });
+}
+
+// 每秒更新一次
+setInterval(updateCountdowns, 1000);
+// 页面加载后立刻更新一次
+updateCountdowns();
+</script>
 
 </body>
 </html>

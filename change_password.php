@@ -33,7 +33,7 @@ session_start();
         <?php endif; ?>
 
         <!-- FORM -->
-        <form action="auth/changepassword.php" method="POST">
+        <form action="auth/change_password.php" method="POST">
 
             <!-- New Password -->
             <div class="mb-3">

@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" name="full_name" class="form-control mb-3" value="<?= htmlspecialchars($user['full_name']) ?>" required>
         <input type="email" class="form-control mb-3" value="<?= $user['email'] ?>" disabled>
         <button class="btn btn-warning">Update</button>
-        <a href="/GSC-Movie-ticket-Online-Booking-System/changepassword.php" class="btn btn-outline-dark ms-2">Change Password</a>
+        <a href="/GSC-Movie-ticket-Online-Booking-System/change_password.php" class="btn btn-outline-dark ms-2">Change Password</a>
     </form>
 </div>
 </body>
