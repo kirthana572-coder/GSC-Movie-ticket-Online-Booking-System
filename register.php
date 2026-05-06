@@ -11,12 +11,97 @@ session_start();
 
 
     <style>
-        /* Eye toggle button style */
-        .toggle-btn {
+        /* Page Background (clean & bright) */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+
+            background: linear-gradient(135deg, #f4edd9, #f9d59f);
+            min-height: 100vh;
+        }
+
+        body {
+            animation: fadeBg 2s ease;
+        }
+
+@keyframes fadeBg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+        /* Center Layout (fix navbar issue) */
+        .main-container {
+            min-height: calc(100vh - 70px); /* avoid navbar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Register Card */
+        .register-card {
+            max-width: 420px;
+            width: 100%;
+            margin-top: -20px;
+
+            padding: 30px;
+            border-radius: 20px;
+            border: none;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ===== Title ===== */
+        h3 {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ===== Input Fields ===== */
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        /* focus effect */
+        .form-control:focus {
+            border-color: #f5c518;
+            box-shadow: 0 0 0 0.2rem rgba(245,197,24,0.25);
+        }
+
+        /* ===== Eye Button ===== */
+       .toggle-btn {
             cursor: pointer;
-            border: 1px solid #ced4da;
-            border-left: none;
             background: #fff;
+            border-radius: 0 10px 10px 0;
+        } 
+
+        /* ===== Button ===== */
+        .btn-warning {
+            background-color: #f5c518;
+            border: none;
+            border-radius: 30px;
+            padding: 12px;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0b400;
+            transform: scale(1.05);
+        }
+
+        /* ===== Link ===== */
+        a {
+            text-decoration: none;
+            color: #555;
+        }
+
+        a:hover {
+            color: #000;
         }
     </style>
 </head>
@@ -25,12 +110,10 @@ session_start();
 
 <?php include 'includes/navbar.php'; ?>
 <!-- Page Container -->
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
+<div class="main-container">    
 
-            <!-- Register Card -->
-            <div class="card p-4 shadow">
+    <!-- Register Card -->
+            <div class="card register-card">
 
                 <h3 class="text-center mb-3">Register</h3>
 
@@ -57,7 +140,7 @@ session_start();
 
                     <!-- Full Name -->
                     <div class="mb-3">
-                        <label>Full Name</label>
+                        <label class="form-label">Full Name</label>
                         <input type="text" name="full_name" class="form-control" required>
                     </div>
 
@@ -119,3 +202,5 @@ function togglePassword(fieldId, icon) {
 
 </body>
 </html>
+
+            
