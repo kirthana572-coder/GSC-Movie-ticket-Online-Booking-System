@@ -1,0 +1,108 @@
+/* GSC Dark Theme */
+body {
+    background-color: #0a0a0a;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 导航栏保持深色 */
+.navbar-dark.bg-dark {
+    background-color: #111 !important;
+}
+
+/* 卡片样式 */
+.card {
+    background-color: #1c1c1c;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.card-title {
+    color: #f5c518;
+}
+
+/* 主要按钮 - 金色 */
+.btn-warning {
+    background-color: #f5c518;
+    border-color: #f5c518;
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-warning:hover {
+    background-color: #d4a800;
+    border-color: #d4a800;
+}
+
+/* 深色轮廓按钮 */
+.btn-outline-dark {
+    border-color: #f5c518;
+    color: #f5c518;
+}
+
+.btn-outline-dark:hover {
+    background-color: #f5c518;
+    color: #000;
+}
+
+/* 表格样式 */
+.table {
+    color: #e0e0e0;
+}
+
+.table-dark {
+    background-color: #222;
+}
+
+/* 表单控件 */
+.form-control, .form-select {
+    background-color: #1c1c1c;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #2a2a2a;
+    color: #fff;
+    border-color: #f5c518;
+}
+
+/* 警告框 */
+.alert-info {
+    background-color: #1a3a4a;
+    border-color: #0f2a35;
+    color: #9ad9f5;
+}
+
+/* 设置链接颜色 */
+a {
+    color: #f5c518;
+}
+
+a:hover {
+    color: #fff;
+}
+
+/* 导航栏内链接 */
+.navbar-brand {
+    color: #f5c518 !important;
+    font-weight: bold;
+}
+
+/* 用于首页英雄区的覆盖层 */
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.85);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 圆形头像 */
+.rounded-circle.bg-warning {
+    background-color: #f5c518 !important;
+}

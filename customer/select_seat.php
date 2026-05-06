@@ -26,6 +26,7 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
 <head>
     <title>Select Seat - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
     <style>
         .seat-grid { display: flex; flex-wrap: wrap; gap: 10px; }
         .seat-btn { width: 50px; height: 50px; border-radius: 8px; font-weight: bold; }

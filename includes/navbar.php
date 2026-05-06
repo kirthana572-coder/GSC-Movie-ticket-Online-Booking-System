@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 <nav class="navbar navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="/GSC-Movie-ticket-Online-Booking-System/index.php">GSC Cinema</a>
+    <a class="navbar-brand" href="/GSC-Movie-ticket-Online-Booking-System/index.php" style="color: #f5c518;">GSC Cinema</a>
 
     <div class="d-flex align-items-center">
         <?php if (isset($_SESSION['user_id'])): ?>
@@ -55,20 +55,20 @@ if (session_status() === PHP_SESSION_NONE) {
   </div>
 </nav>
 
-<!-- 侧滑功能菜单 -->
+<!-- 侧滑功能菜单（暗色风格） -->
 <?php if (isset($_SESSION['user_id'])): ?>
-<div class="offcanvas offcanvas-end" tabindex="-1" id="functionMenu">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Menu</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+<div class="offcanvas offcanvas-end bg-dark text-light" tabindex="-1" id="functionMenu">
+  <div class="offcanvas-header border-bottom border-secondary">
+    <h5 class="offcanvas-title" style="color: #f5c518;">Menu</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
   </div>
   <div class="offcanvas-body">
     <div class="list-group">
-      <a href="/GSC-Movie-ticket-Online-Booking-System/customer/movies.php" class="list-group-item list-group-item-action">Browse Movies</a>
-      <a href="/GSC-Movie-ticket-Online-Booking-System/customer/history.php" class="list-group-item list-group-item-action">My Bookings</a>
-      <a href="/GSC-Movie-ticket-Online-Booking-System/customer/profile.php" class="list-group-item list-group-item-action">My Profile</a>
-      <a href="/GSC-Movie-ticket-Online-Booking-System/change_password.php" class="list-group-item list-group-item-action">Change Password</a>
-      <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php" class="list-group-item list-group-item-action text-danger">Sign Out</a>
+      <a href="/GSC-Movie-ticket-Online-Booking-System/customer/movies.php" class="list-group-item list-group-item-action bg-dark text-light border-secondary">🎬 Browse Movies</a>
+      <a href="/GSC-Movie-ticket-Online-Booking-System/customer/history.php" class="list-group-item list-group-item-action bg-dark text-light border-secondary">📋 My Bookings</a>
+      <a href="/GSC-Movie-ticket-Online-Booking-System/customer/profile.php" class="list-group-item list-group-item-action bg-dark text-light border-secondary">👤 My Profile</a>
+      <a href="/GSC-Movie-ticket-Online-Booking-System/changepassword.php" class="list-group-item list-group-item-action bg-dark text-light border-secondary">🔒 Change Password</a>
+      <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php" class="list-group-item list-group-item-action bg-dark text-danger border-secondary">🚪 Sign Out</a>
     </div>
   </div>
 </div>

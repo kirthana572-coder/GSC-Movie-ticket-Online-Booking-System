@@ -5,9 +5,10 @@ session_start();
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sign In</title>
+<title>Sign In - GSC</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
 
 <style>
 body {
@@ -103,6 +104,7 @@ a:hover {
 </head>
 
 <body>
+
 <?php include 'includes/navbar.php'; ?>
 <div class="main-container">
 
@@ -166,7 +168,6 @@ a:hover {
 <script>
 function togglePassword(icon) {
     const password = document.getElementById("password");
-
     if (password.type === "password") {
         password.type = "text";
         icon.textContent = "🙈";
