@@ -5,57 +5,56 @@ session_start();
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sign In</title>
+<title>Sign In - GSC</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
 
 <style>
-body {
-    background: #f2f2f2;
-}
-.login-card {
-    width: 400px;
-    margin: auto;
-    margin-top: 100px;
-    padding: 30px;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-.toggle-btn {
-    cursor: pointer;
-    border: 1px solid #ced4da;
-    border-left: none;
-    background: #fff;
-}
+    /* 只保留布局相关的样式，颜色交给 gsc-style.css */
+    .login-card {
+        width: 400px;
+        margin: auto;
+        margin-top: 100px;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    .title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #f5c518;
+    }
+    .toggle-btn {
+        cursor: pointer;
+        border: 1px solid #444;
+        border-left: none;
+        background: #2a2a2a;
+        color: #e0e0e0;
+    }
 </style>
 </head>
 
 <body>
+
 <?php include 'includes/navbar.php'; ?>
-<div class="login-card">
+
+<div class="login-card card shadow">
 
     <h3 class="title">Sign In</h3>
 
     <!-- ERROR -->
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php echo $_SESSION['error']; ?>
+            <?= $_SESSION['error']; unset($_SESSION['error']); ?>
         </div>
-        <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
 
     <!-- SUCCESS -->
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php echo $_SESSION['success']; ?>
+            <?= $_SESSION['success']; unset($_SESSION['success']); ?>
         </div>
-        <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
 
     <!-- FORM -->
@@ -77,7 +76,7 @@ body {
         </div>
 
         <!-- Button -->
-        <button type="submit" class="btn btn-dark w-100">Sign In</button>
+        <button type="submit" class="btn btn-warning w-100">Sign In</button>
 
         <div class="text-end mt-2">
             <a href="forgotpassword.php">Forgot Password?</a>
@@ -97,7 +96,6 @@ body {
 <script>
 function togglePassword(icon) {
     const password = document.getElementById("password");
-
     if (password.type === "password") {
         password.type = "text";
         icon.textContent = "🙈";

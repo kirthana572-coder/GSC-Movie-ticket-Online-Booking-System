@@ -44,6 +44,7 @@ $bookings = $conn->query("
 <head>
     <title>Booking History - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
 </head>
 <body>
 
