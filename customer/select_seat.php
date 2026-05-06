@@ -36,15 +36,7 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/GSC-Movie-ticket-Online-Booking-System/index.php">GSC Cinema</a>
-    <div class="text-white">
-        <?= htmlspecialchars($_SESSION['full_name']) ?>
-        <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php" class="btn btn-sm btn-outline-light ms-3">Logout</a>
-    </div>
-  </div>
-</nav>
+<?php include '../includes/navbar.php'; ?>
 
 <div class="container mt-4">
     <h2>Select Seats</h2>
@@ -110,4 +102,4 @@ function updateDisplay() {
 </script>
 
 </body>
-</html>
+</html> 

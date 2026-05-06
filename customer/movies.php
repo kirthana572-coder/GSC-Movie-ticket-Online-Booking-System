@@ -1,15 +1,12 @@
 <?php
-require_once '../includes/auth_check.php'; // 权限验证
+require_once '../includes/auth_check.php';
 require_once '../config/db.php';
 
-// 获取分店、日期筛选参数
 $branch_id = $_GET['branch_id'] ?? '';
 $date = $_GET['date'] ?? date('Y-m-d', strtotime('+1 day'));
 
-// 获取所有分店
 $branches = $conn->query("SELECT * FROM branches");
 
-// 查询电影及场次
 $sql = "
 SELECT m.id AS movie_id, m.title, m.genre, m.duration, m.description,
        s.id AS showtime_id, s.show_date, s.show_time,
@@ -27,7 +24,6 @@ $sql .= " ORDER BY s.show_time ASC";
 
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,20 +32,12 @@ $result = $conn->query($sql);
 </head>
 <body>
 
-<!-- 简单导航栏 -->
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/GSC-Movie-ticket-Online-Booking-System/index.php">GSC Cinema</a>
-    <div class="text-white">
-        <?= htmlspecialchars($_SESSION['full_name']) ?> 
-        <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php" class="btn btn-sm btn-outline-light ms-3">Logout</a>
-    </div>
-  </div>
-</nav>
+<!-- 公共导航栏（已包含菜单、头像、offcanvas 和 Bootstrap JS） -->
+<?php include '../includes/navbar.php'; ?>
 
 <div class="container mt-4">
     <h2>Now Showing</h2>
-    <!-- 筛选表单 -->
+
     <form method="GET" class="row g-3 mb-4">
         <div class="col-md-4">
             <select name="branch_id" class="form-select">
@@ -69,7 +57,6 @@ $result = $conn->query($sql);
         </div>
     </form>
 
-    <!-- 电影卡片列表 -->
     <div class="row">
         <?php if ($result && $result->num_rows > 0): ?>
             <?php while($row = $result->fetch_assoc()): ?>
@@ -82,8 +69,8 @@ $result = $conn->query($sql);
                                 <?= htmlspecialchars($row['duration']) ?> mins
                             </p>
                             <p><small><?= htmlspecialchars($row['branch_name']) ?></small></p>
-                            <p><strong>Date:</strong> <?= htmlspecialchars(date('d M Y', strtotime($row['show_date']))) ?></p>
-                            <p><strong>Time:</strong> <?= htmlspecialchars(date('h:i A', strtotime($row['show_time']))) ?></p>
+                            <p><strong>Date:</strong> <?= date('d M Y', strtotime($row['show_date'])) ?></p>
+                            <p><strong>Time:</strong> <?= date('h:i A', strtotime($row['show_time'])) ?></p>
                             <a href="select_seat.php?showtime_id=<?= $row['showtime_id'] ?>" class="btn btn-warning">Book Now</a>
                         </div>
                     </div>

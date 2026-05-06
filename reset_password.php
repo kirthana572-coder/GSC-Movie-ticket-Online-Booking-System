@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare("UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?");
         $stmt->bind_param("si", $hash, $user['id']);
         $stmt->execute();
-        $success = "Password updated successfully! <a href='signin.php'>Sign In</a>";
+        $success = "Password updated successfully! <a href='login.php'>Sign In</a>";
     }
 }
 ?>
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
+<?php include 'includes/navbar.php'; ?>
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card shadow p-4" style="width: 400px;">
         <h4 class="text-center mb-3">Reset Your Password</h4>

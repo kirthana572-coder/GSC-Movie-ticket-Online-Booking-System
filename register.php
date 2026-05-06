@@ -23,7 +23,7 @@ session_start();
 
 <body>
 
-
+<?php include 'includes/navbar.php'; ?>
 <!-- Page Container -->
 <div class="container mt-5">
     <div class="row justify-content-center">

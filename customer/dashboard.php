@@ -87,11 +87,10 @@ body {
 
         <hr>
 
-        <a href="profile.php" class="btn btn-light w-100 mb-2">View Profile</a>
+    <a href="customer/profile.php" class="btn btn-light w-100 mb-2">View Profile</a>
+    <a href="changepassword.php" class="btn btn-light w-100 mb-2">Change Password</a>
+    <a href="customer/history.php" class="btn btn-light w-100 mb-2">Booking History</a>
 
-        <a href="change_password.php" class="btn btn-light w-100 mb-2">Change Password</a>
-
-        <a href="booking_history.php" class="btn btn-light w-100 mb-2">Booking History</a>
 
         <hr>
 

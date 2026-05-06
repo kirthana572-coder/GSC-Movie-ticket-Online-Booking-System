@@ -58,24 +58,7 @@ session_start();
 <body>
 
 <!-- Header -->
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container">
-
-    <span class="navbar-brand">
-        Golden Screen Cinema (GSC)
-    </span>
-
-    <div class="text-white">
-        <?php if (isset($_SESSION['user_id'])): ?>
-            Welcome, <?= htmlspecialchars($_SESSION['full_name']) ?> 
-            (<?= ucfirst($_SESSION['role']) ?>)
-            <a href="auth/logout.php" class="btn btn-sm btn-outline-light ms-3">Logout</a>
-        <?php else: ?>
-            <span class="text-white-50">Not logged in</span>
-        <?php endif; ?>
-    </div>
-  </div>
-</nav>
+<?php include 'includes/navbar.php'; ?>
 
 
 <!-- Welcome Section -->
@@ -117,7 +100,7 @@ session_start();
 
     <div class="mt-4">
         <a href="customer/movies.php" class="btn btn-warning btn-lg me-3">Browse Movies</a>
-        <a href="customer/history.php" class="btn btn-outline-dark btn-lg">My Bookings</a>
+        <a href="customer/history.php" class="btn btn-outline-dark btn-lg">My Bookings</a>  
     </div>
 
 </div>

@@ -37,7 +37,7 @@ body {
 </head>
 
 <body>
-
+<?php include 'includes/navbar.php'; ?>
 <div class="login-card">
 
     <h3 class="title">Sign In</h3>

@@ -10,7 +10,7 @@ session_start();
 </head>
 
 <body class="bg-light">
-
+<?php include 'includes/navbar.php'; ?>
 <div class="container d-flex justify-content-center align-items-center vh-100">
 
     <div class="card shadow p-4" style="width: 400px;">
