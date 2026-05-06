@@ -19,6 +19,7 @@ if (empty($showtime_id) || empty($seat_ids)) {
 
 $conn->begin_transaction();
 try {
+    // 检查并锁定座位
     foreach ($seat_ids as $sid) {
         $check = $conn->query("SELECT status FROM seats WHERE id = " . intval($sid) . " FOR UPDATE");
         $seat = $check->fetch_assoc();
@@ -35,12 +36,17 @@ try {
     $booking_id = $stmt->insert_id;
     $stmt->close();
 
+    // 关联座位
     $stmt = $conn->prepare("INSERT INTO booking_seats (booking_id, seat_id) VALUES (?, ?)");
     foreach ($seat_ids as $sid) {
         $stmt->bind_param("ii", $booking_id, $sid);
         $stmt->execute();
     }
     $stmt->close();
+
+    // 添加通知
+    $msg = "Your booking (ID: $booking_id) has been created. Please pay at the counter.";
+    $conn->query("INSERT INTO notifications (user_id, message) VALUES ($user_id, '$msg')");
 
     $conn->commit();
     header("Location: booking_success.php?booking_id=" . $booking_id);

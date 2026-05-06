@@ -9,6 +9,24 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <div class="d-flex align-items-center">
         <?php if (isset($_SESSION['user_id'])): ?>
+            <!-- 通知铃铛 -->
+            <?php
+            $unread_count = 0;
+            require_once __DIR__ . '/../config/db.php';
+            $res = $conn->query("SELECT COUNT(*) AS cnt FROM notifications WHERE user_id = {$_SESSION['user_id']} AND is_read = 0");
+            $unread_count = $res->fetch_assoc()['cnt'] ?? 0;
+            ?>
+            <a href="/GSC-Movie-ticket-Online-Booking-System/customer/notifications.php"
+               class="position-relative me-2 text-light" title="Notifications">
+                🔔
+                <?php if ($unread_count > 0): ?>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          style="font-size: 0.6rem;">
+                        <?= $unread_count ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+
             <!-- 圆形头像 -->
             <a href="/GSC-Movie-ticket-Online-Booking-System/customer/profile.php"
                class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center fw-bold text-decoration-none"
@@ -49,7 +67,7 @@ if (session_status() === PHP_SESSION_NONE) {
       <a href="/GSC-Movie-ticket-Online-Booking-System/customer/movies.php" class="list-group-item list-group-item-action">Browse Movies</a>
       <a href="/GSC-Movie-ticket-Online-Booking-System/customer/history.php" class="list-group-item list-group-item-action">My Bookings</a>
       <a href="/GSC-Movie-ticket-Online-Booking-System/customer/profile.php" class="list-group-item list-group-item-action">My Profile</a>
-      <a href="/GSC-Movie-ticket-Online-Booking-System/change_password.php" class="list-group-item list-group-item-action">Change Password</a>
+      <a href="/GSC-Movie-ticket-Online-Booking-System/changepassword.php" class="list-group-item list-group-item-action">Change Password</a>
       <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php" class="list-group-item list-group-item-action text-danger">Sign Out</a>
     </div>
   </div>
