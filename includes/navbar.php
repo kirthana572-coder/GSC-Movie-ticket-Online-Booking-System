@@ -46,7 +46,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php"
                class="btn btn-sm btn-outline-light ms-2">Logout</a>
         <?php else: ?>
-            <a href="/GSC-Movie-ticket-Online-Booking-System/signin.php"
+            <a href="/GSC-Movie-ticket-Online-Booking-System/login.php"
                class="btn btn-sm btn-outline-light me-2">Sign In</a>
             <a href="/GSC-Movie-ticket-Online-Booking-System/register.php"
                class="btn btn-sm btn-warning">Register</a>

@@ -3,7 +3,7 @@ session_start();
 require_once '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: ../signin.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -12,7 +12,7 @@ $password = $_POST['password'] ?? '';
 
 if (empty($email) || empty($password)) {
     $_SESSION['error'] = "Email and password required.";
-    header("Location: ../signin.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -28,7 +28,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     $_SESSION['error'] = "Invalid email or password.";
-    header("Location: ../signin.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -37,7 +37,7 @@ $user = $result->fetch_assoc();
 //Check password
 if (!password_verify($password, $user['password_hash'])) {
     $_SESSION['error'] = "Invalid email or password.";
-    header("Location: ../signin.php");
+    header("Location: ../login.php");
     exit();
 }
 

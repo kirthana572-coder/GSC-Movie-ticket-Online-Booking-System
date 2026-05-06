@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /GSC-Movie-ticket-Online-Booking-System/signin.php");
+    header("Location: /GSC-Movie-ticket-Online-Booking-System/login.php");
     exit();
 }
 
