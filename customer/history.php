@@ -44,13 +44,100 @@ $bookings = $conn->query("
 <head>
     <title>Booking History - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
+
+    <style>
+
+        /*Page Background*/
+        body{
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+
+            background:
+            linear-gradient(
+                rgba(244,237,217,0.50),
+                rgba(46, 45, 45, 0.85)
+            ),
+            url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?q=80&w=1974&auto=format&fit=crop')
+            center center / cover no-repeat fixed;
+
+            min-height: 100vh;
+        }
+
+        /*Booking Table*/
+        .table{
+            overflow: hidden !important;
+
+            border-radius: 18px !important; 
+
+            margin-top: 25px !important;
+
+            background: rgba(252, 251, 240, 0.92) !important; 
+        }
+
+        /*Table Header*/
+        .table thead th{
+            border: none !important;
+
+            padding: 18px !important;
+
+            font-size: 18px !important;
+        }
+
+        /*Table Body*/
+        .table tbody td{
+            padding: 22px 16px !important;
+
+            vertical-align: middle !important;
+
+            border-color: rgba(0,0,0,0.08) !important;
+
+            background: rgba(255, 255, 255, 0) !important;
+        }
+
+        /*Hover effect*/
+        .table tbody tr:hover td{
+            background: rgba(255, 200, 0, 0.08) !important;
+
+            transition: 0.2s !important;
+        }
+
+        /*Status badge*/
+        .badge{
+            padding: 8px 14px !important;
+
+            border-radius: 30px !important;
+
+            font-size: 14px !important;
+        }
+
+        /*cancel button*/
+        .btn-danger{
+            border-radius: 20px !important;
+
+            padding: 6px 16px !important;
+
+            background: #e65867 !important;
+
+            border: none !important;
+
+            font-weight: 600;
+
+        }
+
+        .btn-danger:hover{
+            transform: scale(1.05);
+
+            transition: 0.2s;
+        }
 </head>
 <body>
 
 <?php include '../includes/navbar.php'; ?>
 
-<div class="container mt-4">
+<div class="container mt-5">
+
+    <div class="history-card">
+    
     <h2>My Bookings</h2>
     <?php if ($bookings->num_rows > 0): ?>
         <table class="table table-bordered">
@@ -105,6 +192,8 @@ $bookings = $conn->query("
     <?php else: ?>
         <div class="alert alert-info">No bookings yet. <a href="movies.php">Book now</a></div>
     <?php endif; ?>
+
+    </div>
 </div>
 
 <!-- 动态倒计时 JavaScript -->

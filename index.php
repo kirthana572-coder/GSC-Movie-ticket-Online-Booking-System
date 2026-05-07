@@ -18,7 +18,7 @@ session_start();
             border-radius: 10px;
 
             position: relative;
-           z-index: 1000; 
+            z-index: 1000; 
         }
 
         /* Logo */
