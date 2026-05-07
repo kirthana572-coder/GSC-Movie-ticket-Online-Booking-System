@@ -20,27 +20,158 @@ $notifications = $conn->query("
 <head>
     <title>Notifications - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
+
+    <style>
+
+        /* Page Background */
+        body{
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+
+            background:
+            linear-gradient(
+                rgba(244,237,217,0.82),
+                rgba(249,213,159,0.88)
+            );
+
+            min-height: 100vh;
+        }
+
+        /* Main Container */
+        .notification-container{
+            max-width: 1000px;
+
+            margin: 50px auto;
+        }
+
+        /* Notification Card */
+        .notification-card{
+            background: rgba(255, 255, 255, 0.77);
+
+            border-radius: 24px;
+
+            padding: 35px;
+
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+            0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        /* Title */
+        .page-title{
+            font-size: 42px;
+
+            font-weight: 700;
+
+            color: #1c1f26;
+
+            margin-bottom: 25px;
+        }
+
+        /* Notification Item */
+        .notification-item{
+            display: block;
+
+            text-decoration: none;
+
+            background: rgba(255,255,255,0.92);
+
+            border-radius: 18px;
+
+            padding: 10px;
+
+            margin-bottom: 18px;
+
+            transition: 0.25s;
+
+            border: 1px solid rgba(0,0,0,0.06);
+
+            color: #222;
+        }
+
+        /* Hover Effect */
+        .notification-item:hover{
+            transform: translateY(-3px);
+
+            box-shadow:
+            0 8px 20px rgba(0,0,0,0.08);
+
+            background: rgba(255,255,255,1);
+        }
+
+        /* Unread Notification */
+        .notification-unread{
+            border-left: 6px solid #f5c518;
+
+            background: rgba(245,197,24,0.10);
+        }
+
+        /* Notification Message */
+        .notification-message{
+            font-size: 15px;
+
+            font-weight: 400;
+
+            margin-bottom: 8px;
+        }
+
+        /* Notification Time */
+        .notification-time{
+            color: #777;
+
+            font-size: 12px;
+        }
+
+        /* Empty State */
+        .empty-alert{
+            background: rgba(255,255,255,0.85);
+
+            border: none;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
+
 <?php include '../includes/navbar.php'; ?>
-<div class="container mt-4">
-    <h2>Notifications</h2>
-    <?php if ($notifications->num_rows > 0): ?>
-        <div class="list-group">
-            <?php while($n = $notifications->fetch_assoc()):
+<div class="notification-container">
+
+    <div class="notification-card">
+
+        <h2 class="page-title">
+            Notifications
+        </h2>
+
+        <?php if ($notifications->num_rows > 0): ?>
+           <?php while($n = $notifications->fetch_assoc()):
                 $class = $n['is_read'] ? '' : 'list-group-item-warning fw-bold';
             ?>
-                <a href="?mark_read=<?= $n['id'] ?>"
-                   class="list-group-item list-group-item-action <?= $class ?>">
-                    <?= htmlspecialchars($n['message']) ?>
-                    <br><small class="text-muted"><?= $n['created_at'] ?></small>
-                </a>
-            <?php endwhile; ?>
-        </div>
-    <?php else: ?>
-        <div class="alert alert-info">No notifications yet.</div>
-    <?php endif; ?>
+
+           <a href="?mark_read=<?= $n['id'] ?>"
+                class="notification-item <?= !$n['is_read'] ? 'notification-unread' : '' ?>">
+            
+                    <div class="notification-message">
+                        <?= htmlspecialchars($n['message']) ?>
+                    </div>
+
+                    <div class="notification-time">
+                        <?= $n['created_at'] ?>
+                    </div>
+            
+            </a>
+        <?php endwhile; ?>
+
+        <?php else: ?>
+            <div class="empty-alert">No notifications yet.</div>
+        <?php endif; ?>
+    </div>
 </div>
 </body>
 </html>
