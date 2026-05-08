@@ -56,13 +56,13 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 
         @keyframes zoomBg {
             from { background-size: 100%; }
-            to { background-size: 125%; }
+            to { background-size: 130%; }
         }
 
         @keyframes moveLight {
             0% { transform: translate(-30%, -30%) scale(1); }
             50% { transform: translate(0%, 0%) scale(1.4); }
-            100% { transform: translate(-30%, -30%) scale(1); }
+            100% { transform: translate(-30%, -30%) scale(1.2); }
         }
 
         .btn-custom {
@@ -98,7 +98,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             pointer-events: auto;
         }
 
-        /* ===== 登录后仪表盘样式（保留你喜欢的暖色渐变） ===== */
+        /*登录后*/
         .dashboard-body {
             margin: 0;
             padding: 0;
@@ -176,7 +176,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 
 <?php include 'includes/navbar.php'; ?>
 
-<!-- ========== 未登录：保留你原有的英雄区 ========== -->
+<!--未登录 -->
 <?php if (!isset($_SESSION['user_id'])): ?>
 <div class="overlay d-flex justify-content-center align-items-center">
     <div class="hero-box text-center">
@@ -191,7 +191,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 </div>
 
 <?php else: ?>
-<!-- ========== 已登录：Dashboard（对应 Storyboard #4） ========== -->
+<!--已登录：Dashboard -->
 <div class="dashboard-body">
     <div class="container dashboard-container">
 
@@ -203,7 +203,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             You are logged in as <strong><?= ucfirst($_SESSION['role']) ?></strong>.
         </p>
 
-        <!-- 搜索栏（对应 Storyboard #4 的 search bar） -->
+        <!-- 搜索栏 -->
         <div class="search-bar">
             <form action="customer/movies.php" method="GET">
                 <input type="text" name="search" class="form-control" placeholder="Search movies...">

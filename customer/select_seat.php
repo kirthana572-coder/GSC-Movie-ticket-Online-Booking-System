@@ -373,7 +373,7 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
         </div>        
         
         <button type="submit" class="btn btn-warning btn-lg w-100 mt-4">
-            Confirm Booking
+            Make Booking
         </button>    
     </form>
 </div>

@@ -63,6 +63,58 @@ $bookings = $conn->query("
             min-height: 100vh;
         }
 
+        /* Top Section */
+        .top-bar{
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+
+            flex-wrap: wrap;
+        }
+
+        /* Back Home Button */
+        .back-home-btn{
+            background: rgb(64, 64, 68);
+
+            color: #fff;
+
+            text-decoration: none;
+
+            padding: 12px 22px;
+
+            border-radius: 30px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+
+            box-shadow:
+            0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .back-home-btn:hover{
+            background: #ffd230;
+
+            color: #111;
+
+            transform: translateY(-2px);
+        }
+
+        /* Title */
+        .history-card h2{
+            font-size: 42px;
+
+            font-weight: 700;
+
+            color: #31343c;
+
+            margin: 0;
+        }
+
         /*Booking Table*/
         .table{
             overflow: hidden !important;
@@ -124,6 +176,29 @@ $bookings = $conn->query("
 
         }
 
+        /* View Details Button */
+        .btn-details{
+            background: #f8d146 !important;
+
+            color: #111 !important;
+
+            border: none !important;
+
+            border-radius: 20px !important;
+
+            padding: 6px 16px !important;
+
+            font-weight: 600 !important;
+
+            transition: 0.2s;
+        }
+
+        .btn-details:hover{
+            background: #ffd84c !important;
+
+            transform: scale(1.05);
+        }
+
         .btn-danger:hover{
             transform: scale(1.05);
 
@@ -137,8 +212,17 @@ $bookings = $conn->query("
 <div class="container mt-5">
 
     <div class="history-card">
-    
-    <h2>My Bookings</h2>
+
+    <div class="top-bar">
+
+        <a href=http://localhost/GSC-Movie-ticket-Online-Booking-System/index.php class="back-home-btn">
+            ←  Back to Home
+        </a>
+
+        <h2>My Bookings</h2>
+
+    </div>
+
     <?php if ($bookings->num_rows > 0): ?>
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -177,13 +261,28 @@ $bookings = $conn->query("
                     </td>
                     <td><?= date('d M Y H:i', strtotime($b['booking_date'])) ?></td>
                     <td>
+
+                        <!-- View Details Button -->
+                        <a href="booking_details.php?booking_id=<?= $b['id'] ?>"
+                            class="btn btn-sm btn-details mb-2">
+                            View Details
+                        </a>
+
+                        <br>
+
                         <?php if ($b['payment_status'] === 'Pending'): ?>
-                            <a href="cancel_booking.php?id=<?= $b['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Cancel this booking?')">Cancel</a>
+
+                            <a href="cancel_booking.php?id=<?= $b['id'] ?>" 
+                                class="btn btn-sm btn-danger" 
+                                onclick="return confirm('Cancel this booking?')">Cancel</a>
+                       
                         <?php elseif ($b['payment_status'] === 'Paid'): ?>
                             <a href="qr_ticket.php?booking_id=<?= $b['id'] ?>" class="btn btn-sm btn-primary">View QR</a>
+                        
                         <?php else: ?>
                             <span class="text-muted">—</span>
                         <?php endif; ?>
+                   
                     </td>
                 </tr>
                 <?php endwhile; ?>
