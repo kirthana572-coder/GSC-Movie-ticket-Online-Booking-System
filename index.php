@@ -1,7 +1,10 @@
 <?php
 session_start();
-?>
+require_once 'config/db.php';
 
+// 获取热门电影（登录后仪表盘用）
+$hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,42 +12,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Navbar Background */
-        .custom-navbar {
-            background: linear-gradient(to right, #000000, #000000);
-            padding: 15px 0;
-
-            margin: 10px;
-            border-radius: 10px;
-
-            position: relative;
-            z-index: 1000; 
-        }
-
-        /* Logo */
-        .navbar-brand {
-            color: white;
-            font-size: 20px;
-            font-weight: 500;
-        }
-
-        /* Buttons */
-        .btn-outline-light {
-            border-radius: 0px;
-            padding: 5px 15px;
-        }
-
-        .btn-warning {
-            background-color: #f5c518;
-            border: none;
-            border-radius: 50px;
-            padding: 10px 22px;
-        }
-
-        .btn-warning:hover {
-            background-color: #e0b400;
-        }
-    
+        /* ===== 保留你原有的首页背景设计 ===== */
         body {
             margin: 0;
             padding: 0;
@@ -52,87 +20,51 @@ session_start();
             background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center center/cover;
             height: 100vh;
             overflow: hidden;
-
             animation: zoomBg 20s ease-in-out infinite alternate;
         }
-        
+
         .overlay {
             position: relative;
             height: 100vh;
             width: 100%;
-
             background: 
-            linear-gradient(
-                rgba(0, 0, 0, 0.5),
-                rgba(0, 0, 0, 0.8)
-            ),
-    
-            radial-gradient(circle at top,
-                rgba(238, 226, 184, 0.8),
-                rgba(255,140,0,0.2),
-                transparent 65%
-            );
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
+                radial-gradient(circle at top, rgba(238, 226, 184, 0.8), rgba(255,140,0,0.2), transparent 65%);
         }
 
-        /* Light effect */
         .overlay::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
-
             width: 200%;
             height: 200%;
-
-            background: radial-gradient(circle,
-                rgba(238, 234, 217, 0.25),
-                rgba(255,140,0,0.15),
-                transparent 70%
-            );
-
+            background: radial-gradient(circle, rgba(238, 234, 217, 0.25), rgba(255,140,0,0.15), transparent 70%);
             animation: moveLight 7s ease-in-out infinite;
-                z-index: 1;
-            }
+            z-index: 1;
+        }
 
-        /* Center content box */
         .hero-box {
             position: relative;
             z-index: 2;
-
             color: white;
             text-align: center;
             padding: 50px;
             border-radius: 15px;
-
             backdrop-filter: blur(10px);
         }
 
-        /* zoom animation */
         @keyframes zoomBg {
-            from {
-                background-size: 100%;
-            }
-            to {
-                background-size: 125%;
-            }
-
+            from { background-size: 100%; }
+            to { background-size: 125%; }
         }
 
-
-        /* Light moving animation */
         @keyframes moveLight {
-            0% {
-                transform: translate(-30%, -30%) scale(1);
-            }
-            50% {
-                transform: translate(0%, 0%) scale(1.4);
-            }
-            100% {
-                transform: translate(-30%, -30%) scale(1);
-            }
+            0% { transform: translate(-30%, -30%) scale(1); }
+            50% { transform: translate(0%, 0%) scale(1.4); }
+            100% { transform: translate(-30%, -30%) scale(1); }
         }
 
-        /* Button stye */
         .btn-custom {
             padding: 12px 30px;
             font-size: 18px;
@@ -144,7 +76,6 @@ session_start();
             transform: scale(1.08);
         }
 
-        /* Button */
         .btn-warning {
             background-color: #f5c518;
             border: none;
@@ -153,6 +84,7 @@ session_start();
             font-size: 18px;
             transition: 0.3s;
         }
+
         .btn-warning:hover {
             background-color: #e0b400;
             transform: scale(1.05);
@@ -163,54 +95,167 @@ session_start();
         }
 
         .hero-box {
-            pointer-events: auto; /* 只让内容可以点 */
+            pointer-events: auto;
         }
 
-       
+        /* ===== 登录后仪表盘样式（保留你喜欢的暖色渐变） ===== */
+        .dashboard-body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f4edd9, #f9d59f);
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .dashboard-container {
+            padding-top: 30px;
+            padding-bottom: 50px;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .search-bar input {
+            border-radius: 30px;
+            padding: 14px 20px;
+            border: 2px solid #f5c518;
+            background: white;
+            font-size: 16px;
+        }
+
+        .movie-card {
+            background: rgba(255,255,255,0.95);
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            height: 100%;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+        }
+
+        .movie-card .card-body {
+            padding: 24px;
+        }
+
+        .movie-card .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .movie-card .card-title a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        .movie-card .card-title a:hover {
+            color: #f5c518;
+        }
+
+        .quick-actions .btn {
+            border-radius: 30px;
+            padding: 14px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .quick-actions .btn:hover {
+            transform: scale(1.03);
+        }
     </style>
 </head>
 <body>
 
 <?php include 'includes/navbar.php'; ?>
 
+<!-- ========== 未登录：保留你原有的英雄区 ========== -->
 <?php if (!isset($_SESSION['user_id'])): ?>
-
-<!-- 未登录 -->
 <div class="overlay d-flex justify-content-center align-items-center">
-
     <div class="hero-box text-center">
         <h1 class="display-4 fw-bold">Welcome to GSC Booking</h1>
-
-        <p class="lead mt-3">
-            Book your favorite movies anytime, anywhere.
-        </p>
-
-        <p>
-            Discover latest movies, choose your seats, and enjoy the show!
-        </p>
-
+        <p class="lead mt-3">Book your favorite movies anytime, anywhere.</p>
+        <p>Discover latest movies, choose your seats, and enjoy the show!</p>
         <div class="mt-4">
             <a href="register.php" class="btn btn-warning btn-lg btn-custom me-3">Register</a>
             <a href="login.php" class="btn btn-outline-light btn-lg btn-custom">Sign In</a>
         </div>
     </div>
-
 </div>
 
 <?php else: ?>
+<!-- ========== 已登录：Dashboard（对应 Storyboard #4） ========== -->
+<div class="dashboard-body">
+    <div class="container dashboard-container">
 
-<!-- 已登录 -->
-<div class="container text-center mt-5">
-    <h1>Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>!</h1>
+        <!-- 欢迎信息 -->
+        <h2 class="text-center mb-2" style="font-weight: 700; color: #222;">
+            Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>!
+        </h2>
+        <p class="text-center text-muted mb-4">
+            You are logged in as <strong><?= ucfirst($_SESSION['role']) ?></strong>.
+        </p>
 
-    <p class="lead mt-3">
-        You are logged in as <strong><?= ucfirst($_SESSION['role']) ?></strong>.
-    </p>
+        <!-- 搜索栏（对应 Storyboard #4 的 search bar） -->
+        <div class="search-bar">
+            <form action="customer/movies.php" method="GET">
+                <input type="text" name="search" class="form-control" placeholder="Search movies...">
+            </form>
+        </div>
 
-    <div class="mt-4">
-        <a href="customer/movies.php" class="btn btn-warning btn-lg me-3">Browse Movies</a>
-        <a href="customer/history.php" class="btn btn-outline-dark btn-lg">My Bookings</a>
+        <!-- 电影列表标题 -->
+        <h4 class="mb-3" style="font-weight: 600; color: #333;">
+            🎬 Movies
+        </h4>
+
+        <!-- 电影卡片列表 -->
+        <div class="row mb-4">
+            <?php if ($hotMovies && $hotMovies->num_rows > 0): ?>
+                <?php while($movie = $hotMovies->fetch_assoc()): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card movie-card">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">
+                                    <a href="customer/movie_detail.php?movie_id=<?= $movie['id'] ?>">
+                                        <?= htmlspecialchars($movie['title']) ?>
+                                    </a>
+                                </h5>
+                                <p class="text-muted"><?= htmlspecialchars($movie['genre']) ?></p>
+                                <a href="customer/movies.php?search=<?= urlencode($movie['title']) ?>" class="btn btn-warning btn-sm mt-2">View Showtimes</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p class="text-muted">No movies available yet.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- 快捷操作（对应 Storyboard #4 的 Profile 菜单入口） -->
+        <div class="quick-actions text-center">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <a href="customer/profile.php" class="btn btn-outline-dark w-100">👤 View Profile</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="customer/history.php" class="btn btn-outline-dark w-100">📋 Booking History</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="customer/movies.php" class="btn btn-warning w-100">🎟️ Browse All Movies</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
-
 <?php endif; ?>
+
+</body>
+</html>
