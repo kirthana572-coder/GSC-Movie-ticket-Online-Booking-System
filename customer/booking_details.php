@@ -24,8 +24,8 @@ $booking = $conn->query("
     JOIN movies m ON s.movie_id = m.id
     JOIN branches br ON s.branch_id = br.id
 
-    JOIN booking_seats bs ON b.id = bs.booking_id
-    JOIN seats se ON bs.seat_id = se.id
+    LEFT JOIN booking_seats bs ON b.id = bs.booking_id
+    LEFT JOIN seats se ON bs.seat_id = se.id
 
     WHERE b.id = " . intval($booking_id) . "
     AND b.user_id = " . $_SESSION['user_id'] . "
@@ -223,8 +223,7 @@ if (!$booking){
                 <span class="info-label">Seats</span>
 
                 <span class="info-value">
-                    <?= htmlspecialchars($booking['seats']) ?>
-                </span>
+                    <?= $booking['seats'] ? htmlspecialchars($booking['seats']) : 'No Seats' ?>                </span>
             </div>
 
             <div class="info-row">
