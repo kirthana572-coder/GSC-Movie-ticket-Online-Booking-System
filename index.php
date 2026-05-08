@@ -103,7 +103,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f4edd9, #f9d59f);
+            background: linear-gradient(135deg, #f5f2e9, #f7d7a8);
             min-height: 100vh;
             overflow-y: auto;
         }

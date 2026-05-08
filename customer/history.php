@@ -11,6 +11,16 @@ $conn->query("
       AND b.booking_date < DATE_SUB(NOW(), INTERVAL 30 MINUTE)
 ");
 
+// 释放座位
+$conn->query("
+    UPDATE seats s
+    JOIN booking_seats bs ON s.id = bs.seat_id
+    JOIN bookings b ON bs.booking_id = b.id
+    SET s.status = 'available'
+    WHERE b.payment_status = 'Expired'
+");
+
+
 // 为刚过期的订单发送通知
 $expired_orders = $conn->query("
     SELECT b.id, b.user_id 

@@ -27,6 +27,7 @@ $booking = $conn->query("
 
 if (!$booking) die("Booking not found.");
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -100,8 +100,8 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
             perspective(500px)
             rotateX(-8deg);
 
-            border: 2px solid rgba(255,255,255,0.4);
-        }
+           border: 2px solid rgba(255,255,255,0.4);
+        }    
 
         /* ===== Seat Layout ===== */
         .seat-grid{
@@ -109,7 +109,6 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
 
             grid-template-columns:
             repeat(10, 1fr);
-
             gap: 15px;
 
             margin-bottom: 30px;
@@ -267,8 +266,6 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
                 transform: translateY(0);
             }
         }
-
-
     </style>
 </head>
 <body>
@@ -308,6 +305,7 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
                 ?>
                 
                 <?php while($seat = $seats->fetch_assoc()): 
+
                 $status = $seat['status'];
                 $disabled = ($status !== 'available') ? 'disabled' : '';
                 $btnClass = 'available';
