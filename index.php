@@ -52,17 +52,22 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             padding: 50px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            
+        }
+
+        .hero-title{
+            margin-top: -100px;
         }
 
         @keyframes zoomBg {
             from { background-size: 100%; }
-            to { background-size: 125%; }
+            to { background-size: 130%; }
         }
 
         @keyframes moveLight {
             0% { transform: translate(-30%, -30%) scale(1); }
             50% { transform: translate(0%, 0%) scale(1.4); }
-            100% { transform: translate(-30%, -30%) scale(1); }
+            100% { transform: translate(-30%, -30%) scale(1.2); }
         }
 
         .btn-custom {
@@ -98,12 +103,35 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             pointer-events: auto;
         }
 
-        /* ===== 登录后仪表盘样式（保留你喜欢的暖色渐变） ===== */
+        .hero-logo img{
+            width: 600px;
+
+            margin-bottom: 35px;
+
+            margin-top: -300px;
+
+            filter:
+            drop-shadow(0 0 30px rgba(245,197,24,0.45));
+
+            animation: floatLogo 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatLogo{
+            from{
+                transform: translateY(0px);
+            }
+
+            to{
+                transform: translateY(-6px);
+            }
+        }
+
+        /*登录后*/
         .dashboard-body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f4edd9, #f9d59f);
+            background: linear-gradient(135deg, #f5f2e9, #f7d7a8);
             min-height: 100vh;
             overflow-y: auto;
         }
@@ -176,11 +204,16 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 
 <?php include 'includes/navbar.php'; ?>
 
-<!-- ========== 未登录：保留你原有的英雄区 ========== -->
+<!--未登录 -->
 <?php if (!isset($_SESSION['user_id'])): ?>
 <div class="overlay d-flex justify-content-center align-items-center">
     <div class="hero-box text-center">
-        <h1 class="display-4 fw-bold">Welcome to GSC Booking</h1>
+
+        <div class="hero-logo">
+            <img src="assets/logo.png" alt="GSC Logo">
+        </div>
+
+        <h1 class="display-4 fw-bold hero-title">Welcome to GSC Booking</h1>
         <p class="lead mt-3">Book your favorite movies anytime, anywhere.</p>
         <p>Discover latest movies, choose your seats, and enjoy the show!</p>
         <div class="mt-4">
@@ -191,7 +224,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 </div>
 
 <?php else: ?>
-<!-- ========== 已登录：Dashboard（对应 Storyboard #4） ========== -->
+<!--已登录：Dashboard -->
 <div class="dashboard-body">
     <div class="container dashboard-container">
 
@@ -203,7 +236,7 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             You are logged in as <strong><?= ucfirst($_SESSION['role']) ?></strong>.
         </p>
 
-        <!-- 搜索栏（对应 Storyboard #4 的 search bar） -->
+        <!-- 搜索栏 -->
         <div class="search-bar">
             <form action="customer/movies.php" method="GET">
                 <input type="text" name="search" class="form-control" placeholder="Search movies...">

@@ -6,16 +6,28 @@ $booking_id = $_GET['booking_id'] ?? 0;
 $booking = $conn->query("
     SELECT b.id, b.payment_status, b.booking_date,
            m.title, s.show_date, s.show_time,
-           br.name AS branch_name
+           br.name AS branch_name,
+
+           GROUP_CONCAT(se.seat_number SEPARATOR ', ') AS seats
+
     FROM bookings b
+
     JOIN showtimes s ON b.showtime_id = s.id
     JOIN movies m ON s.movie_id = m.id
     JOIN branches br ON s.branch_id = br.id
-    WHERE b.id = " . intval($booking_id) . " AND b.user_id = " . $_SESSION['user_id']
-)->fetch_assoc();
+
+    JOIN booking_seats bs ON b.id = bs.booking_id
+    JOIN seats se ON bs.seat_id = se.id
+
+    WHERE b.id = " . intval($booking_id) . "
+    AND b.user_id = " . $_SESSION['user_id'] . "
+
+    GROUP BY b.id
+")->fetch_assoc();
 
 if (!$booking) die("Booking not found.");
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,7 +105,7 @@ if (!$booking) die("Booking not found.");
             border-radius: 50%;
 
             background:
-            linear-gradient(135deg, #f9d245, #fce28d);
+            linear-gradient(135deg, #fad75b, #fae7a9);
 
             display: flex;
             align-items: center;
@@ -113,7 +125,7 @@ if (!$booking) die("Booking not found.");
             font-size: 38px;
             font-weight: 700;
 
-            color: #f5c518;
+            color: #fed12e;
 
             margin-bottom: 10px;
         }
@@ -155,7 +167,7 @@ if (!$booking) die("Booking not found.");
         }
 
         .status-badge{
-            background: #ffd53def;
+            background: #ffdb58ef;
 
             color: #292828ca;
 
@@ -224,15 +236,15 @@ if (!$booking) die("Booking not found.");
     <div class="success-card">
 
         <div class="success-icon">
-            ✓
+            🎟️
         </div>
 
         <h1 class="success-title">
-            Booking Confirmed!
+            Booking Summary
         </h1>
 
         <p class="success-subtitle">
-            Your seats have been reserved successfully.
+            Your booking details are shown below.
         </p>
 
         <div class="booking-info">
@@ -270,6 +282,14 @@ if (!$booking) die("Booking not found.");
             </div>
 
             <div class="info-row">
+                <span class="info-label">Seats</span>
+
+                <span class="info-value">
+                    <?= htmlspecialchars($booking['seats']) ?>
+                </span>
+            </div>
+
+            <div class="info-row">
                 <span class="info-label">Status</span>
 
                 <span class="status-badge">
@@ -285,14 +305,14 @@ if (!$booking) die("Booking not found.");
 
         <div class="mt-4">
 
-            <a href="movies.php"
+            <a href="javascript:history.back()"
                class="btn btn-warning me-2">
-                Book Another Movie
+                Back
             </a>
 
-            <a href="history.php"
+            <a href="booking_confirmation.php?booking_id=<?= $booking['id'] ?>"
                 class="btn booking-btn-outline">
-                   My Bookings
+                    Confirm Booking
             </a>
 
         </div>

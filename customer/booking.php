@@ -56,12 +56,12 @@ try {
     }
     $stmt->close();
 
-    // 通知
+    // 添加通知
     $msg = "Your booking (ID: $booking_id) has been created. Please pay at the counter.";
     $conn->query("INSERT INTO notifications (user_id, message) VALUES ($user_id, '$msg')");
 
     $conn->commit();
-    header("Location: booking_success.php?booking_id=" . $booking_id);
+    header("Location: booking_summary.php?booking_id=" . $booking_id);
     exit();
 } catch (Exception $e) {
     $conn->rollback();

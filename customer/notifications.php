@@ -9,6 +9,20 @@ if (isset($_GET['mark_read'])) {
     exit();
 }
 
+// 全部标记已读
+if (isset($_GET['mark_all'])) {
+
+    $conn->query("
+        UPDATE notifications 
+        SET is_read = 1 
+        WHERE user_id = {$_SESSION['user_id']}
+    ");
+
+    header("Location: notifications.php");
+    exit();
+}
+
+
 $notifications = $conn->query("
     SELECT * FROM notifications 
     WHERE user_id = {$_SESSION['user_id']} 
@@ -35,6 +49,40 @@ $notifications = $conn->query("
             );
 
             min-height: 100vh;
+        }
+
+        /* Top Actions */
+            .top-actions{
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-bottom: 10px;
+        }
+
+        /* Mark All Button */
+        .mark-all-btn{
+            background: #ffc800;
+
+            color: #fff;
+
+            text-decoration: none;
+
+            padding: 6px 15px;
+
+            border-radius: 30px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+        .mark-all-btn:hover{
+            background: #f5c518;
+
+            color: #111;
+
+            transform: translateY(-2px);
         }
 
         /* Main Container */
@@ -148,6 +196,12 @@ $notifications = $conn->query("
         <h2 class="page-title">
             Notifications
         </h2>
+
+        <div class="top-actions">
+            <a href="?mark_all=1" class="mark-all-btn">
+                Mark All as Read
+            </a>
+        </div>
 
         <?php if ($notifications->num_rows > 0): ?>
            <?php while($n = $notifications->fetch_assoc()):
