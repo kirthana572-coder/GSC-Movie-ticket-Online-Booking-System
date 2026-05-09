@@ -52,6 +52,11 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
             padding: 50px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            
+        }
+
+        .hero-title{
+            margin-top: -100px;
         }
 
         @keyframes zoomBg {
@@ -96,6 +101,29 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 
         .hero-box {
             pointer-events: auto;
+        }
+
+        .hero-logo img{
+            width: 600px;
+
+            margin-bottom: 35px;
+
+            margin-top: -300px;
+
+            filter:
+            drop-shadow(0 0 30px rgba(245,197,24,0.45));
+
+            animation: floatLogo 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatLogo{
+            from{
+                transform: translateY(0px);
+            }
+
+            to{
+                transform: translateY(-6px);
+            }
         }
 
         /*登录后*/
@@ -180,7 +208,12 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
 <?php if (!isset($_SESSION['user_id'])): ?>
 <div class="overlay d-flex justify-content-center align-items-center">
     <div class="hero-box text-center">
-        <h1 class="display-4 fw-bold">Welcome to GSC Booking</h1>
+
+        <div class="hero-logo">
+            <img src="assets/logo.png" alt="GSC Logo">
+        </div>
+
+        <h1 class="display-4 fw-bold hero-title">Welcome to GSC Booking</h1>
         <p class="lead mt-3">Book your favorite movies anytime, anywhere.</p>
         <p>Discover latest movies, choose your seats, and enjoy the show!</p>
         <div class="mt-4">
