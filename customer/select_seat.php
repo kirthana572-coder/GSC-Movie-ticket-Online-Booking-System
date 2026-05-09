@@ -294,7 +294,7 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
         ⏰ <?= date('h:i A', strtotime($showtime['show_time'])) ?>
     </div>
 
-    <form method="POST" action="booking.php">
+    <form method="POST" action="booking_confirmation.php">
 
     <div class="screen">
         SCREEN
