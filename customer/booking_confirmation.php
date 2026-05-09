@@ -197,7 +197,7 @@ $prices = [
                 <input type="hidden" name="showtime_id" value="<?= $showtime_id ?>">
                 <input type="hidden" name="seat_ids" value="<?= implode(',', $seat_ids) ?>">
                 <input type="hidden" name="ticket_types" id="ticketTypesInput" value="">
-                <button type="submit" class="btn btn-warning">✅ Confirm & Pay at Counter</button>
+                <button type="submit" class="btn btn-warning">Confirm & Pay at Counter</button>
             </form>
             <a href="select_seat.php?showtime_id=<?= $showtime_id ?>" class="btn-outline-dark">← Back to Seat Selection</a>
         </div>
