@@ -246,6 +246,6 @@ function togglePassword(fieldId, btn) {
     }
 }
 </script>
-
+<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
 </body>
 </html>

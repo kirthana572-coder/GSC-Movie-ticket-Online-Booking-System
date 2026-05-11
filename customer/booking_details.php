@@ -256,6 +256,6 @@ if (!$booking){
     </div>
 
 </div>
-
+<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
 </body>
 </html>

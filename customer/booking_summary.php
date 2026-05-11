@@ -170,5 +170,12 @@ $seatText = implode('<br>', $seatList);
         </div>
     </div>
 </div>
+<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
+
+<script src="notification.js"></script>
+<script>
+    // 立即弹出付款提醒（不用等轮询）
+    sendAlert("Booking Successful", "Please proceed to the counter for payment. Thank you!", "🧾 Please pay at the counter.");
+</script>
 </body>
 </html>

@@ -333,6 +333,6 @@ setInterval(updateCountdowns, 1000);
 // 页面加载后立刻更新一次
 updateCountdowns();
 </script>
-
+<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
 </body>
 </html>

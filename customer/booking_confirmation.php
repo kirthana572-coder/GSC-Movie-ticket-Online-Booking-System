@@ -227,6 +227,6 @@ $prices = [
     selects.forEach(sel => sel.addEventListener('change', updateTotal));
     updateTotal();
 </script>
-
+<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
 </body>
 </html>

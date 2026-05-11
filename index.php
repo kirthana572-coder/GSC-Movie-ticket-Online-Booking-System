@@ -289,6 +289,56 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
     </div>
 </div>
 <?php endif; ?>
+<!-- 浮动提示条样式（如果全局 CSS 已包含就不需要重复） -->
+<style>
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+.toast {
+    background: #ff6b6b;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 250px;
+    max-width: 350px;
+    word-wrap: break-word;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: slideInRight 0.3s ease;
+}
+.toast:hover {
+    transform: scale(1.02);
+    background: #ff5252;
+}
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+.toast.fade-out {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s, transform 0.3s;
+}
+</style>
 
+<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
+</script>
 </body>
 </html>
