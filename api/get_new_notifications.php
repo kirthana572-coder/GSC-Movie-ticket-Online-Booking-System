@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8');
 
-// 获取未读通知（按时间旧到新，避免顺序乱）
+// 获取未读通知
 $sql = "SELECT id, message, created_at FROM notifications 
         WHERE user_id = ? AND is_read = 0 
         ORDER BY created_at ASC";
@@ -32,7 +32,7 @@ while ($row = $result->fetch_assoc()) {
     $ids[] = $row['id'];
 }
 
-// 立即标记这些通知为已读（避免重复弹出）
+// 立即标记为已读
 if (!empty($ids)) {
     $ids_str = implode(',', $ids);
     $conn->query("UPDATE notifications SET is_read = 1 WHERE id IN ($ids_str)");

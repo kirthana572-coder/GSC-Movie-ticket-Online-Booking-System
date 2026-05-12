@@ -1,4 +1,4 @@
-// Toast 函数
+// Toast 浮动提示函数
 function showToast(message, duration = 4000) {
     let container = document.querySelector('.toast-container');
     if (!container) {
@@ -20,12 +20,12 @@ function showToast(message, duration = 4000) {
     }, duration);
 }
 
-// 请求通知权限
+// 请求桌面通知权限
 if (Notification.permission !== "granted" && Notification.permission !== "denied") {
     Notification.requestPermission();
 }
 
-// 通用提醒函数（桌面通知 + 浮动条）
+// 通用提醒：桌面通知 + Toast
 function sendAlert(title, body, toastMsg) {
     if (Notification.permission === "granted") {
         new Notification(title, { body: body });
@@ -33,7 +33,7 @@ function sendAlert(title, body, toastMsg) {
     showToast(toastMsg || body, 5000);
 }
 
-// ========== 1. 电影开场提醒 ==========
+// ==================== 1. 电影开场提醒（每15秒） ====================
 setInterval(() => {
     fetch('/GSC-Movie-ticket-Online-Booking-System/check_reminder.php')
         .then(res => res.json())
@@ -46,9 +46,9 @@ setInterval(() => {
             }
         })
         .catch(err => console.log("Session reminder error", err));
-}, 30000);
+}, 15000);   // 改为15秒
 
-// ========== 2. 通用通知（订单创建/取消/过期等） ==========
+// ==================== 2. 通用通知（每15秒） ====================
 setInterval(() => {
     fetch('/GSC-Movie-ticket-Online-Booking-System/api/get_new_notifications.php')
         .then(res => res.json())
@@ -61,4 +61,4 @@ setInterval(() => {
             }
         })
         .catch(err => console.log("General notification error", err));
-}, 30000);
+}, 15000);   // 改为15秒
