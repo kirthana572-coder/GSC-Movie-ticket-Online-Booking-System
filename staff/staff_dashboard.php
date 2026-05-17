@@ -42,8 +42,8 @@ $confirmedTickets = $conn->query("
 
             background:
             linear-gradient(
-                rgba(245, 242, 234, 0.92),
-                rgba(255,230,191,0.92)
+                rgba(245, 242, 234, 0.9),
+                rgba(255, 230, 191, 0.81)
             ),
             url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1974&auto=format&fit=crop')
             center center / cover no-repeat fixed;
