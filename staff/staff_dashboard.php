@@ -1,7 +1,7 @@
 <?php
 
 //先关掉因为还没有staff login fucntion
-//require_once '../includes/auth_check.php';
+require_once '../includes/staff_auth.php';
 
 require_once '../config/db.php';
 

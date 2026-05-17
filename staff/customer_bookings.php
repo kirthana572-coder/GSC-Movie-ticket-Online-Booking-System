@@ -1,7 +1,6 @@
 <?php
-require_once '../includes/auth_check.php';
 require_once '../config/db.php';
-
+require_once '../includes/staff_auth.php';
 //if ($_SESSION['role'] !== 'staff') {
     //die("Access denied.");
 //}
@@ -249,7 +248,12 @@ $bookings = $conn->query("
                         class="btn btn-details">
                         View Details
                     </a>
-
+                    <?php if ($b['payment_status'] == 'Paid'): ?>
+                <br>
+                    <a href="generate_ticket.php?booking_id=<?= $b['id'] ?>" class="btn btn-sm btn-success mt-1">
+                        Print Ticket
+                    </a>
+                    <?php endif; ?>
                 </td>
 
             </tr>
