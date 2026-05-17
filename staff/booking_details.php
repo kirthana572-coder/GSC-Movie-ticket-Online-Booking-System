@@ -272,14 +272,6 @@ $booking = $conn->query("
 
         <div class="text-center mt-4">
 
-            <?php if ($booking['payment_status'] == 'Paid'): ?>
-                <a href="generate_ticket.php?booking_id=<?= $booking['id'] ?>" 
-                   class="btn btn-success mb-3" 
-                   style="border-radius: 30px; padding: 12px 30px; font-weight: 700; margin-right: 10px;">
-                    🎟️ Generate Ticket
-                </a>
-            <?php endif; ?>
-
             <a href="customer_bookings.php"
                class="btn btn-history">
                 Back to Customer Booking

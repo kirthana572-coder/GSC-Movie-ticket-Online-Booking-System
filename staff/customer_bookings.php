@@ -155,7 +155,29 @@ $bookings = $conn->query("
             transform: translateY(-2px);
         }
 
-    </style>
+        /*Print Ticket Button*/
+        .btn-ticket{
+
+            background: #95db84 !important;
+
+            color: #111 !important;
+
+            border: none !important;
+
+            padding: 7px 15px !important;
+
+            font-weight: 600 !important;
+
+            transition: 0.25s;
+        }
+
+        .btn-ticket:hover{
+
+            background: #27b220 !important;
+
+            transform: scale(1.05);
+        }
+            </style>
 </head>
 
 <body>
@@ -250,8 +272,9 @@ $bookings = $conn->query("
                     </a>
                     <?php if ($b['payment_status'] == 'Paid'): ?>
                 <br>
-                    <a href="generate_ticket.php?booking_id=<?= $b['id'] ?>" class="btn btn-sm btn-success mt-1">
-                        Print Ticket
+                    <a href="generate_ticket.php?booking_id=<?= $b['id'] ?>" 
+                        class="btn btn-ticket mt-1">
+                        View QR
                     </a>
                     <?php endif; ?>
                 </td>

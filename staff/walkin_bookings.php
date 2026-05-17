@@ -225,6 +225,20 @@ $walkinBookings = $conn->query("
             transform: scale(1.04);
         }
 
+        .btn-qr{
+            background: #8fe388 !important;
+
+            color: #111 !important;
+        }
+
+        .btn-qr:hover{
+            background: #39c933 !important;
+
+            color: white !important;
+
+            transform: scale(1.04) !important;
+        }
+
     </style>
 </head>
 
@@ -322,18 +336,27 @@ $walkinBookings = $conn->query("
                         <div class="action-group">
 
                             <a href="view_walkin_booking.php?id=<?= $booking['id'] ?>"
-                               class="btn-action btn-view">
+                            class="btn-action btn-view">
                                 View
                             </a>
 
                             <a href="edit_walkin_booking.php?id=<?= $booking['id'] ?>"
-                               class="btn-action btn-edit">
+                            class="btn-action btn-edit">
                                 Edit
                             </a>
 
+                            <?php if($booking['payment_status'] == 'Paid'): ?>
+
+                                <a href="walkin_qr_ticket.php?booking_id=<?= $booking['id'] ?>"
+                                class="btn-action btn-qr">
+                                    View QR
+                                </a>
+
+                            <?php endif; ?>
+
                             <a href="walkin_bookings.php?delete=<?= $booking['booking_code'] ?>"
-                               class="btn-action btn-delete"
-                               onclick="return confirm('Delete this booking?')">
+                            class="btn-action btn-delete"
+                            onclick="return confirm('Delete this booking?')">
                                 Delete
                             </a>
 

@@ -339,16 +339,12 @@ $confirmedTickets = $conn->query("
             Update Payment Status
         </a>
 
-        <a href="generate_ticket.php">
-            Generate Ticket
-        </a>
-
         <a href="scan_qr.php">
             Scan QR Ticket
         </a>
 
         <a href="walkin_bookings.php">
-            View Walk-in Bookings
+            Walk-in Bookings
         </a>
 
     </div>
@@ -456,11 +452,7 @@ $confirmedTickets = $conn->query("
             <div class="action-buttons">
 
                 <a href="customer_bookings.php">
-                    View Bookings
-                </a>
-
-                <a href="generate_ticket.php">
-                    Generate Ticket
+                    View Customer Bookings
                 </a>
 
                 <a href="scan_qr.php">

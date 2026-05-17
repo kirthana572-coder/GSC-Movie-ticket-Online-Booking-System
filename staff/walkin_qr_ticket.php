@@ -10,36 +10,27 @@ if (!$booking_id){
 
 $booking = $conn->query("
     SELECT 
-        b.id,
-        b.payment_status,
-        b.booking_date,
+        wb.id,
+        wb.booking_code,
+        wb.customer_name,
+        wb.payment_status,
 
-        u.full_name,
+        wb.adult_qty,
+        wb.senior_qty,
+        wb.student_qty,
+        wb.children_qty,
 
         m.title,
 
         s.show_date,
         s.show_time,
 
-        br.name AS branch_name,
+        br.name AS branch_name
 
-        GROUP_CONCAT(
-            CONCAT(
-                se.seat_number,
-                ' (',
-                bs.ticket_type,
-                ')'
-            )
-            SEPARATOR ', '
-        ) AS seats
-
-    FROM bookings b
-
-    JOIN users u 
-    ON b.user_id = u.id
+    FROM walkin_bookings wb
 
     JOIN showtimes s 
-    ON b.showtime_id = s.id
+    ON wb.showtime_id = s.id
 
     JOIN movies m 
     ON s.movie_id = m.id
@@ -47,16 +38,8 @@ $booking = $conn->query("
     JOIN branches br 
     ON s.branch_id = br.id
 
-    LEFT JOIN booking_seats bs 
-    ON b.id = bs.booking_id
-
-    LEFT JOIN seats se 
-    ON bs.seat_id = se.id
-
-    WHERE b.id = '$booking_id'
-    AND b.payment_status = 'Paid'
-
-    GROUP BY b.id
+    WHERE wb.id = '$booking_id'
+    AND wb.payment_status = 'Paid'
 ")->fetch_assoc();
 
 if(!$booking){
@@ -64,13 +47,12 @@ if(!$booking){
 }
 
 $qr_data = "
-Ticket ID: {$booking['id']}
-Customer: {$booking['full_name']}
+Ticket ID: {$booking['booking_code']}
+Customer: {$booking['customer_name']}
 Movie: {$booking['title']}
 Cinema: {$booking['branch_name']}
 Date: {$booking['show_date']}
 Time: {$booking['show_time']}
-Seats: {$booking['seats']}
 ";
 
 $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($qr_data);
@@ -214,6 +196,11 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
             text-decoration: none;
         }
 
+        .btn-back:hover{
+            transform: scale(1.03);
+            background: #ffd53d;
+        }
+
         @media print{
 
             .no-print{
@@ -253,7 +240,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                 <span class="label">Customer</span>
 
                 <span class="value">
-                    <?= htmlspecialchars($booking['full_name']) ?>
+                    <?= htmlspecialchars($booking['customer_name']) ?>
                 </span>
             </div>
 
@@ -289,20 +276,12 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                 </span>
             </div>
 
-            <div class="info-row">
-                <span class="label">Seats</span>
-
-                <span class="value">
-                    <?= htmlspecialchars($booking['seats']) ?>
-                </span>
-            </div>
-
             <div class="qr-box">
 
                 <img src="<?= $qr_url ?>">
 
                 <div class="ticket-id">
-                    Ticket #<?= $booking['id'] ?>
+                    Ticket #<?= $booking['booking_code'] ?>
                 </div>
 
             </div>
@@ -313,7 +292,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                     🖨️ Print Ticket
                 </button>
 
-                <a href="customer_bookings.php" class="btn btn-back ms-2">
+                <a href="walkin_bookings.php" class="btn btn-back ms-2">
                     Back
                 </a>
 

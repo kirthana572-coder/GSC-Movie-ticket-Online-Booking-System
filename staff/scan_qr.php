@@ -36,30 +36,211 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <style>
-        body { background: linear-gradient(135deg, #f4edd9, #f9d59f); min-height: 100vh; }
-        .container-custom { max-width: 600px; margin: 50px auto; }
-        .card { border-radius: 24px; background: rgba(255,255,255,0.95); padding: 25px; }
-        #reader { width: 100%; margin-bottom: 20px; }
-        .btn-warning { background: #f5c518; border-radius: 30px; }
+        body{
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+
+            background:
+            linear-gradient(
+                rgba(245,242,234,0.95),
+                rgba(255,220,164,0.92)
+            );
+
+            min-height: 100vh;
+        }
+
+        .container-custom{
+
+            max-width: 700px;
+
+            margin: 50px auto;
+
+            padding: 20px;
+        }
+
+        .card{
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: rgba(255,255,255,0.88);
+
+            padding: 40px;
+
+            box-shadow:
+            0 10px 35px rgba(0,0,0,0.15);
+        }
+
+        .page-title{
+
+            text-align: center;
+
+            font-size: 40px;
+
+            font-weight: 800;
+
+            color: #f5c518;
+
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle{
+
+            text-align: center;
+
+            color: #777;
+
+            margin-bottom: 35px;
+        }
+
+        #reader{
+
+            width: 100%;
+
+            overflow: hidden;
+
+            border-radius: 25px;
+
+            border:
+            4px solid rgba(245,197,24,0.4);
+
+            margin-bottom: 30px;
+
+            box-shadow:
+            0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .manual-box{
+
+            background: rgba(255,255,255,0.7);
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            margin-top: 20px;
+        }
+
+        .form-control{
+
+            border-radius: 15px !important;
+
+            padding: 14px !important;
+
+            border:
+            1px solid rgba(0,0,0,0.1) !important;
+
+            box-shadow: none !important;
+        }
+
+        .form-control:focus{
+
+            border-color: #f5c518 !important;
+
+            box-shadow:
+            0 0 0 0.15rem rgba(245,197,24,0.25) !important;
+        }
+
+        .btn-validate{
+
+            background: #f5c518 !important;
+
+            color: #111 !important;
+
+            border: none !important;
+
+            border-radius: 15px !important;
+
+            padding: 12px 22px !important;
+
+            font-weight: 700 !important;
+
+            transition: 0.25s;
+        }
+
+        .btn-validate:hover{
+
+            background: #ffd83d !important;
+
+            transform: scale(1.03);
+        }
+
+        .alert{
+
+            border-radius: 18px;
+
+            border: none;
+
+            padding: 18px;
+
+            font-weight: 600;
+        }
+
+        .alert-danger{
+
+            background: rgba(220,53,69,0.12);
+
+            color: #b02a37;
+        }
+
+        .alert-success{
+
+            background: rgba(25,135,84,0.12);
+
+            color: #146c43;
+        }
+
+        .btn-back{
+
+            background: #2f2f2f !important;
+
+            color: white !important;
+
+            border: none !important;
+
+            border-radius: 16px !important;
+
+            padding: 12px 28px !important;
+
+            font-weight: 700 !important;
+
+            transition: 0.25s;
+        }
+
+        .btn-back:hover{
+
+            background: #f5c518 !important;
+
+            color: #111 !important;
+
+            transform: scale(1.03);
+        }
     </style>
 </head>
 <body>
 <div class="container-custom">
     <div class="card">
-        <h3 class="text-center">Scan QR Ticket</h3>
-        <p class="text-muted text-center">Use camera to scan the QR code on ticket</p>
+        <h1 class="page-title">Scan QR Ticket</h1>
+        <p class="page-subtitle">Scan customer QR ticket for cinema entry validation</p>
 
         <!-- 二维码扫描区域 -->
         <div id="reader"></div>
 
         <hr>
-        <p class="text-center"><strong>Or enter Booking ID manually:</strong></p>
-        <form method="POST">
-            <div class="input-group mb-3">
-                <input type="text" name="booking_id" class="form-control" placeholder="Booking ID" value="<?= htmlspecialchars($booking_id) ?>" required>
-                <button type="submit" class="btn btn-warning">Validate</button>
-            </div>
-        </form>
+        <div class="manual-box">
+
+            <p class="text-center fw-bold mb-4">
+                Or Enter Booking ID Manually
+            </p>
+
+            <form method="POST">
+                <div class="input-group mb-3">
+                    <input type="text" name="booking_id" class="form-control" placeholder="Booking ID" value="<?= htmlspecialchars($booking_id) ?>" required>
+                    <button type="submit" class="btn btn-validate">Validate</button>
+                </div>
+            </form>
+        </div>
 
         <?php if ($error): ?>
             <div class="alert alert-danger mt-3"><?= $error ?></div>
@@ -69,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <div class="text-center mt-3">
-            <a href="staff_dashboard.php" class="btn btn-secondary">Back</a>
+            <a href="staff_dashboard.php" class="btn btn-back">Back</a>
         </div>
     </div>
 </div>
