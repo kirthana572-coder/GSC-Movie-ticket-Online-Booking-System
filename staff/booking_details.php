@@ -1,6 +1,10 @@
 <?php
-require_once '../includes/auth_check.php';
+//require_once '../includes/auth_check.php';
 require_once '../config/db.php';
+
+//if ($_SESSION['role'] !== 'staff') {
+    //die("Access denied.");
+//}
 
 $booking_id = $_GET['booking_id'] ?? 0;
 
@@ -16,7 +20,7 @@ $booking = $conn->query("
 
            br.name AS branch_name,
 
-           GROUP_CONCAT(
+            GROUP_CONCAT(
                 CONCAT(
                     se.seat_number,
                     ' (',
@@ -36,30 +40,29 @@ $booking = $conn->query("
                 END
             ) AS total_price
 
-    FROM bookings b
+            FROM bookings b
 
-    JOIN showtimes s ON b.showtime_id = s.id
-    JOIN movies m ON s.movie_id = m.id
-    JOIN branches br ON s.branch_id = br.id
+            JOIN showtimes s ON b.showtime_id = s.id
+            JOIN movies m ON s.movie_id = m.id
+            JOIN branches br ON s.branch_id = br.id
 
-    LEFT JOIN booking_seats bs ON b.id = bs.booking_id
-    LEFT JOIN seats se ON bs.seat_id = se.id
+            LEFT JOIN booking_seats bs ON b.id = bs.booking_id
+            LEFT JOIN seats se ON bs.seat_id = se.id
 
-    WHERE b.id = " . intval($booking_id) . "
-    AND b.user_id = " . $_SESSION['user_id'] . "
+            WHERE b.id = " . intval($booking_id) . "
 
-    GROUP BY b.id
-")->fetch_assoc();
+            GROUP BY b.id
+            ")->fetch_assoc();
 
-if (!$booking){
-    die("Booking not found.");
-}
+    if (!$booking){
+        die("Booking not found.");
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Booking Details - GSC</title>
+    <title>Staff Booking Details - GSC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -189,18 +192,16 @@ if (!$booking){
 
 <body>
 
-<?php include '../includes/navbar.php'; ?>
-
 <div class="details-container">
 
     <div class="details-card">
 
         <h1 class="page-title">
-            Booking Details
+            Customer Booking Details
         </h1>
 
         <p class="page-subtitle">
-            View your booking information below.
+            Staff can review customer booking information here.
         </p>
 
         <div class="booking-info">
@@ -259,7 +260,7 @@ if (!$booking){
                     RM <?= number_format($booking['total_price'], 2) ?>
                 </span>
             </div>
-            
+
             <div class="info-row">
                 <span class="info-label">Payment Status</span>
 
@@ -272,9 +273,9 @@ if (!$booking){
 
         <div class="text-center mt-4">
 
-            <a href="history.php"
+            <a href="customer_bookings.php"
                class="btn btn-history">
-                Back to History
+                Back to Customer Booking
             </a>
 
         </div>
