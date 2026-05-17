@@ -1,5 +1,5 @@
 <?php
-//require_once '../includes/auth_check.php';
+require_once '../includes/auth_check.php';
 require_once '../config/db.php';
 
 //if ($_SESSION['role'] !== 'staff') {
@@ -283,6 +283,5 @@ $booking = $conn->query("
     </div>
 
 </div>
-<script src="/GSC-Movie-ticket-Online-Booking-System/notification.js"></script>
 </body>
 </html>
