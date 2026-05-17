@@ -233,86 +233,86 @@ $confirmedTickets = $conn->query("
         }
 
         /* Hamburger Menu */
-.menu-wrapper{
-    position: relative;
-}
+        .menu-wrapper{
+            position: relative;
+        }
 
-.menu-btn{
-    border: none;
+        .menu-btn{
+            border: none;
 
-    background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.8);
 
-    width: 52px;
-    height: 52px;
+            width: 52px;
+            height: 52px;
 
-    border-radius: 14px;
+            border-radius: 14px;
 
-    font-size: 28px;
+            font-size: 28px;
 
-    cursor: pointer;
+            cursor: pointer;
 
-    transition: 0.25s;
+            transition: 0.25s;
 
-    box-shadow:
-    0 6px 16px rgba(0,0,0,0.1);
-}
+            box-shadow:
+            0 6px 16px rgba(0,0,0,0.1);
+        }
 
-.menu-btn:hover{
-    background: #f5c518;
+        .menu-btn:hover{
+            background: #f5c518;
 
-    transform: scale(1.05);
-}
+            transform: scale(1.05);
+        }
 
-.dropdown-menu-custom{
-    position: absolute;
+        .dropdown-menu-custom{
+            position: absolute;
 
-    right: 0;
-    top: 65px;
+            right: 0;
+            top: 65px;
 
-    width: 220px;
+            width: 220px;
 
-    background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.92);
 
-    border-radius: 18px;
+            border-radius: 18px;
 
-    overflow: hidden;
+            overflow: hidden;
 
-    box-shadow:
-    0 10px 24px rgba(0,0,0,0.15);
+            box-shadow:
+            0 10px 24px rgba(0,0,0,0.15);
 
-    display: none;
+            display: none;
 
-    z-index: 999;
-}
+            z-index: 999;
+        }
 
-.dropdown-menu-custom a{
-    display: block;
+        .dropdown-menu-custom a{
+            display: block;
 
-    padding: 16px 20px;
+            padding: 16px 20px;
 
-    text-decoration: none;
+            text-decoration: none;
 
-    color: #222;
+            color: #222;
 
-    font-weight: 600;
+            font-weight: 600;
 
-    transition: 0.2s;
-}
+            transition: 0.2s;
+        }
 
-.dropdown-menu-custom a:hover{
-    background: #f5c518;
-}
+        .dropdown-menu-custom a:hover{
+            background: #f5c518;
+        }
 
-/* Top Right Menu */
-.top-bar{
-    display: flex;
+        /* Top Right Menu */
+        .top-bar{
+            display: flex;
 
-    justify-content: space-between;
+            justify-content: space-between;
 
-    align-items: center;
+            align-items: center;
 
-    margin-bottom: 35px;
-}
+            margin-bottom: 35px;
+        }
 
     </style>
 </head>
@@ -378,7 +378,7 @@ $confirmedTickets = $conn->query("
 
         <div class="dropdown-menu-custom" id="dropdownMenu">
 
-            <a href="../customer/profile.php">
+            <a href="profile.php">
                 My Profile
             </a>
 
