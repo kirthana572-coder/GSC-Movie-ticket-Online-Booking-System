@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/auth_check.php';
+require_once '../includes/staff_auth.php';
 require_once '../config/db.php';
 
 $stmt = $conn->prepare("SELECT full_name, email FROM users WHERE id = ?");
