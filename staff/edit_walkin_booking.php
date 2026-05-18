@@ -6,7 +6,11 @@ require_once '../config/db.php';
 //     die("Access denied.");
 // }
 
-$id = $_GET['id'];
+$id = intval($_GET['id'] ?? 0);
+
+if($id <= 0){
+    die("Invalid booking ID.");
+}
 
 $result = $conn->query("
     SELECT
@@ -23,7 +27,7 @@ $result = $conn->query("
     JOIN movies
     ON showtimes.movie_id = movies.id
 
-    WHERE walkin_bookings.id = '$id'
+    WHERE walkin_bookings.id = $id
 ");
 
 $booking = $result->fetch_assoc();
@@ -38,7 +42,7 @@ $currentSeats = [];
 $getSeats = $conn->query("
     SELECT seat_id
     FROM walkin_booking_seats
-    WHERE walkin_booking_id = '$id'
+    WHERE walkin_booking_id = $id
 ");
 
 while($seat = $getSeats->fetch_assoc()){
@@ -47,7 +51,7 @@ while($seat = $getSeats->fetch_assoc()){
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    $customer_name = $_POST['customer_name'];
+    $customer_name = trim($_POST['customer_name']);
     $movie_id = $_POST['movie_id'];
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
@@ -94,7 +98,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             ON wbs.walkin_booking_id = wb.id
             WHERE wb.showtime_id = '$showtime_id'
             AND wbs.seat_id = '$seat_id'
-            AND wb.id != '$id'
+            AND wb.id != $id
         ");
 
         if(
@@ -124,6 +128,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $senior_qty +
     $student_qty +
     $children_qty;
+
+    if($totalTickets <= 0){
+
+        echo "
+        <script>
+            alert('Please select at least one ticket.');
+            history.back();
+        </script>
+        ";
+
+        exit();
+    }
 
     if(count($selectedSeats) == 0){
 
@@ -166,7 +182,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             children_qty = '$children_qty',
             total_price = '$total',
             payment_status = '$payment_status'
-        WHERE id = '$id'
+        WHERE id = $id
     ";
 
     if($conn->query($sql)){
@@ -174,29 +190,58 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // DELETE OLD SEATS
         $conn->query("
             DELETE FROM walkin_booking_seats
-            WHERE walkin_booking_id = '$id'
+            WHERE walkin_booking_id = $id
         ");
 
-        // INSERT NEW SEATS
-        foreach($selectedSeats as $seat_id){
+        // BUILD TICKET QUEUE
+        $ticketQueue = [];
 
-            $seat_id = intval($seat_id);
+        // Adult
+        for($i = 0; $i < $adult_qty; $i++){
+            $ticketQueue[] = 'Adult';
+        }
+
+        // Senior
+        for($i = 0; $i < $senior_qty; $i++){
+            $ticketQueue[] = 'Senior';
+        }
+
+        // Student
+        for($i = 0; $i < $student_qty; $i++){
+            $ticketQueue[] = 'Student';
+        }
+
+        // Children
+        for($i = 0; $i < $children_qty; $i++){
+            $ticketQueue[] = 'Children';
+        }
+
+        $selectedSeats = array_values($selectedSeats);
+
+        // INSERT NEW SEATS
+        for($i = 0; $i < count($selectedSeats); $i++){
+
+            $seat_id = intval($selectedSeats[$i]);
+
+            $ticket_type = $ticketQueue[$i];
 
             $conn->query("
                 INSERT INTO walkin_booking_seats
                 (
                     walkin_booking_id,
-                    seat_id
+                    seat_id,
+                    ticket_type
                 )
                 VALUES
                 (
                     '$id',
-                    '$seat_id'
+                    '$seat_id',
+                    '$ticket_type'
                 )
             ");
         }
 
-        echo "
+        echo "  
         <script>
             alert('Booking updated successfully!');
             window.location.href='walkin_bookings.php';
@@ -443,7 +488,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <input type="text"
                        name="customer_name"
                        class="form-control"
-                       value="<?= $booking['customer_name'] ?>"
+                       value="<?= htmlspecialchars($booking['customer_name']) ?>"
                        required>
 
             </div>
@@ -730,6 +775,8 @@ document.getElementById('show_date').innerHTML=d;
 document.getElementById('show_time').innerHTML='<option>Select Time</option>';
 
 document.getElementById('seatContainer').innerHTML='';
+
+loadSeats();
 });
 });
 
@@ -744,6 +791,8 @@ fetch('get_times.php?movie_id='+movieId+'&date='+this.value)
 document.getElementById('show_time').innerHTML=d;
 
 document.getElementById('seatContainer').innerHTML='';
+
+loadSeats();
 });
 });
 
@@ -787,6 +836,49 @@ setTimeout(() => {
 
 // WHEN TIME CHANGE
 document.getElementById('show_time').addEventListener('change', loadSeats);
+
+// VALIDATE SEATS & TICKETS
+document.querySelector('form').addEventListener('submit', function(e){
+
+    let selectedSeats =
+        document.querySelectorAll(
+            'input[name="seats[]"]:checked'
+        ).length;
+
+    let totalTickets =
+        (parseInt(adultQty.value) || 0) +
+        (parseInt(seniorQty.value) || 0) +
+        (parseInt(studentQty.value) || 0) +
+        (parseInt(childrenQty.value) || 0);
+
+    if(selectedSeats === 0){
+
+        e.preventDefault();
+
+        alert('Please select at least one seat.');
+
+        return;
+    }
+
+    if(totalTickets <= 0){
+
+        e.preventDefault();
+
+        alert('Please select at least one ticket.');
+
+        return;
+    }
+
+    if(selectedSeats !== totalTickets){
+
+        e.preventDefault();
+
+        alert('Selected seats must equal total tickets.');
+
+        return;
+    }
+
+});
 </script>
 
 </body>

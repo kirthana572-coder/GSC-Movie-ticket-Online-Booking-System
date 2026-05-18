@@ -10,7 +10,7 @@ $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $customer_name = $_POST['customer_name'];
+    $customer_name = trim($_POST['customer_name']);
     $movie_id = $_POST['movie_id'];
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $getShowtime = $conn->query("
     SELECT id
     FROM showtimes
-    WHERE movie_id = '$movie_id'
+    WHERE movie_id = $movie_id
     AND show_date = '$show_date'
     AND show_time = '$show_time'
     ");
@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             FROM booking_seats bs
             JOIN bookings b
             ON bs.booking_id = b.id
-            WHERE b.showtime_id = '$showtime_id'
-            AND bs.seat_id = '$seat_id'
+            WHERE b.showtime_id = $showtime_id
+            AND bs.seat_id = $seat_id
         ");
 
         $checkWalkin = $conn->query("
@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             FROM walkin_booking_seats wbs
             JOIN walkin_bookings wb
             ON wbs.walkin_booking_id = wb.id
-            WHERE wb.showtime_id = '$showtime_id'
-            AND wbs.seat_id = '$seat_id'
+            WHERE wb.showtime_id = $showtime_id
+            AND wbs.seat_id = $seat_id
         ");
 
         if(
@@ -84,6 +84,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senior_qty +
     $student_qty +
     $children_qty;
+
+    if($totalTickets <= 0){
+
+        echo "
+        <script>
+            alert('Please select at least one ticket.');
+            history.back();
+        </script>
+        ";
+
+        exit();
+    }
 
     if(count($selectedSeats) == 0){
 
@@ -116,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ($children_qty * 6);
 
     // Generate walk-in booking ID
-    $walkin_id = 'W' . rand(100,999);
+    $walkin_id = 'W' . time() . rand(100,999);
 
     // Insert into database
     $sql = "
@@ -152,41 +164,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // SAVE SELECTED SEATS + TICKET TYPE (FIXED VERSION)
 
-    $ticketMap = [
-        'Adult' => $adult_qty,
-        'Senior' => $senior_qty,
-        'Student' => $student_qty,
-        'Children' => $children_qty
-    ];
-
-    // build ticket queue
+    // insert
     $ticketQueue = [];
 
-    foreach ($ticketMap as $type => $qty) {
-        for ($i = 0; $i < $qty; $i++) {
-            $ticketQueue[] = $type;
-        }
+    // Adult
+    for($i = 0; $i < $adult_qty; $i++){
+        $ticketQueue[] = 'Adult';
     }
 
-    // safety check
-    if (count($selectedSeats) !== count($ticketQueue)) {
-        die("Mismatch seats and ticket types");
+    // Senior
+    for($i = 0; $i < $senior_qty; $i++){
+        $ticketQueue[] = 'Senior';
     }
 
-    $selectedSeats = array_map('intval', $selectedSeats);
+    // Student
+    for($i = 0; $i < $student_qty; $i++){
+        $ticketQueue[] = 'Student';
+    }
 
+    // Children
+    for($i = 0; $i < $children_qty; $i++){
+        $ticketQueue[] = 'Children';
+    }
 
-    // insert
-    foreach ($selectedSeats as $index => $seat_id) {
+    $selectedSeats = array_values($selectedSeats);
 
-        $ticket_type = $ticketQueue[$index];
+    for($i = 0; $i < count($selectedSeats); $i++){
 
-        $conn->query("
+        $seat_id = intval($selectedSeats[$i]);
+
+        $ticket_type = $ticketQueue[$i];
+
+        $sql = "
             INSERT INTO walkin_booking_seats
-            (walkin_booking_id, seat_id, ticket_type)
+            (
+                walkin_booking_id,
+                seat_id,
+                ticket_type
+            )
             VALUES
-            ('$walkin_booking_id', '$seat_id', '$ticket_type')
-        ");
+            (
+                $walkin_booking_id,
+                $seat_id,
+                '$ticket_type'
+            )
+        ";
+
+        if(!$conn->query($sql)){
+            die($conn->error);
+        }
     }
 
         echo "
