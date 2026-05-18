@@ -16,7 +16,7 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
-// Get user from database
+// 查询用户（不限制角色，让数据库的 role 字段决定）
 $stmt = $conn->prepare("
     SELECT id, full_name, email, password_hash, role 
     FROM users 
@@ -34,7 +34,6 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
-//Check password
 if (!password_verify($password, $user['password_hash'])) {
     $_SESSION['error'] = "Invalid email or password.";
     header("Location: ../login.php");
@@ -43,15 +42,19 @@ if (!password_verify($password, $user['password_hash'])) {
 
 session_regenerate_id(true);
 
-// Success
+// 存储基本信息
 $_SESSION['user_id']   = $user['id'];
 $_SESSION['full_name'] = $user['full_name'];
 $_SESSION['email']     = $user['email'];
 $_SESSION['role']      = $user['role'];
 
-$stmt->close();
-$conn->close();
-
-header("Location: ../index.php");
+// 根据角色跳转
+if ($user['role'] === 'staff') {
+    header("Location: ../staff/staff_dashboard.php");
+} elseif ($user['role'] === 'admin') {
+    header("Location: ../admin/dashboard.php");   // 如果你之后有 admin 模块
+} else {
+    header("Location: ../index.php");             // 默认普通用户
+}
 exit();
 ?>
