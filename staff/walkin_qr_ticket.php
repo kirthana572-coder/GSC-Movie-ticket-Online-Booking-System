@@ -14,6 +14,7 @@ $booking = $conn->query("
         wb.booking_code,
         wb.customer_name,
         wb.payment_status,
+        wb.qr_used,
 
         wb.adult_qty,
         wb.senior_qty,
@@ -26,8 +27,25 @@ $booking = $conn->query("
         s.show_time,
 
         br.name AS branch_name
+        ,
+
+        GROUP_CONCAT(
+            CONCAT(
+                (SELECT seat_number FROM seats WHERE id = wbs.seat_id),
+                ' (',
+                COALESCE(wbs.ticket_type,'Unknown'),
+                ')'
+            )
+            SEPARATOR ', '
+        ) AS seats
 
     FROM walkin_bookings wb
+
+    LEFT JOIN walkin_booking_seats wbs
+    ON wb.id = wbs.walkin_booking_id
+
+    LEFT JOIN seats se
+    ON wbs.seat_id = se.id
 
     JOIN showtimes s 
     ON wb.showtime_id = s.id
@@ -38,22 +56,16 @@ $booking = $conn->query("
     JOIN branches br 
     ON s.branch_id = br.id
 
-    WHERE wb.id = '$booking_id'
+    WHERE wb.id = " . intval($booking_id) . "
     AND wb.payment_status = 'Paid'
+    GROUP BY wb.id
 ")->fetch_assoc();
 
 if(!$booking){
     die("Ticket not available.");
 }
 
-$qr_data = "
-Ticket ID: {$booking['booking_code']}
-Customer: {$booking['customer_name']}
-Movie: {$booking['title']}
-Cinema: {$booking['branch_name']}
-Date: {$booking['show_date']}
-Time: {$booking['show_time']}
-";
+$qr_data = "WALKIN:" . $booking['booking_code'];
 
 $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($qr_data);
 ?>
@@ -216,6 +228,51 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
             }
         }
 
+        .ticket-status{
+
+            text-align: center;
+
+            padding: 16px;
+
+            border-radius: 18px;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            margin-bottom: 25px;
+        }
+
+        .valid{
+
+            background:
+            linear-gradient(
+                135deg,
+                #22b156,
+                #31d56d
+            );
+
+            color: white;
+
+            box-shadow:
+            0 10px 25px rgba(34,197,94,0.3);
+        }
+
+        .used{
+
+            background:
+            linear-gradient(
+                135deg,
+                #e34545,
+                #ef4444
+            );
+
+            color: white;
+
+            box-shadow:
+            0 10px 25px rgba(239,68,68,0.3);
+        }
+
     </style>
 
 </head>
@@ -235,6 +292,24 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
         </div>
 
         <div class="ticket-body">
+
+            <?php if($booking['qr_used'] == 1): ?>
+
+                <div class="ticket-status used">
+
+                    ❌ TICKET USED
+
+                </div>
+
+            <?php else: ?>
+
+                <div class="ticket-status valid">
+
+                    ✅ VALID TICKET
+
+                </div>
+
+            <?php endif; ?>
 
             <div class="info-row">
                 <span class="label">Customer</span>
@@ -274,6 +349,20 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                 <span class="value">
                     <?= date('h:i A', strtotime($booking['show_time'])) ?>
                 </span>
+            </div>
+
+            <div class="info-row">
+
+                <span class="label">
+                    Seats
+                </span>
+
+                <span class="value">
+
+                   <?= htmlspecialchars($booking['seats']) ?>
+
+                </span>
+
             </div>
 
             <div class="qr-box">

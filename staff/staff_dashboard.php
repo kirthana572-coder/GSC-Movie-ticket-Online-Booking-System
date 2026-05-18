@@ -378,7 +378,7 @@ $confirmedTickets = $conn->query("
                 My Profile
             </a>
 
-            <a href="../logout.php">
+            <a href="/GSC-Movie-ticket-Online-Booking-System/auth/logout.php"">
                 Sign Out
             </a>
 

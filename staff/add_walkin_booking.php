@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $movie_id = $_POST['movie_id'];
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
+    $selectedSeats = $_POST['seats'] ?? [];
 
     $getShowtime = $conn->query("
     SELECT id
@@ -32,11 +33,81 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $showtime_id = $showtime['id'];
 
+    // CHECK ONLINE BOOKED SEATS
+    foreach($selectedSeats as $seat_id){
 
-    $adult_qty = intval($_POST['adult_qty']);
-    $senior_qty = $_POST['senior_qty'];
-    $student_qty = $_POST['student_qty'];
-    $children_qty = $_POST['children_qty'];
+        $seat_id = intval($seat_id);
+
+        $checkOnline = $conn->query("
+            SELECT *
+            FROM booking_seats bs
+            JOIN bookings b
+            ON bs.booking_id = b.id
+            WHERE b.showtime_id = '$showtime_id'
+            AND bs.seat_id = '$seat_id'
+        ");
+
+        $checkWalkin = $conn->query("
+            SELECT *
+            FROM walkin_booking_seats wbs
+            JOIN walkin_bookings wb
+            ON wbs.walkin_booking_id = wb.id
+            WHERE wb.showtime_id = '$showtime_id'
+            AND wbs.seat_id = '$seat_id'
+        ");
+
+        if(
+            $checkOnline->num_rows > 0 ||
+            $checkWalkin->num_rows > 0
+        ){
+
+            echo "
+            <script>
+                alert('One or more seats already booked.');
+                history.back();
+            </script>
+            ";
+
+            exit();
+        }
+    }
+
+
+    $adult_qty = intval($_POST['adult_qty'] ?? 0);
+    $senior_qty = intval($_POST['senior_qty'] ?? 0);
+    $student_qty = intval($_POST['student_qty'] ?? 0);
+    $children_qty = intval($_POST['children_qty'] ?? 0);
+
+
+    $totalTickets =
+    $adult_qty +
+    $senior_qty +
+    $student_qty +
+    $children_qty;
+
+    if(count($selectedSeats) == 0){
+
+        echo "
+        <script>
+            alert('Please select at least one seat.');
+            history.back();
+        </script>
+        ";
+
+        exit();
+    }
+
+    if(count($selectedSeats) != $totalTickets){
+
+        echo "
+        <script>
+            alert('Selected seats must equal total tickets.');
+            history.back();
+        </script>
+        ";
+
+        exit();
+    }
 
     $total =
     ($adult_qty * 12) +
@@ -77,6 +148,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if($conn->query($sql)){
 
+    $walkin_booking_id = $conn->insert_id;
+
+    // SAVE SELECTED SEATS + TICKET TYPE (FIXED VERSION)
+
+    $ticketMap = [
+        'Adult' => $adult_qty,
+        'Senior' => $senior_qty,
+        'Student' => $student_qty,
+        'Children' => $children_qty
+    ];
+
+    // build ticket queue
+    $ticketQueue = [];
+
+    foreach ($ticketMap as $type => $qty) {
+        for ($i = 0; $i < $qty; $i++) {
+            $ticketQueue[] = $type;
+        }
+    }
+
+    // safety check
+    if (count($selectedSeats) !== count($ticketQueue)) {
+        die("Mismatch seats and ticket types");
+    }
+
+    $selectedSeats = array_map('intval', $selectedSeats);
+
+
+    // insert
+    foreach ($selectedSeats as $index => $seat_id) {
+
+        $ticket_type = $ticketQueue[$index];
+
+        $conn->query("
+            INSERT INTO walkin_booking_seats
+            (walkin_booking_id, seat_id, ticket_type)
+            VALUES
+            ('$walkin_booking_id', '$seat_id', '$ticket_type')
+        ");
+    }
+
         echo "
         <script>
             alert('Walk-in booking created successfully!');
@@ -84,9 +196,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </script>
         ";
 
-        exit();
+    exit();
 
-    }else{
+}else{
 
         echo "
         <script>
@@ -357,6 +469,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             </div>
 
+            <!-- Seats -->
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Select Seats
+                </label>
+
+                <div id="seatContainer"
+                    class="d-flex flex-wrap gap-2">
+                </div>
+
+            </div>
+
 
             <div class="ticket-box">
 
@@ -527,13 +652,88 @@ document.addEventListener('change', function(e) {
         const movieId = document.getElementById('movie_id').value;
         const date = e.target.value;
 
-        if (!date) return; // 🔥 防止空值
+        if (!date) return; // 防止空值
 
         fetch('get_times.php?movie_id=' + movieId + '&date=' + date)
             .then(res => res.text())
             .then(data => {
                 document.getElementById('show_time').innerHTML = data;
             });
+    }
+});
+
+// TIME → SEATS
+document.addEventListener('change', function(e) {
+
+    if (e.target && e.target.id === 'show_time') {
+
+        const movieId = document.getElementById('movie_id').value;
+        const date = document.getElementById('show_date').value;
+        const time = e.target.value;
+
+        fetch(
+            'get_walkin_seats.php?movie_id=' +
+            movieId +
+            '&date=' +
+            date +
+            '&time=' +
+            time
+        )
+        .then(res => res.text())
+        .then(data => {
+
+            document.getElementById('seatContainer').innerHTML = data;
+
+        });
+    }
+});
+
+
+function validateTicketCount(){
+
+    let selectedSeats =
+        document.querySelectorAll(
+            'input[name="seats[]"]:checked'
+        ).length;
+
+    let totalTickets =
+        (parseInt(adultQty.value) || 0) +
+        (parseInt(seniorQty.value) || 0) +
+        (parseInt(studentQty.value) || 0) +
+        (parseInt(childrenQty.value) || 0);
+
+    if(totalTickets > selectedSeats){
+
+        alert(
+            'Total tickets cannot exceed selected seats.'
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
+document.querySelector('form').addEventListener('submit', function(e){
+
+    let selectedSeats =
+        document.querySelectorAll(
+            'input[name="seats[]"]:checked'
+        ).length;
+
+    let totalTickets =
+        (parseInt(adultQty.value) || 0) +
+        (parseInt(seniorQty.value) || 0) +
+        (parseInt(studentQty.value) || 0) +
+        (parseInt(childrenQty.value) || 0);
+
+    if(selectedSeats !== totalTickets){
+
+        e.preventDefault();
+
+        alert(
+            'Selected seats must equal total tickets.'
+        );
     }
 });
 

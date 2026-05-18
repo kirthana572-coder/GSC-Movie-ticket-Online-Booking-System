@@ -27,6 +27,25 @@ $booking = $result->fetch_assoc();
 if(!$booking){
     die("Booking not found.");
 }
+
+// GET SEATS
+$seatResult = $conn->query("
+    SELECT seats.seat_number
+    FROM walkin_booking_seats
+
+    JOIN seats
+    ON walkin_booking_seats.seat_id = seats.id
+
+    WHERE walkin_booking_seats.walkin_booking_id = '$id'
+
+    ORDER BY seats.seat_number
+");
+
+$seatNumbers = [];
+
+while($seat = $seatResult->fetch_assoc()){
+    $seatNumbers[] = $seat['seat_number'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -258,6 +277,48 @@ if(!$booking){
 
             <div class="detail-value">
                 <?= !empty($booking['show_time']) ? date('h:i A', strtotime($booking['show_time'])) : '-' ?>
+            </div>
+
+        </div>
+
+        <div class="detail-box">
+
+            <div class="detail-label">
+                Selected Seats
+            </div>
+
+            <div class="detail-value">
+                <?= !empty($seatNumbers) ? implode(', ', $seatNumbers) : 'No seats selected' ?>
+            </div>
+
+        </div>
+
+        <div class="detail-box">
+
+            <div class="detail-label">
+                Ticket Selection
+            </div>
+
+            <div class="detail-value" style="line-height:2;">
+
+                🧑 Adult (RM12.00):
+                <?= $booking['adult_qty'] ?>
+
+                <br>
+
+                👴 Senior (RM8.00):
+                <?= $booking['senior_qty'] ?>
+
+                <br>
+
+                🎓 Student (RM10.00):
+                <?= $booking['student_qty'] ?>
+
+                <br>
+
+                👶 Children (RM6.00):
+                <?= $booking['children_qty'] ?>
+
             </div>
 
         </div>

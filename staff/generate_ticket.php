@@ -12,6 +12,7 @@ $booking = $conn->query("
     SELECT 
         b.id,
         b.payment_status,
+        b.qr_used,
         b.booking_date,
 
         u.full_name,
@@ -53,7 +54,7 @@ $booking = $conn->query("
     LEFT JOIN seats se 
     ON bs.seat_id = se.id
 
-    WHERE b.id = '$booking_id'
+    WHERE b.id = " . intval($booking_id) . "
     AND b.payment_status = 'Paid'
 
     GROUP BY b.id
@@ -63,15 +64,7 @@ if(!$booking){
     die("Ticket not available.");
 }
 
-$qr_data = "
-Ticket ID: {$booking['id']}
-Customer: {$booking['full_name']}
-Movie: {$booking['title']}
-Cinema: {$booking['branch_name']}
-Date: {$booking['show_date']}
-Time: {$booking['show_time']}
-Seats: {$booking['seats']}
-";
+$qr_data = "BOOKING:" . $booking['id'];
 
 $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($qr_data);
 ?>
@@ -229,6 +222,51 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
             }
         }
 
+        .ticket-status{
+
+            text-align: center;
+
+            padding: 16px;
+
+            border-radius: 18px;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            margin-bottom: 25px;
+        }
+
+        .valid{
+
+            background:
+            linear-gradient(
+                135deg,
+                #22b156,
+                #31d56d
+            );
+
+            color: white;
+
+            box-shadow:
+            0 10px 25px rgba(34,197,94,0.3);
+        }
+
+        .used{
+
+            background:
+            linear-gradient(
+                135deg,
+                #e34545,
+                #ef4444
+            );
+
+            color: white;
+
+            box-shadow:
+            0 10px 25px rgba(239,68,68,0.3);
+        }
+
     </style>
 
 </head>
@@ -248,6 +286,24 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
         </div>
 
         <div class="ticket-body">
+
+            <?php if($booking['qr_used'] == 1): ?>
+
+                <div class="ticket-status used">
+
+                    ❌ TICKET USED
+
+                </div>
+
+            <?php else: ?>
+
+                <div class="ticket-status valid">
+
+                    ✅ VALID TICKET
+
+                </div>
+
+            <?php endif; ?>
 
             <div class="info-row">
                 <span class="label">Customer</span>

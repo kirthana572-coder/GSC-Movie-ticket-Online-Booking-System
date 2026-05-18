@@ -12,7 +12,6 @@ $hotMovies = $conn->query("SELECT id, title, genre FROM movies LIMIT 6");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* ===== 保留你原有的首页背景设计 ===== */
         body {
             margin: 0;
             padding: 0;
