@@ -7,6 +7,7 @@ $booking_id = $_GET['booking_id'] ?? 0;
 $stmt = $conn->prepare("
     SELECT 
         b.id,
+        b.qr_used,
         m.title,
         s.show_date,
         s.show_time,
@@ -49,7 +50,7 @@ if (!$b){
     die("Ticket not available.");
 }
 
-$qrData =
+$qrData = "BOOKING:" . $b['id'];
 "GSC Ticket #{$b['id']}
 Movie: {$b['title']}
 Cinema: {$b['branch_name']}
@@ -72,193 +73,232 @@ $qr =
 
     <style>
 
-        body{
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
+    body{
+        background: #f5f5f5;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-            background:
-            linear-gradient(
-                rgba(248,242,226,0.95),
-                rgba(255,220,164,0.92)
-            );
+    .ticket-container{
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 20px;
+    }
 
-            min-height: 100vh;
+    .ticket-card{
+        background: white;
+
+        border-radius: 25px;
+
+        overflow: hidden;
+
+        box-shadow:
+        0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .ticket-header{
+        background: #f5c518;
+
+        padding: 25px;
+
+        text-align: center;
+    }
+
+    .ticket-header h1{
+        margin: 0;
+
+        font-size: 40px;
+
+        font-weight: 800;
+
+        color: #111;
+    }
+
+    .ticket-subtitle{
+        color: rgba(0,0,0,0.7);
+
+        margin-top: 8px;
+
+        font-size: 15px;
+    }
+
+    .ticket-body{
+        padding: 35px;
+    }
+
+    .movie-title{
+        font-size: 30px;
+
+        font-weight: 800;
+
+        color: #111;
+
+        text-align: center;
+
+        margin-bottom: 30px;
+    }
+
+    .info-row{
+        display: flex;
+
+        justify-content: space-between;
+
+        border-bottom:
+        1px solid rgba(0,0,0,0.08);
+
+        padding: 14px 0;
+    }
+
+    .label{
+        color: #666;
+    }
+
+    .value{
+        font-weight: 700;
+        color: #111;
+
+        text-align: right;
+    }
+
+    .qr-box{
+        text-align: center;
+
+        margin-top: 35px;
+    }
+
+    .qr-box img{
+        width: 240px;
+        height: 240px;
+    }
+
+    .scan-text{
+        margin-top: 15px;
+
+        color: #666;
+
+        font-size: 15px;
+    }
+
+    .ticket-id{
+        margin-top: 10px;
+
+        font-size: 18px;
+
+        font-weight: 700;
+
+        color: #444;
+    }
+
+    .btn-print{
+        background: #f5c518;
+
+        border: none;
+
+        color: #111;
+
+        font-weight: 700;
+
+        border-radius: 30px;
+
+        padding: 14px 40px;
+
+        transition: 0.25s;
+    }
+
+    .btn-print:hover{
+        transform: scale(1.03);
+        background: #ffd53d;
+    }
+
+    .btn-back{
+        background: #333;
+
+        border: none;
+
+        color: white;
+
+        display: inline-block;
+
+        font-weight: 700;
+
+        border-radius: 30px;
+
+        padding: 14px 40px;
+
+        text-decoration: none;
+    }
+
+    .btn-back:hover{
+        background: #444;
+        color: white;
+    }
+
+    .no-print{
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+
+    @media print{
+
+        .no-print{
+            display: none;
         }
 
-        .ticket-container{
-            min-height: 100vh;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            padding: 40px;
+        body{
+            background: white;
         }
 
         .ticket-card{
-            width: 100%;
-            max-width: 650px;
-
-            background: rgba(255,255,255,0.92);
-
-            border-radius: 30px;
-
-            padding: 40px;
-
-            box-shadow:
-            0 10px 35px rgba(0,0,0,0.15);
-
-            text-align: center;
+            box-shadow: none;
         }
+    }
 
-        .ticket-title{
-            font-size: 40px;
+    .ticket-status{
 
-            font-weight: 700;
+        text-align: center;
 
-            color: #f5c518;
+        padding: 16px;
 
-            margin-bottom: 10px;
-        }
+        border-radius: 18px;
 
-        .ticket-subtitle{
-            color: #666;
+        font-size: 24px;
 
-            margin-bottom: 35px;
-        }
+        font-weight: 800;
 
-        .movie-title{
-            font-size: 28px;
+        margin-bottom: 25px;
+    }
 
-            font-weight: 700;
+    .valid{
 
-            color: #222;
+        background:
+        linear-gradient(
+            135deg,
+            #22b156,
+            #31d56d
+        );
 
-            margin-bottom: 25px;
-        }
+        color: white;
 
-        .info-box{
-            background: rgba(255,255,255,0.7);
+        box-shadow:
+        0 10px 25px rgba(34,197,94,0.3);
+    }
 
-            border-radius: 22px;
+    .used{
 
-            padding: 25px;
+        background:
+        linear-gradient(
+            135deg,
+            #e34545,
+            #ef4444
+        );
 
-            margin-bottom: 30px;
-        }
+        color: white;
 
-        .info-row{
-            display: flex;
-            justify-content: space-between;
-
-            padding: 12px 0;
-
-            border-bottom:
-            1px solid rgba(0,0,0,0.08);
-        }
-
-        .info-row:last-child{
-            border-bottom: none;
-        }
-
-        .info-label{
-            color: #666;
-        }
-
-        .info-value{
-            font-weight: 700;
-
-            color: #222;
-        }
-
-        .qr-box{
-            background: white;
-
-            padding: 25px;
-
-            border-radius: 25px;
-
-            display: inline-block;
-
-            box-shadow:
-            0 5px 20px rgba(0,0,0,0.08);
-
-            margin-bottom: 25px;
-        }
-
-        .qr-box img{
-            width: 280px;
-            height: 280px;
-        }
-
-        .scan-text{
-            color: #777;
-
-            font-size: 15px;
-
-            margin-top: 10px;
-        }
-
-        .btn-print{
-            background: #f5c518 !important;
-
-            border: none !important;
-
-            color: #111 !important;
-
-            border-radius: 30px !important;
-
-            padding: 14px 35px !important;
-
-            font-weight: 700 !important;
-
-            transition: 0.25s !important;
-
-            margin-right: 10px;
-        }
-
-        .btn-print:hover{
-            background: #ffd84d !important;
-
-            transform: scale(1.03);
-        }
-
-        .btn-back{
-            background: #2f2f2f !important;
-
-            border: none !important;
-
-            color: white !important;
-
-            border-radius: 30px !important;
-
-            padding: 14px 35px !important;
-
-            font-weight: 700 !important;
-
-            transition: 0.25s !important;
-        }
-
-        .btn-back:hover{
-            background: #444 !important;
-
-            transform: scale(1.03);
-        }
-
-        @media print{
-
-            .no-print{
-                display: none;
-            }
-
-            body{
-                background: white;
-            }
-
-            .ticket-card{
-                box-shadow: none;
-            }
-        }
+        box-shadow:
+        0 10px 25px rgba(239,68,68,0.3);
+    }
 
     </style>
 
@@ -270,94 +310,124 @@ $qr =
 
     <div class="ticket-card">
 
-        <h1 class="ticket-title">
-            🎟️ QR Ticket
-        </h1>
+        <div class="ticket-header">
 
-        <p class="ticket-subtitle">
-            Show this QR code at the cinema entrance
-        </p>
+            <h1>
+                🎟️ GSC E-Ticket
+            </h1>
 
-        <div class="movie-title">
-            <?= htmlspecialchars($b['title']) ?>
-        </div>
-
-        <div class="info-box">
-
-            <div class="info-row">
-                <span class="info-label">
-                    Booking ID
-                </span>
-
-                <span class="info-value">
-                    #<?= $b['id'] ?>
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">
-                    Cinema
-                </span>
-
-                <span class="info-value">
-                    <?= htmlspecialchars($b['branch_name']) ?>
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">
-                    Date
-                </span>
-
-                <span class="info-value">
-                    <?= date('d M Y', strtotime($b['show_date'])) ?>
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">
-                    Time
-                </span>
-
-                <span class="info-value">
-                    <?= date('h:i A', strtotime($b['show_time'])) ?>
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">
-                    Seats
-                </span>
-
-                <span class="info-value">
-                    <?= htmlspecialchars($b['seats']) ?>
-                </span>
+            <div class="ticket-subtitle">
+                Show this QR code at the cinema entrance
             </div>
 
         </div>
 
-        <div class="qr-box">
+        <div class="ticket-body">
 
-            <img src="<?= $qr ?>">
+        <?php if($b['qr_used'] == 1): ?>
 
-            <div class="scan-text">
-                Scan QR code for ticket validation
+            <div class="ticket-status used">
+
+                ❌ TICKET USED
+
+            </div>
+
+        <?php else: ?>
+
+            <div class="ticket-status valid">
+
+                ✅ VALID TICKET
+
+            </div>
+
+        <?php endif; ?>
+
+            <div class="movie-title">
+                <?= htmlspecialchars($b['title']) ?>
+            </div>
+
+            <div class="info-box">
+
+                <div class="info-row">
+                    <span class="label">
+                        Booking ID
+                    </span>
+
+                    <span class="value">
+                        #<?= $b['id'] ?>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">
+                        Cinema
+                    </span>
+
+                    <span class="value">
+                        <?= htmlspecialchars($b['branch_name']) ?>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">
+                        Date
+                    </span>
+
+                    <span class="value">
+                        <?= date('d M Y', strtotime($b['show_date'])) ?>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">
+                        Time
+                    </span>
+
+                    <span class="value">
+                        <?= date('h:i A', strtotime($b['show_time'])) ?>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">
+                        Seats
+                    </span>
+
+                    <span class="value">
+                        <?= htmlspecialchars($b['seats']) ?>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="qr-box">
+
+                <img src="<?= $qr ?>">
+
+                <div class="ticket-id">
+                    Ticket #<?= $b['id'] ?>
+                </div>
+
+                <div class="scan-text">
+                    Scan QR code for ticket validation
+                </div>
+
+            </div>
+
+            <div class="no-print">
+
+                <button onclick="window.print()" class="btn btn-print">
+                    🖨️ Print Ticket
+                </button>
+
+                <a href="history.php" class="btn btn-back">
+                    Back
+                </a>
+
             </div>
 
         </div>
-
-        <div class="no-print">
-
-            <button onclick="window.print()" class="btn btn-print">
-                🖨️ Print Ticket
-            </button>
-
-            <a href="history.php" class="btn btn-back">
-                Back
-            </a>
-
-        </div>
-
+                
     </div>
 
 </div>

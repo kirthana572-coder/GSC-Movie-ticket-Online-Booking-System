@@ -346,7 +346,7 @@ $walkinBookings = $conn->query("
                             </a>
 
                             <?php if($booking['payment_status'] == 'Paid'): ?>
-
+ 
                                 <a href="walkin_qr_ticket.php?booking_id=<?= $booking['id'] ?>"
                                 class="btn-action btn-qr">
                                     View QR

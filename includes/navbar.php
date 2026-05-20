@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
         rgba(28,28,28,0.95)
     );
 
-    padding: 14px 0;
+    padding: 20px 0 !important;
 
     margin: 10px;
 
@@ -134,7 +134,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 <nav class="navbar navbar-dark bg-dark">
-  <div class="container">
+  <div class="container-fluid px-4">
 
         <!-- Logo -->
         <a class="navbar-brand"
