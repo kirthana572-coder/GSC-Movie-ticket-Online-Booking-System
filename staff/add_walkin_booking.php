@@ -128,7 +128,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ($children_qty * 6);
 
     // Generate walk-in booking ID
-    $walkin_id = 'W' . time() . rand(100,999);
+    $getLast = $conn->query("
+        SELECT booking_code
+        FROM walkin_bookings
+        ORDER BY id DESC
+        LIMIT 1
+    ");
+
+    if($getLast->num_rows > 0){
+
+        $last = $getLast->fetch_assoc()['booking_code'];
+
+        // 取数字部分
+        $num = intval(substr($last, 2));
+
+        $newNum = $num + 1;
+
+    }else{
+
+        $newNum = 1;
+    }
+
+    // 生成 WB0001 格式
+    $walkin_id = 'WB' . str_pad($newNum, 4, '0', STR_PAD_LEFT);
 
     // Insert into database
     $sql = "

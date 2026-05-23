@@ -2,9 +2,9 @@
 require_once '../includes/staff_auth.php';
 require_once '../config/db.php';
 
-// if ($_SESSION['role'] !== 'staff') {
-//     die("Access denied.");
-// }
+if ($_SESSION['role'] !== 'staff') {
+     die("Access denied.");
+ }
 
 
 if(isset($_GET['delete'])){
@@ -29,7 +29,9 @@ if(isset($_GET['delete'])){
     }
 }
 
-$walkinBookings = $conn->query("
+$search = $_GET['search'] ?? '';
+
+$sql = "
     SELECT 
         wb.*,
         m.title AS movie_title,
@@ -38,8 +40,15 @@ $walkinBookings = $conn->query("
     FROM walkin_bookings wb
     JOIN showtimes s ON wb.showtime_id = s.id
     JOIN movies m ON s.movie_id = m.id
-    ORDER BY wb.id DESC
-");
+";
+
+if($search != ''){
+    $sql .= " WHERE wb.booking_code LIKE '%" . $conn->real_escape_string($search) . "%'";
+}
+
+$sql .= " ORDER BY wb.id DESC";
+
+$walkinBookings = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -261,6 +270,31 @@ $walkinBookings = $conn->query("
         </a>
 
     </div>
+
+
+    <form method="GET" class="mb-4 d-flex align-items-center gap-3">
+
+    <input 
+        type="text" 
+        name="search" 
+        class="form-control"
+        placeholder="Search Booking ID"
+        value="<?= htmlspecialchars($search) ?>"
+        style="max-width: 300px; height: 46px;"
+    >
+
+    <button type="submit" class="btn btn-warning fw-bold px-4">
+        Search
+    </button>
+
+    <?php if($search != ''): ?>
+        <a href="walkin_bookings.php" class="btn btn-dark">
+            Reset
+        </a>
+    <?php endif; ?>
+
+    </form>
+
 
     <div class="table-card">
 

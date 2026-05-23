@@ -1,11 +1,14 @@
 <?php
 require_once '../config/db.php';
 require_once '../includes/staff_auth.php';
-//if ($_SESSION['role'] !== 'staff') {
-    //die("Access denied.");
-//}
 
-$bookings = $conn->query("
+if ($_SESSION['role'] !== 'staff') {
+    //die("Access denied.");
+}
+
+$search = $_GET['search'] ?? '';
+
+$sql = "
     SELECT 
         b.id,
         b.payment_status,
@@ -26,9 +29,18 @@ $bookings = $conn->query("
     JOIN showtimes s ON b.showtime_id = s.id
     JOIN movies m ON s.movie_id = m.id
     JOIN branches br ON s.branch_id = br.id
+";
 
-    ORDER BY b.booking_date DESC
-");
+if(!empty($search)){
+
+    $search = $conn->real_escape_string($search);
+
+    $sql .= " WHERE b.id = '$search' ";
+}
+
+$sql .= " ORDER BY b.booking_date DESC";
+
+$bookings = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -195,6 +207,29 @@ $bookings = $conn->query("
     <h1 class="page-title">
         Customer Bookings
     </h1>
+
+    <form method="GET" class="mb-4 d-flex align-items-center gap-3">
+
+    <input 
+        type="text" 
+        name="search" 
+        class="form-control"
+        placeholder="Search Booking ID"
+        value="<?= htmlspecialchars($search) ?>"
+        style="max-width: 300px; height: 46px;"
+    >
+
+    <button type="submit" class="btn btn-warning fw-bold px-4">
+        Search
+    </button>
+
+    <?php if($search != ''): ?>
+        <a href="customer_bookings.php" class="btn btn-dark">
+            Reset
+        </a>
+    <?php endif; ?>
+
+    </form>
 
     <table class="table table-bordered">
 
