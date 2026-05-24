@@ -82,19 +82,31 @@ $walkinBookings = $conn->query($sql);
 
             justify-content: space-between;
 
-            align-items: center;
-
             margin-bottom: 35px;
+
+            position: relative;
         }
 
-        .page-title{
-            font-size: 40px;
+        .top-bar .page-title{
+            position: absolute;
+
+            left: 50%;
+
+            top: 30px;
+
+            transform: translateX(-50%);
+
+            font-size: 55px;
 
             font-weight: 700;
 
             color: #f5c518;
 
             margin: 0;
+        }
+
+        .top-bar .add-btn{
+            justify-self: end;
         }
 
         .back-btn{
@@ -111,6 +123,11 @@ $walkinBookings = $conn->query($sql);
             font-weight: 600;
 
             transition: 0.25s;
+
+            display: inline-block;
+
+        width: auto;
+            
         }
 
         .back-btn:hover{
@@ -139,6 +156,28 @@ $walkinBookings = $conn->query($sql);
             background: #ffdc5f;
 
             color: #111;
+        }
+
+        .search-bar{
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-top: 80px;
+
+            margin-bottom: 50px;
+        }
+
+        .search-bar input{
+
+            max-width: 350px;
+
+            height: 46px;
         }
 
         .table-card{
@@ -272,26 +311,25 @@ $walkinBookings = $conn->query($sql);
     </div>
 
 
-    <form method="GET" class="mb-4 d-flex align-items-center gap-3">
+    <form method="GET" class="search-bar">
 
-    <input 
-        type="text" 
-        name="search" 
-        class="form-control"
-        placeholder="Search Booking ID"
-        value="<?= htmlspecialchars($search) ?>"
-        style="max-width: 300px; height: 46px;"
-    >
+        <input 
+            type="text" 
+            name="search" 
+            class="form-control"
+            placeholder="Search Booking ID"
+            value="<?= htmlspecialchars($search) ?>"
+        >
 
-    <button type="submit" class="btn btn-warning fw-bold px-4">
-        Search
-    </button>
+        <button type="submit" class="btn btn-warning fw-bold px-4">
+            Search
+        </button>
 
-    <?php if($search != ''): ?>
-        <a href="walkin_bookings.php" class="btn btn-dark">
-            Reset
-        </a>
-    <?php endif; ?>
+        <?php if($search != ''): ?>
+            <a href="walkin_bookings.php" class="btn btn-dark">
+                Reset
+            </a>
+        <?php endif; ?>
 
     </form>
 
