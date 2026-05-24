@@ -50,6 +50,17 @@ if (!$b){
     die("Ticket not available.");
 }
 
+// QR Expiry Time
+$showDatetime = strtotime(
+    $b['show_date'] . ' ' . $b['show_time']
+);
+
+$expiryTime = $showDatetime + (60 * 60);
+
+$remaining = max(0, $expiryTime - time());
+
+$isExpired = $remaining <= 0;
+
 $qrData = "BOOKING:" . $b['id'];
 "GSC Ticket #{$b['id']}
 Movie: {$b['title']}
@@ -142,11 +153,10 @@ $qr =
 
         justify-content: space-between;
 
-        border-bottom:
-        1px solid rgba(0,0,0,0.08);
+        align-items: flex-start;
 
         padding: 14px 0;
-    }
+        }
 
     .label{
         color: #666;
@@ -155,14 +165,14 @@ $qr =
     .value{
         font-weight: 700;
         color: #111;
-
         text-align: right;
+        max-width: 60%;
+        word-break: break-word;
     }
-
     .qr-box{
         text-align: center;
 
-        margin-top: 35px;
+        margin-top: 20px;
     }
 
     .qr-box img{
@@ -242,16 +252,83 @@ $qr =
 
     @media print{
 
+        body{
+            background: white;
+            margin: 0;
+        }
+
         .no-print{
             display: none;
         }
 
-        body{
-            background: white;
+        .ticket-container{
+            margin: 0;
+            padding: 0;
+            max-width: 100%;
         }
 
         .ticket-card{
             box-shadow: none;
+            border-radius: 0;
+        }
+
+        .ticket-header{
+            padding: 20px;
+        }
+
+        .ticket-header h1{
+            font-size: 30px;
+        }
+
+        .ticket-subtitle{
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .ticket-body{
+            padding: 15px;
+        }
+
+        .ticket-status{
+            margin-bottom: 15px;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .movie-title{
+            font-size: 24px;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        .info-row{
+            padding: 8px 0;
+        }
+
+        .qr-box{
+            margin-top: 100px;
+            page-break-inside: avoid;
+        }
+
+        .qr-box img{
+            width: 180px !important;
+            height: 180px !important;
+        }
+
+        .ticket-id{
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .scan-text{
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .expiry-box{
+            margin-bottom: 10px;
+            font-size: 12px;
+            padding: 6px 12px;
         }
     }
 
@@ -300,6 +377,16 @@ $qr =
         0 10px 25px rgba(239,68,68,0.3);
     }
 
+    .expiry-box{
+        background: #fff3cd;
+        color: #9a6a00;
+        padding: 10px 18px;
+        border-radius: 14px;
+        font-weight: 700;
+        margin: 0 auto 20px;
+        width: fit-content;
+    }
+
     </style>
 
 </head>
@@ -327,17 +414,19 @@ $qr =
         <?php if($b['qr_used'] == 1): ?>
 
             <div class="ticket-status used">
-
                 ❌ TICKET USED
+            </div>
 
+        <?php elseif($isExpired): ?>
+
+            <div class="ticket-status used">
+                ⌛ QR CODE EXPIRED
             </div>
 
         <?php else: ?>
 
             <div class="ticket-status valid">
-
                 ✅ VALID TICKET
-
             </div>
 
         <?php endif; ?>
@@ -400,9 +489,30 @@ $qr =
 
             </div>
 
-            <div class="qr-box">
+            <?php
+            $hours = floor($remaining / 3600);
+            $minutes = floor(($remaining % 3600) / 60);
+            $seconds = $remaining % 60;
+            ?>
 
-                <img src="<?= $qr ?>">
+           <div class="qr-box">
+                <?php if(!$isExpired && $b['qr_used'] == 0): ?>
+
+                    <div class="expiry-box">
+
+                        ⏳ QR expires in:
+                        <span id="countdown">
+                            <?= $hours ?>h <?= $minutes ?>m <?= $seconds ?>s
+                        </span>
+
+                    </div>
+
+                <?php endif; ?>
+
+                <img 
+                    src="<?= $qr ?>" 
+                    style="width:240px; display:block; margin:0 auto;"
+                >
 
                 <div class="ticket-id">
                     Ticket #<?= $b['id'] ?>
@@ -431,6 +541,45 @@ $qr =
     </div>
 
 </div>
+
+<script>
+
+let remaining = <?= max($remaining, 0) ?>;
+
+const countdownEl = document.getElementById('countdown');
+
+function updateCountdown(){
+
+    if(!countdownEl){
+        return;
+    }
+
+    if(remaining <= 0){
+
+        countdownEl.innerHTML = "Expired";
+
+        return;
+    }
+
+    let hours = Math.floor(remaining / 3600);
+
+    let minutes = Math.floor((remaining % 3600) / 60);
+
+    let seconds = remaining % 60;
+
+    countdownEl.innerHTML =
+        hours + "h " +
+        minutes + "m " +
+        seconds + "s";
+
+    remaining--;
+}
+
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+
+</script>
 
 </body>
 </html>

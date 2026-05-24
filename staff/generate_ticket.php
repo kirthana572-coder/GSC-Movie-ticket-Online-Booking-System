@@ -8,6 +8,7 @@ if (!$booking_id){
     die("Booking ID required.");
 }
 
+
 $booking = $conn->query("
     SELECT 
         b.id,
@@ -64,6 +65,17 @@ if(!$booking){
     die("Ticket not available.");
 }
 
+// QR Expiry Time
+$showDatetime = strtotime(
+    $booking['show_date'] . ' ' . $booking['show_time']
+);
+
+$expiryTime = $showDatetime + (60 * 60);
+
+$remaining = max(0, $expiryTime - time());
+
+$isExpired = $remaining <= 0;
+
 $qr_data = "BOOKING:" . $booking['id'];
 
 $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($qr_data);
@@ -117,7 +129,6 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 
             font-weight: 800;
 
-            color: #111;
         }
 
         .ticket-body{
@@ -130,8 +141,11 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 
             justify-content: space-between;
 
-            border-bottom:
-            1px solid rgba(0,0,0,0.08);
+            align-items: flex-start;
+
+            gap: 20px;
+
+            border-bottom: 1px solid rgba(0,0,0,0.08);
 
             padding: 14px 0;
         }
@@ -145,16 +159,10 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
             color: #111;
 
             text-align: right;
-        }
 
-        .qr-box{
-            text-align: center;
+            max-width: 60%;
 
-            margin-top: 35px;
-        }
-
-        .qr-box img{
-            width: 230px;
+            word-break: break-word;
         }
 
         .ticket-id{
@@ -267,6 +275,23 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
             0 10px 25px rgba(239,68,68,0.3);
         }
 
+    
+        .expiry-box{
+            background: #fff3cd;
+            color: #9a6a00;
+
+            padding: 10px 18px;
+
+            border-radius: 14px;
+
+            font-weight: 700;
+
+            margin: 0 auto 20px;
+
+            width: fit-content;
+        }
+
+
     </style>
 
 </head>
@@ -295,6 +320,15 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 
                 </div>
 
+            <?php elseif($isExpired): ?>
+
+                <div class="ticket-status used">
+
+                    ⌛ QR CODE EXPIRED
+
+                </div>
+                
+
             <?php else: ?>
 
                 <div class="ticket-status valid">
@@ -304,6 +338,8 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                 </div>
 
             <?php endif; ?>
+
+            
 
             <div class="info-row">
                 <span class="label">Customer</span>
@@ -353,15 +389,38 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                 </span>
             </div>
 
-            <div class="qr-box">
+           <?php
+                $hours = floor($remaining / 3600);
+                $minutes = floor(($remaining % 3600) / 60);
+                $seconds = $remaining % 60;
+                ?>
 
-                <img src="<?= $qr_url ?>">
 
-                <div class="ticket-id">
-                    Ticket #<?= $booking['id'] ?>
+                <div style="display:block; width:100%; text-align:center; margin-top:50px;">
+
+                    <?php if(!$isExpired && $booking['qr_used'] == 0): ?>
+
+                        <div class="expiry-box">
+
+                            ⏳ QR expires in:
+                            <span id="countdown">
+                                <?= $hours ?>h <?= $minutes ?>m <?= $seconds ?>s
+                            </span>
+
+                        </div>
+
+                    <?php endif; ?>
+
+                    <img 
+                        src="<?= $qr_url ?>" 
+                        style="width:230px; display:block; margin:0 auto;"
+                    >
+
+                    <div class="ticket-id">
+                        Ticket #<?= $booking['id'] ?>
+                    </div>
+
                 </div>
-
-            </div>
 
             <div class="text-center mt-5 no-print">
 
@@ -380,6 +439,48 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
     </div>
 
 </div>
+
+<script>
+
+let remaining = <?= max($remaining, 0) ?>;
+
+const countdownEl = document.getElementById('countdown');
+
+function updateCountdown(){
+
+    if(!countdownEl){
+        return;
+    }
+
+    if(remaining <= 0){
+
+        countdownEl.innerHTML = "Expired";
+
+        return;
+    }
+
+    let hours =
+        Math.floor(remaining / 3600);
+
+    let minutes =
+        Math.floor((remaining % 3600) / 60);
+
+    let seconds =
+        remaining % 60;
+
+    countdownEl.innerHTML =
+        hours + "h " +
+        minutes + "m " +
+        seconds + "s";
+
+    remaining--;
+}
+
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+
+</script>
 
 </body>
 </html>

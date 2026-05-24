@@ -1,13 +1,12 @@
 <?php
 
-//先关掉因为还没有staff login fucntion
 require_once '../includes/staff_auth.php';
 
 require_once '../config/db.php';
 
-//if ($_SESSION['role'] !== 'staff') {
-    //die("Access denied.");
-//}
+if ($_SESSION['role'] !== 'staff') {
+    die("Access denied.");
+}
 
 // 可能要改
 // Example statistics
