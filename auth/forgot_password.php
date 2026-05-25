@@ -49,25 +49,27 @@ $stmt->close();
 // ---------- 发送邮件 ----------
 $mail = new PHPMailer(true);
 try {
-    // 服务器设置
+    // SMTP 配置（可根据需要修改）
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'gscmovieticketonlinebookingsys@gmail.com';   // ⚠️ 改成你的完整邮箱
-    $mail->Password   = 'dfdajqrfbilgylme';      // ⚠️ 去掉空格，连续输入
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // 或 'tls'
+    $mail->Username   = 'gscmovieticketonlinebookingsys@gmail.com';
+    $mail->Password   = 'dfdajqrfbilgylme';        // 请使用你自己的授权码
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
 
-    // 如果上面不行，尝试使用 SSL 和 465 端口（取消下面两行注释，并注释上面两行）
-    // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // 或 'ssl'
-    // $mail->Port       = 465;
-
     // 发件人和收件人
-    $mail->setFrom('gscmovieticketonlinebookingsys@gmail.com', 'GSC Cinema'); // ⚠️ 改成你的邮箱
+    $mail->setFrom('gscmovieticketonlinebookingsys@gmail.com', 'GSC Cinema');
     $mail->addAddress($email);
 
-    // 重置链接
-    $reset_link = "http://localhost/GSC-Movie-ticket-Online-Booking-System/reset_password.php?token=" . $token;
+    // ----- 动态生成重置链接（关键修改）-----
+    // 自动检测协议（http / https）
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+    // 当前域名（如 localhost 或线上域名）
+    $domain = $_SERVER['HTTP_HOST'];
+    // 组合完整链接
+    $reset_link = $protocol . $domain . BASE_URL . "/reset_password.php?token=" . $token;
+
     $mail->isHTML(true);
     $mail->Subject = 'Reset Your GSC Cinema Password';
     $mail->Body    = "

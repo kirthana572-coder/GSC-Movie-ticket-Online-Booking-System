@@ -1,6 +1,6 @@
 <?php
 require_once '../includes/auth_check.php';
-require_once '../config/db.php';
+require_once '../config/db.php';   // 确保 BASE_URL 可用
 
 $stmt = $conn->prepare("SELECT full_name, email FROM users WHERE id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
@@ -9,15 +9,12 @@ $user = $stmt->get_result()->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_name = trim($_POST['full_name'] ?? '');
-
     if ($new_name) {
         $stmt = $conn->prepare("UPDATE users SET full_name = ? WHERE id = ?");
         $stmt->bind_param("si", $new_name, $_SESSION['user_id']);
         $stmt->execute();
-
         $_SESSION['full_name'] = $new_name;
         $user['full_name'] = $new_name;
-
         $msg = '<div class="alert alert-success">Updated.</div>';
     }
 }
@@ -107,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-warning">Update Profile</button>
-                
                 <a href="<?= BASE_URL ?>/change_password.php" class="btn btn-outline-dark">Change Password</a>
             </div>
         </form>

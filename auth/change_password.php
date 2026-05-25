@@ -32,5 +32,5 @@ $stmt->bind_param("si", $hash, $_SESSION['user_id']);
 $stmt->execute();
 
 $_SESSION['success'] = "Password changed successfully.";
-header("Location: /GSC-Movie-ticket-Online-Booking-System/change_password.php");
+header("Location: " . BASE_URL . "/change_password.php");
 exit();

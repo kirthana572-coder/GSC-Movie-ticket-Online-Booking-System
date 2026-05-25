@@ -9,15 +9,12 @@ $user = $stmt->get_result()->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_name = trim($_POST['full_name'] ?? '');
-
     if ($new_name) {
         $stmt = $conn->prepare("UPDATE users SET full_name = ? WHERE id = ?");
         $stmt->bind_param("si", $new_name, $_SESSION['user_id']);
         $stmt->execute();
-
         $_SESSION['full_name'] = $new_name;
         $user['full_name'] = $new_name;
-
         $msg = '<div class="alert alert-success">Updated.</div>';
     }
 }
@@ -52,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         padding: 40px;
         border-radius: 28px;
         border: none;
-        margin-bottom:-150px;
+        margin-bottom: -150px;
         background: rgba(255,255,255,0.78);
-        box-shadow:0 10px 30px rgba(0,0,0,0.15);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
     .profile-avatar{
         width: 120px !important;
@@ -72,9 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         box-shadow: 0 5px 20px rgba(0,0,0,0.35) !important;
         transition: 0.25s;
     }
-    .profile-avatar:hover{
-        transform: scale(1.05);
-    }
+    .profile-avatar:hover{ transform: scale(1.05); }
     h3{ font-weight:bold; color:#333; }
     .form-control{ border-radius: 12px; padding: 12px; border:1px solid #ddd; }
     .form-control:focus{ border-color:#f5c518; box-shadow: 0 0 0 0.2rem rgba(245,197,24,0.25); }
@@ -89,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         transition: 0.25s;
     }
     .btn-warning:hover{ background: #ffdc5f !important; transform: scale(1.02); }
-    .btn-outline-dark{ border-radius:14px; padding:14px; font-weight: 700; text-align:center; text-decoration:none; color:#222; border:1px solid #222; }
+    .btn-outline-dark{ border-radius:14px; padding:14px; font-weight: 700; text-align:center; text-decoration:none; color:#222; border:1px solid #222; transition:0.3s; display:block; }
     .btn-outline-dark:hover{ background:#222; color:#fff; }
     label{ font-weight:500; margin-bottom:6px; }
     .top-bar{ position: absolute; top: 50px; left: 500px; }
@@ -118,4 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label>Full Name</label>
                 <input type="text" name="full_name" class="form-control" value="<?= htmlspecialchars($user['full_name']) ?>" required>
             </div>
-            <div class="mb-4
+            <div class="mb-4">
+                <label>Email</label>
+                <input type="email" class="form-control" value="<?= htmlspecialchars($user['email']) ?>" disabled>
+            </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-warning">Update Profile</button>
+                <a href="<?= BASE_URL ?>/staff/change_password.php" class="btn-outline-dark">Change Password</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="<?= BASE_URL ?>/notification.js"></script>
+</body>
+</html>
