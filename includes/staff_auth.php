@@ -1,7 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'staff') {
-    header("Location: /GSC-Movie-ticket-Online-Booking-System/login.php");
+    header("Location: " . BASE_URL . "/login.php");
     exit;
 }
 ?>

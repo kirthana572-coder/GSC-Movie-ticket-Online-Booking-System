@@ -1,40 +1,45 @@
 <?php
-// 自動開啟 Session
+// 自动开启 Session（如果尚未开启）
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// 错误报告（本地开启，线上可注释）
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // ==========================================
-// 1. 自動偵測環境並設定資料庫連線
+// 1. 自动侦测环境并设定数据库连接
 // ==========================================
 if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_ADDR'] == '127.0.0.1') {
-    // 🏠 本地 XAMPP 環境
+    // 本地 XAMPP
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database = "gsc_booking_db"; 
+    $database = "gsc_booking_db";
 } else {
-    // 🌐 InfinityFree 線上環境 (⚠️這裡必須改成你InfinityFree後台的資料⚠️)
-$host = "sql213.infinityfree.com";
-$user = "if0_41981522";
-$password = "Xiang7556";       
-$database = "if0_41981522_gsc";    // 替換為你的資料庫全名
+    // 线上 InfinityFree（请改为你的实际数据库信息）
+    $host = "sql213.infinityfree.com";
+    $user = "if0_41981522";
+    $password = "Xiang7556";
+    $database = "if0_41981522_gsc";
 }
 
 $conn = new mysqli($host, $user, $password, $database);
-
 if ($conn->connect_error) {
-    die("資料庫連線失敗: " . $conn->connect_error);
+    die("Database connection failed: " . $conn->connect_error);
 }
 $conn->set_charset("utf8mb4");
 
 // ==========================================
-// 2. 自動計算專案根目錄路徑 (BASE_URL)
+// 2. 手动设置 BASE_URL（根据环境）
 // ==========================================
-if (!defined('BASE_URL')) {
-    $project_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-    // 在 InfinityFree 根目錄時會自動清空，解決 404 問題
-    $base_url = ($project_dir === '/' || $project_dir === '\\') ? '' : rtrim($project_dir, '/');
-    define('BASE_URL', $base_url);
+if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_ADDR'] == '127.0.0.1') {
+    // 本地 XAMPP：你的项目在 htdocs 下的子目录名
+    define('BASE_URL', '/GSC-Movie-ticket-Online-Booking-System');
+} else {
+    // 线上环境：如果项目在根目录，留空；否则填子目录名（如 /gsc）
+    define('BASE_URL', '');
+
 }
-?>
+?>  
