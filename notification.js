@@ -1,64 +1,66 @@
-// Toast 浮动提示函数
-function showToast(message, duration = 4000) {
-    let container = document.querySelector('.toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'toast-container';
-        document.body.appendChild(container);
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. 先跟使用者請求通知權限
+    if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                console.log("系統提示：使用者已允許通知權限！");
+            }
+        });
     }
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    toast.addEventListener('click', () => {
-        toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 300);
-    });
-    container.appendChild(toast);
-    setTimeout(() => {
-        toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
+
+    // 2. 網頁載入時先執行一次檢查
+    checkMovieReminders();
+
+    // 3. 設定定時器：每隔 60 秒自動向後端查詢一次
+    setInterval(checkMovieReminders, 60000);
+});
+
+/**
+ * 自動偵測當前網站路徑 (相容 XAMPP 與 InfinityFree)
+ */
+function getBaseUrl() {
+    const pathParts = window.location.pathname.split('/');
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return '/' + pathParts[1]; // XAMPP 本地環境
+    }
+    return ''; // InfinityFree 線上環境
 }
 
-// 请求桌面通知权限
-if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-    Notification.requestPermission();
+function checkMovieReminders() {
+    const siteUrl = getBaseUrl();
+    const requestUrl = siteUrl + '/check_reminder.php';
+
+    fetch(requestUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("網頁請求失敗，狀態碼：" + response.status);
+            }
+            return response.json(); 
+        })
+        .then(data => {
+            // 假設後端回傳提醒資料格式
+            if (data && data.reminders && data.reminders.length > 0) {
+                data.reminders.forEach(reminder => {
+                    showSystemNotification("電影即將開場！", `您的電影 ${reminder.title} 即將在 ${reminder.start_time} 開始，請準備入場。`);
+                });
+            }
+        })
+        .catch(error => {
+            console.error("[通知模組錯誤] 無法連接:", error);
+        });
 }
 
-// 通用提醒：桌面通知 + Toast
-function sendAlert(title, body, toastMsg) {
+function showSystemNotification(title, message) {
     if (Notification.permission === "granted") {
-        new Notification(title, { body: body });
+        const options = {
+            body: message,
+            requireInteraction: true 
+        };
+        const notification = new Notification(title, options);
+        notification.onclick = function () {
+            window.focus();
+        };
+    } else {
+        alert(title + "\n\n" + message);
     }
-    showToast(toastMsg || body, 5000);
 }
-
-// ==================== 1. 电影开场提醒（每15秒） ====================
-setInterval(() => {
-    fetch('/GSC-Movie-ticket-Online-Booking-System/check_reminder.php')
-        .then(res => res.json())
-        .then(data => {
-            if (data.reminders && data.reminders.length) {
-                data.reminders.forEach(rem => {
-                    const msg = `🎬 ${rem.title} starts at ${rem.start_time}. Please collect your tickets!`;
-                    sendAlert("Movie Starting Soon", msg, msg);
-                });
-            }
-        })
-        .catch(err => console.log("Session reminder error", err));
-}, 15000);   // 改为15秒
-
-// ==================== 2. 通用通知（每15秒） ====================
-setInterval(() => {
-    fetch('/GSC-Movie-ticket-Online-Booking-System/api/get_new_notifications.php')
-        .then(res => res.json())
-        .then(data => {
-            if (data.notifications && data.notifications.length) {
-                data.notifications.forEach(notif => {
-                    const msg = notif.message;
-                    sendAlert("GSC Notification", msg, msg);
-                });
-            }
-        })
-        .catch(err => console.log("General notification error", err));
-}, 15000);   // 改为15秒

@@ -9,12 +9,9 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-$conn = new mysqli('localhost', 'root', '', 'gsc_booking_db');
-if ($conn->connect_error) {
-    echo json_encode(['error' => '数据库连接失败']);
-    exit;
-}
-$conn->set_charset('utf8');
+// ✅ 引入統一的資料庫設定，不再寫死 localhost
+// (如果你的 check_reminder.php 和 config 資料夾在同一層，就用下面的路徑)
+require_once __DIR__ . '/config/db.php'; 
 
 // 查询未来30分钟内开场且未取票/未提醒的订单
 $sql = "
