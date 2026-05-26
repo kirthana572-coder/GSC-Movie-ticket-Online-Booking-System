@@ -116,11 +116,12 @@ $success = $_GET['success'] ?? '';
         }
 
         .movie-title{
-            font-size:46px;
-            font-weight:700;
+            font-size:48px;
+            font-weight:800;
 
             color:#111827;
 
+            letter-spacing:-1px;
             margin-bottom:20px;
         }
 
@@ -167,9 +168,16 @@ $success = $_GET['success'] ?? '';
         }
 
         .btn-edit{
-            background:#f5c518;
+            background:
+            linear-gradient(
+                135deg,
+                #f5c518,
+                #ffd43b
+            );
 
-            color:#111;
+            border:none;
+
+            color:#111827;
 
             text-decoration:none;
 
@@ -180,11 +188,16 @@ $success = $_GET['success'] ?? '';
             font-weight:700;
 
             transition:0.25s;
+
+            box-shadow:
+            0 10px 20px rgba(245,197,24,0.25);
         }
 
         .btn-edit:hover{
-            background:#ffd93d;
             transform:translateY(-2px);
+
+            box-shadow:
+            0 15px 28px rgba(245,197,24,0.35);
         }
 
         .btn-back{
@@ -205,6 +218,8 @@ $success = $_GET['success'] ?? '';
 
         .btn-back:hover{
             background:#d1d5db;
+            color:#111827;
+            transform:translateY(-2px);
         }
 
         .toast-msg{

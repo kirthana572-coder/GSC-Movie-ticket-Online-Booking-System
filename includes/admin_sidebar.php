@@ -110,9 +110,30 @@
             Movies
         </a>
 
-    <a href="#">
-        Showtimes
-    </a>
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        ?>
+
+        <a 
+            href="<?= BASE_URL ?>/admin/showtimes/admin_showtimes.php"
+
+            class="<?= 
+                in_array(
+                    $currentPage,
+                    [
+                        'admin_showtimes.php',
+                        'add_showtime.php',
+                        'delete_showtime.php',
+                        'edit_showtime.php',
+                        'view_showtime.php'
+                    ]
+                )
+                ? 'active'
+                : ''
+            ?>"
+        >
+            Showtimes
+        </a>
 
     <a href="#">
         Seats

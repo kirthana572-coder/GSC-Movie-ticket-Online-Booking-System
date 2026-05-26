@@ -474,7 +474,7 @@ $success = $_GET['success'] ?? '';
 
                                     <button
                                         type="button"
-                                        class="btn action-btn btn-delete"
+                                        class="action-btn btn-delete"
 
                                         data-bs-toggle="modal"
                                         data-bs-target="#deleteModal"
