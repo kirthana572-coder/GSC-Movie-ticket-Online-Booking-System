@@ -4,6 +4,30 @@
 require_once '../includes/staff_auth.php';
 require_once '../config/db.php';
 
+// Update payment status
+if(isset($_POST['update_status'])){
+
+    $booking_id = intval($_POST['booking_id']);
+    $new_status = $_POST['payment_status'];
+
+    $allowed = ['Pending', 'Paid', 'Cancelled', 'Expired'];
+
+    if(in_array($new_status, $allowed)){
+
+        $stmt = $conn->prepare("
+            UPDATE bookings
+            SET payment_status = ?
+            WHERE id = ?
+        ");
+
+        $stmt->bind_param("si", $new_status, $booking_id);
+        $stmt->execute();
+        $stmt->close();
+
+        header("Location: customer_bookings.php");
+        exit();
+    }
+}
 
 // Get search input
 $search = $_GET['search'] ?? '';
@@ -89,11 +113,30 @@ $bookings = $conn->query($sql);
         }
 
         .page-title{
-            font-size:50px;
+            margin-top:40px !important;
+            margin-bottom:50px !important;
+            position:absolute;
+            left:50%;
+            top:30px;
+            transform:translateX(-50%);
+            font-size:55px;
             font-weight:700;
             color:#f5c518;
-            margin-top:30px;
-            margin-bottom:25px;
+            margin:0;
+        }
+
+        .search-bar{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:12px;
+            margin-top:80px;
+            margin-bottom:50px;
+        }
+
+        .search-bar input{
+            max-width:450px !important;
+            height:46px;
         }
 
         .table{
@@ -201,7 +244,7 @@ $bookings = $conn->query($sql);
         <!-- Search form -->
         <form 
             method="GET" 
-            class="mb-4 d-flex align-items-center gap-3"
+            class="search-bar"
         >
 
             <input 
@@ -226,7 +269,7 @@ $bookings = $conn->query($sql);
 
                 <a 
                     href="<?= BASE_URL ?>/staff/customer_bookings.php"
-                    class="btn btn-dark"
+                    class="btn btn-sm btn-primary fw-bold"
                 >
                     Reset
                 </a>
@@ -306,9 +349,51 @@ $bookings = $conn->query($sql);
 
                         <td>
 
-                            <span class="badge <?= $statusClass ?>">
-                                <?= $b['payment_status'] ?>
-                            </span>
+                            <form method="POST" class="d-flex gap-2 align-items-center">
+
+                                <input 
+                                    type="hidden" 
+                                    name="booking_id" 
+                                    value="<?= $b['id'] ?>"
+                                >
+
+                                <select 
+                                    name="payment_status"
+                                    class="form-select form-select-sm"
+                                    style="min-width:120px;"
+                                >
+
+                                    <option value="Pending"
+                                        <?= $b['payment_status'] == 'Pending' ? 'selected' : '' ?>>
+                                        Pending
+                                    </option>
+
+                                    <option value="Paid"
+                                        <?= $b['payment_status'] == 'Paid' ? 'selected' : '' ?>>
+                                        Paid
+                                    </option>
+
+                                    <option value="Cancelled"
+                                        <?= $b['payment_status'] == 'Cancelled' ? 'selected' : '' ?>>
+                                        Cancelled
+                                    </option>
+
+                                    <option value="Expired"
+                                        <?= $b['payment_status'] == 'Expired' ? 'selected' : '' ?>>
+                                        Expired
+                                    </option>
+
+                                </select>
+
+                                <button 
+                                    type="submit"
+                                    name="update_status"
+                                    class="btn btn-sm btn-dark fw-bold"
+                                >
+                                    Update
+                                </button>
+
+                            </form>
 
                         </td>
 
