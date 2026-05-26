@@ -30,6 +30,16 @@ try {
     
     $conn->query("DELETE FROM booking_seats WHERE booking_id = $booking_id");
     
+    // 记录取消历史
+    $user_id = $_SESSION['user_id'];
+
+    $conn->query("
+        INSERT INTO booking_cancellations
+        (user_id, booking_id)
+        VALUES
+        ($user_id, $booking_id)
+    ");
+    
     // 添加通知
     $user_id = $_SESSION['user_id'];
     $msg = "Your booking (ID: $booking_id) has been cancelled.";

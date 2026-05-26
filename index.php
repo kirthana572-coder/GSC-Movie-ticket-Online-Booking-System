@@ -1,51 +1,57 @@
-<?php
-
+<?php 
 require_once 'config/db.php';
 
-// Get hot movies
 $hotMovies = $conn->query("
     SELECT id, title, genre 
     FROM movies 
     LIMIT 6
 ");
-
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-
     <title>GSC Movie Ticket Booking System</title>
 
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-        rel="stylesheet"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
 
-        body{
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        body {
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center center/cover;
+            background:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') 
+            no-repeat center center/cover;
             height:100vh;
             overflow:hidden;
             animation:zoomBg 20s infinite alternate;
         }
 
-        // Landing page overlay
-        .overlay{
+        .overlay {
             position:relative;
             height:100vh;
             width:100%;
             background:
-                linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8)),
-                radial-gradient(circle at top,rgba(238,226,184,0.8),rgba(255,140,0,0.2),transparent 65%);
+                linear-gradient(
+                    rgba(0,0,0,0.5),
+                    rgba(0,0,0,0.8)
+                ),
+                radial-gradient(
+                    circle at top,
+                    rgba(238,226,184,0.8),
+                    rgba(255,140,0,0.2),
+                    transparent 65%
+                );
+
+            pointer-events:none;
         }
 
-        // Hero section
-        .hero-box{
+        .hero-box {
             position:relative;
             z-index:2;
             color:white;
@@ -53,10 +59,63 @@ $hotMovies = $conn->query("
             padding:50px;
             border-radius:15px;
             backdrop-filter:blur(10px);
+            pointer-events:auto;
         }
 
-        // Logo
-        .hero-logo img{
+        .dashboard-body {
+            margin:0;
+            font-family:'Segoe UI',sans-serif;
+            background:linear-gradient(135deg,#f5f2e9,#f7d7a8);
+            min-height:100vh;
+            overflow-y:auto;
+        }
+
+        .dashboard-container {
+            padding-top:30px;
+            padding-bottom:50px;
+        }
+
+        /* =========================
+           ANIMATION
+        ========================= */
+
+        @keyframes floatLogo {
+            from {
+                transform:translateY(0px);
+            }
+
+            to {
+                transform:translateY(-6px);
+            }
+        }
+
+        @keyframes zoomBg {
+            from {
+                background-size:100%;
+            }
+
+            to {
+                background-size:130%;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform:translateX(100%);
+                opacity:0;
+            }
+
+            to {
+                transform:translateX(0);
+                opacity:1;
+            }
+        }
+
+        /* =========================
+           HERO SECTION
+        ========================= */
+
+        .hero-logo img {
             width:600px;
             margin-bottom:35px;
             margin-top:-300px;
@@ -64,40 +123,22 @@ $hotMovies = $conn->query("
             animation:floatLogo 3s infinite alternate;
         }
 
-        // Logo floating animation
-        @keyframes floatLogo{
-            from{
-                transform:translateY(0px);
-            }
-            to{
-                transform:translateY(-6px);
-            }
-        }
+        /* =========================
+           BUTTON
+        ========================= */
 
-        // Background zoom animation
-        @keyframes zoomBg{
-            from{
-                background-size:100%;
-            }
-            to{
-                background-size:130%;
-            }
-        }
-
-        // Main buttons
-        .btn-custom{
+        .btn-custom {
             padding:12px 30px;
             font-size:18px;
             border-radius:30px;
             transition:0.3s;
         }
 
-        .btn-custom:hover{
+        .btn-custom:hover {
             transform:scale(1.08);
         }
 
-        // Warning button
-        .btn-warning{
+        .btn-warning {
             background-color:#f5c518;
             border:none;
             border-radius:30px;
@@ -106,42 +147,32 @@ $hotMovies = $conn->query("
             transition:0.3s;
         }
 
-        .btn-warning:hover{
+        .btn-warning:hover {
             background-color:#e0b400;
             transform:scale(1.05);
         }
 
-        // Prevent overlay blocking clicks
-        .overlay{
-            pointer-events:none;
+        .quick-actions .btn {
+            border-radius:30px;
+            padding:14px 20px;
+            font-weight:600;
+            transition:0.3s;
         }
 
-        .hero-box{
-            pointer-events:auto;
+        .quick-actions .btn:hover {
+            transform:scale(1.03);
         }
 
-        // Dashboard background
-        .dashboard-body{
-            margin:0;
-            font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(135deg,#f5f2e9,#f7d7a8);
-            min-height:100vh;
-            overflow-y:auto;
-        }
+        /* =========================
+           SEARCH BAR
+        ========================= */
 
-        // Dashboard spacing
-        .dashboard-container{
-            padding-top:30px;
-            padding-bottom:50px;
-        }
-
-        // Search bar
-        .search-bar{
+        .search-bar {
             max-width:600px;
             margin:0 auto 30px auto;
         }
 
-        .search-bar input{
+        .search-bar input {
             border-radius:30px;
             padding:14px 20px;
             border:2px solid #f5c518;
@@ -149,8 +180,11 @@ $hotMovies = $conn->query("
             font-size:16px;
         }
 
-        // Movie card
-        .movie-card{
+        /* =========================
+           MOVIE CARD
+        ========================= */
+
+        .movie-card {
             background:rgba(255,255,255,0.95);
             border:none;
             border-radius:20px;
@@ -160,62 +194,93 @@ $hotMovies = $conn->query("
             height:100%;
         }
 
-        .movie-card:hover{
+        .movie-card:hover {
             transform:translateY(-6px);
             box-shadow:0 12px 28px rgba(0,0,0,0.14);
         }
 
-        .movie-card .card-body{
+        .movie-card .card-body {
             padding:24px;
         }
 
-        .movie-card .card-title{
+        .movie-card .card-title {
             font-size:22px;
             font-weight:700;
             color:#222;
         }
 
-        .movie-card .card-title a{
+        .movie-card .card-title a {
             color:#222;
             text-decoration:none;
         }
 
-        .movie-card .card-title a:hover{
+        .movie-card .card-title a:hover {
             color:#f5c518;
         }
 
-        // Quick action buttons
-        .quick-actions .btn{
-            border-radius:30px;
-            padding:14px 20px;
-            font-weight:600;
-            transition:0.3s;
+        /* =========================
+           TOAST NOTIFICATION
+        ========================= */
+
+        .toast-container {
+            position:fixed;
+            top:20px;
+            right:20px;
+            z-index:9999;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            pointer-events:none;
         }
 
-        .quick-actions .btn:hover{
-            transform:scale(1.03);
+        .toast {
+            background:#ff6b6b;
+            color:white;
+            padding:12px 20px;
+            border-radius:8px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.15);
+            font-size:14px;
+            font-weight:bold;
+            min-width:250px;
+            max-width:350px;
+            word-wrap:break-word;
+            pointer-events:auto;
+            cursor:pointer;
+            transition:0.3s;
+            animation:slideInRight 0.3s ease;
+        }
+
+        .toast:hover {
+            transform:scale(1.02);
+            background:#ff5252;
+        }
+
+        .toast.fade-out {
+            opacity:0;
+            transform:translateX(100%);
+            transition:opacity 0.3s, transform 0.3s;
         }
 
     </style>
-
 </head>
 
 <body>
 
 <?php include 'includes/navbar.php'; ?>
 
+
 <?php if (!isset($_SESSION['user_id'])): ?>
 
-    <!-- Guest Landing Page -->
+    <!-- =========================
+         GUEST SECTION
+    ========================= -->
+
     <div class="overlay d-flex justify-content-center align-items-center">
 
         <div class="hero-box text-center">
 
             <div class="hero-logo">
-                <img 
-                    src="<?= BASE_URL ?>/assets/logo.png" 
-                    alt="GSC Logo"
-                >
+                <img src="<?= BASE_URL ?>/assets/logo.png" alt="GSC Logo">
             </div>
 
             <h1 class="display-4 fw-bold hero-title">
@@ -232,17 +297,13 @@ $hotMovies = $conn->query("
 
             <div class="mt-4">
 
-                <a 
-                    href="<?= BASE_URL ?>/register.php" 
-                    class="btn btn-warning btn-lg btn-custom me-3"
-                >
+                <a href="<?= BASE_URL ?>/register.php"
+                   class="btn btn-warning btn-lg btn-custom me-3">
                     Register
                 </a>
 
-                <a 
-                    href="<?= BASE_URL ?>/login.php" 
-                    class="btn btn-outline-light btn-lg btn-custom"
-                >
+                <a href="<?= BASE_URL ?>/login.php"
+                   class="btn btn-outline-light btn-lg btn-custom">
                     Sign In
                 </a>
 
@@ -254,50 +315,56 @@ $hotMovies = $conn->query("
 
 <?php else: ?>
 
-    <!-- Logged In Dashboard -->
+    <!-- =========================
+         USER DASHBOARD
+    ========================= -->
+
     <div class="dashboard-body">
 
         <div class="container dashboard-container">
 
             <!-- Welcome -->
-            <h2 
-                class="text-center mb-2" 
-                style="font-weight:700; color:#222;"
-            >
-                Welcome back, 
+
+            <h2 class="text-center mb-2"
+                style="font-weight:700; color:#222;">
+
+                Welcome back,
                 <?= htmlspecialchars($_SESSION['full_name']) ?>!
+
             </h2>
 
             <p class="text-center text-muted mb-4">
-                You are logged in as 
-                <strong><?= ucfirst($_SESSION['role']) ?></strong>.
+
+                You are logged in as
+                <strong>
+                    <?= ucfirst($_SESSION['role']) ?>
+                </strong>.
+
             </p>
 
             <!-- Search -->
+
             <div class="search-bar">
 
-                <form 
-                    action="<?= BASE_URL ?>/customer/movies.php" 
-                    method="GET"
-                >
+                <form action="<?= BASE_URL ?>/customer/movies.php"
+                      method="GET">
 
-                    <input 
-                        type="text" 
-                        name="search" 
-                        class="form-control" 
-                        placeholder="Search movies..."
-                    >
+                    <input type="text"
+                           name="search"
+                           class="form-control"
+                           placeholder="Search movies...">
 
                 </form>
 
             </div>
 
             <!-- Movie Section -->
-            <h4 
-                class="mb-3" 
-                style="font-weight:600; color:#333;"
-            >
+
+            <h4 class="mb-3"
+                style="font-weight:600; color:#333;">
+
                 🎬 Movies
+
             </h4>
 
             <div class="row mb-4">
@@ -328,11 +395,11 @@ $hotMovies = $conn->query("
 
                                     </p>
 
-                                    <a 
-                                        href="<?= BASE_URL ?>/customer/movies.php?search=<?= urlencode($movie['title']) ?>" 
-                                        class="btn btn-warning btn-sm mt-2"
-                                    >
+                                    <a href="<?= BASE_URL ?>/customer/movies.php?search=<?= urlencode($movie['title']) ?>"
+                                       class="btn btn-warning btn-sm mt-2">
+
                                         View Showtimes
+
                                     </a>
 
                                 </div>
@@ -354,39 +421,40 @@ $hotMovies = $conn->query("
             </div>
 
             <!-- Quick Actions -->
+
             <div class="quick-actions text-center">
 
                 <div class="row">
 
                     <div class="col-md-4 mb-3">
 
-                        <a 
-                            href="<?= BASE_URL ?>/customer/profile.php" 
-                            class="btn btn-outline-dark w-100"
-                        >
+                        <a href="<?= BASE_URL ?>/customer/profile.php"
+                           class="btn btn-outline-dark w-100">
+
                             👤 View Profile
+
                         </a>
 
                     </div>
 
                     <div class="col-md-4 mb-3">
 
-                        <a 
-                            href="<?= BASE_URL ?>/customer/history.php" 
-                            class="btn btn-outline-dark w-100"
-                        >
+                        <a href="<?= BASE_URL ?>/customer/history.php"
+                           class="btn btn-outline-dark w-100">
+
                             📋 Booking History
+
                         </a>
 
                     </div>
 
                     <div class="col-md-4 mb-3">
 
-                        <a 
-                            href="<?= BASE_URL ?>/customer/movies.php" 
-                            class="btn btn-warning w-100"
-                        >
+                        <a href="<?= BASE_URL ?>/customer/movies.php"
+                           class="btn btn-warning w-100">
+
                             🎟️ Browse All Movies
+
                         </a>
 
                     </div>
@@ -401,62 +469,6 @@ $hotMovies = $conn->query("
 
 <?php endif; ?>
 
-<style>
-
-    // Toast container
-    .toast-container{
-        position:fixed;
-        top:20px;
-        right:20px;
-        z-index:9999;
-        display:flex;
-        flex-direction:column;
-        gap:10px;
-        pointer-events:none;
-    }
-
-    // Toast box
-    .toast{
-        background:#ff6b6b;
-        color:white;
-        padding:12px 20px;
-        border-radius:8px;
-        box-shadow:0 4px 12px rgba(0,0,0,0.15);
-        font-size:14px;
-        font-weight:bold;
-        min-width:250px;
-        max-width:350px;
-        word-wrap:break-word;
-        pointer-events:auto;
-        cursor:pointer;
-        transition:0.3s;
-        animation:slideInRight 0.3s ease;
-    }
-
-    .toast:hover{
-        transform:scale(1.02);
-        background:#ff5252;
-    }
-
-    // Toast animation
-    @keyframes slideInRight{
-        from{
-            transform:translateX(100%);
-            opacity:0;
-        }
-        to{
-            transform:translateX(0);
-            opacity:1;
-        }
-    }
-
-    .toast.fade-out{
-        opacity:0;
-        transform:translateX(100%);
-        transition:opacity 0.3s, transform 0.3s;
-    }
-
-</style>
 
 <script src="<?= BASE_URL ?>/notification.js"></script>
 

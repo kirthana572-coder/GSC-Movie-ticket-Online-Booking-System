@@ -26,6 +26,23 @@ try {
         $conn->query("UPDATE seats SET status = 'pending' WHERE id = " . intval($sid));
     }
     $user_id = $_SESSION['user_id'];
+
+    // 检查24小时内取消次数
+    $result = $conn->query("
+        SELECT COUNT(*) AS total
+        FROM booking_cancellations
+        WHERE user_id = $user_id
+        AND cancelled_at >= NOW() - INTERVAL 24 HOUR
+    ");
+
+    $row = $result->fetch_assoc();
+
+    if($row['total'] >= 3){
+
+        throw new Exception(
+            "Booking temporarily restricted due to excessive cancellations within 24 hours."
+        );
+    }
     $stmt = $conn->prepare("INSERT INTO bookings (user_id, showtime_id, payment_status) VALUES (?, ?, 'Pending')");
     $stmt->bind_param("ii", $user_id, $showtime_id);
     $stmt->execute();
