@@ -3,64 +3,6 @@
 require_once '../includes/admin_auth.php';
 require_once '../config/db.php';
 
-
-// Get Current Admin Info
-
-$stmt = $conn->prepare("
-    SELECT full_name, email
-    FROM users
-    WHERE id = ?
-");
-
-$stmt->bind_param(
-    "i",
-    $_SESSION['user_id']
-);
-
-$stmt->execute();
-
-$user = $stmt
-    ->get_result()
-    ->fetch_assoc();
-
-
-// Update Profile
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $new_name = trim($_POST['full_name'] ?? '');
-
-
-    if ($new_name) {
-
-        $stmt = $conn->prepare("
-            UPDATE users
-            SET full_name = ?
-            WHERE id = ?
-        ");
-
-        $stmt->bind_param(
-            "si",
-            $new_name,
-            $_SESSION['user_id']
-        );
-
-        $stmt->execute();
-
-
-        $_SESSION['full_name'] = $new_name;
-
-        $user['full_name'] = $new_name;
-
-
-        $msg = '
-            <div class="alert alert-success">
-                Profile updated successfully.
-            </div>
-        ';
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
 
-    <title>Admin Profile - GSC</title>
+    <title>Admin Change Password</title>
 
     <link 
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
@@ -85,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             linear-gradient(
                 135deg,
                 #f8fafc,
-                #e2e8f0
+                #eef2ff
             );
 
             min-height:100vh;
         }
 
-        /* MAIN CONTENT */
+        /* MAIN */
 
         .main{
             margin-left:220px;
@@ -107,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding:40px;
         }
 
-        .profile-card{
+        .password-card{
             width:100%;
             max-width:600px;
 
@@ -136,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        .profile-avatar{
+        .icon-circle{
             width:130px;
             height:130px;
 
@@ -157,10 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             margin:auto;
 
-            font-size:52px;
+            font-size:50px;
             font-weight:700;
-
-            color:#111;
 
             box-shadow:
             0 10px 25px rgba(245,197,24,0.35);
@@ -168,13 +108,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom:25px;
         }
 
-        .profile-title{
+        .page-title{
             text-align:center;
 
-            font-size:38px;
+            font-size:36px;
             font-weight:700;
 
             color:#111827;
+
+            margin-bottom:10px;
+        }
+
+        .page-subtitle{
+            text-align:center;
+
+            color:#666;
 
             margin-bottom:35px;
         }
@@ -199,6 +147,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             0 0 0 0.2rem rgba(245,197,24,0.25);
         }
 
+        .input-group-text{
+            background:white;
+            cursor:pointer;
+        }
+
         .btn-save{
             background:#f5c518 !important;
 
@@ -221,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transform:scale(1.02);
         }
 
-        .btn-password{
+        .btn-back{
             border-radius:14px;
 
             padding:14px;
@@ -241,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align:center;
         }
 
-        .btn-password:hover{
+        .btn-back:hover{
             background:#111827;
             color:white;
         }
@@ -254,95 +207,124 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php include '../includes/admin_sidebar.php'; ?>
 
-<!-- MAIN -->
 
 <div class="main">
 
-    <div class="profile-card">
+    <div class="password-card">
 
-        <!-- Avatar -->
+        <!-- ICON -->
 
-        <div class="profile-avatar">
-
-            <?= strtoupper(substr($user['full_name'],0,1)) ?>
-
+        <div class="icon-circle">
+            🔒
         </div>
 
 
-        <!-- Title -->
+        <!-- TITLE -->
 
-        <div class="profile-title">
+        <div class="page-title">
+            Change Password
+        </div>
 
-            Admin Profile
-
+        <div class="page-subtitle">
+            Secure your admin account with a new password
         </div>
 
 
-        <!-- Success Message -->
+        <!-- ERROR -->
 
-        <?= $msg ?? '' ?>
+        <?php if(isset($_SESSION['error'])): ?>
+
+            <div class="alert alert-danger">
+
+                <?= $_SESSION['error']; ?>
+
+            </div>
+
+            <?php unset($_SESSION['error']); ?>
+
+        <?php endif; ?>
 
 
-        <!-- Form -->
+        <!-- SUCCESS -->
 
-        <form method="POST">
+        <?php if(isset($_SESSION['success'])): ?>
 
-            <!-- Full Name -->
+            <div class="alert alert-success">
+
+                <?= $_SESSION['success']; ?>
+
+            </div>
+
+            <?php unset($_SESSION['success']); ?>
+
+        <?php endif; ?>
+
+
+        <!-- FORM -->
+
+        <form action="../auth/change_password.php" method="POST">
+
+            <!-- NEW PASSWORD -->
 
             <div class="mb-4">
 
                 <label class="form-label">
-                    Full Name
+                    New Password
                 </label>
 
-                <input 
-                    type="text"
-                    name="full_name"
-                    class="form-control"
+                <div class="input-group">
 
-                    value="<?= htmlspecialchars($user['full_name']) ?>"
+                    <input 
+                        type="password"
+                        name="new_password"
+                        id="newPassword"
+                        class="form-control"
+                        required
+                    >
 
-                    required
-                >
+                </div>
 
             </div>
 
 
-            <!-- Email -->
+            <!-- CONFIRM PASSWORD -->
 
             <div class="mb-4">
 
                 <label class="form-label">
-                    Email
+                    Confirm Password
                 </label>
 
-                <input 
-                    type="email"
-                    class="form-control"
+                <div class="input-group">
 
-                    value="<?= htmlspecialchars($user['email']) ?>"
+                    <input 
+                        type="password"
+                        name="confirm_password"
+                        id="confirmPassword"
+                        class="form-control"
+                        required
+                    >
 
-                    disabled
-                >
+                </div>
 
             </div>
 
 
-            <!-- Buttons -->
+            <!-- BUTTONS -->
 
             <div class="d-grid gap-3">
 
                 <button class="btn btn-save">
 
-                    Update Profile
+                    Update Password
 
                 </button>
 
                 <a 
-                    href="change_password.php"
-                    class="btn-password"
+                    href="admin_profile.php"
+                    class="btn-back"
                 >
-                    Change Password
+                    Back to Profile
                 </a>
 
             </div>

@@ -45,7 +45,7 @@ $_SESSION['role']      = $user['role'];
 if ($user['role'] === 'staff') {
     header("Location: " . BASE_URL . "/staff/staff_dashboard.php");
 } elseif ($user['role'] === 'admin') {
-    header("Location: " . BASE_URL . "/admin/dashboard.php");
+    header("Location: " . BASE_URL . "/admin/admin_dashboard.php");
 } else {
     header("Location: " . BASE_URL . "/index.php");
 }
