@@ -27,6 +27,7 @@ $sql .= "
 ";
 
 $movies = $conn->query($sql);
+$success = $_GET['success'] ?? '';
 
 ?>
 
@@ -208,6 +209,64 @@ $movies = $conn->query($sql);
             text-align:center;
             padding:40px;
             color:#777;
+        }
+
+        .toast-msg{
+            position:fixed;
+
+            top:30px;
+            right:35px;
+
+            z-index:9999;
+
+            padding:16px 24px;
+
+            border-radius:16px;
+
+            font-weight:600;
+
+            color:white;
+
+            backdrop-filter: blur(10px);
+
+            border:1px solid rgba(255,255,255,0.2);
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,0.15);
+
+            animation:
+            slideIn 0.35s ease,
+            fadeOut 0.4s ease 3s forwards;
+        }
+
+        .success-toast{
+            background:
+            linear-gradient(
+                135deg,
+                #2ac563,
+                #16a34a
+            );
+        }
+
+        @keyframes slideIn{
+
+            from{
+                opacity:0;
+                transform:translateX(40px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateX(0);
+            }
+        }
+
+        @keyframes fadeOut{
+
+            to{
+                opacity:0;
+                transform:translateY(-10px);
+            }
         }
 
     </style>
@@ -407,22 +466,24 @@ $movies = $conn->query($sql);
                                     </a>
 
                                     <a 
-                                        href="edit_movie.php?id=<?= $m['id'] ?>"
+                                        href="edit_movie.php?id=<?= $m['id'] ?>&from=movies"
                                         class="action-btn btn-edit"
                                     >
                                         Edit
                                     </a>
 
-                                    <a 
-                                        href="delete_movie.php?id=<?= $m['id'] ?>"
-                                        class="action-btn btn-delete"
+                                    <button
+                                        type="button"
+                                        class="btn action-btn btn-delete"
 
-                                        onclick="
-                                            return confirm('Delete this movie?')
-                                        "
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+
+                                        data-id="<?= $m['id'] ?>"
+                                        data-title="<?= htmlspecialchars($m['title']) ?>"
                                     >
                                         Delete
-                                    </a>
+                                    </button>
 
                                 </div>
 
@@ -455,6 +516,38 @@ $movies = $conn->query($sql);
         </table>
 
     </div>
+
+    <?php if($success == 'added'): ?>
+
+        <div class="toast-msg success-toast">
+
+            Movie added successfully
+
+        </div>
+
+    <?php endif; ?>
+
+
+    <?php if($success == 'updated'): ?>
+
+        <div class="toast-msg success-toast">
+
+            Movie updated successfully
+
+        </div>
+
+    <?php endif; ?>
+
+
+    <?php if($success == 'deleted'): ?>
+
+        <div class="toast-msg success-toast">
+
+            Movie deleted successfully
+
+        </div>
+
+<?php endif; ?>
 
 </div>
 
@@ -496,6 +589,58 @@ $movies = $conn->query($sql);
 
 </div>
 
+<!-- DELETE MODAL -->
+<div
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-4">
+
+            <div class="modal-body p-4 text-center">
+
+                <h3 class="fw-bold mb-3">
+
+                    Delete Movie?
+
+                </h3>
+
+                <p
+                    class="text-muted mb-4"
+                    id="deleteMovieText"
+                >
+                </p>
+
+                <div class="d-flex gap-3 justify-content-center">
+
+                    <button
+                        class="btn btn-secondary px-4 py-2 rounded-3"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        id="confirmDeleteBtn"
+                        class="btn btn-danger px-4 py-2 rounded-3"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script>
 
 function showPoster(src){
@@ -505,6 +650,53 @@ function showPoster(src){
     ).src = src;
 
 }
+
+</script>
+
+<script>
+
+setTimeout(() => {
+
+    const toast = document.querySelector('.toast-msg');
+
+    if(toast){
+
+        toast.remove();
+
+    }
+
+}, 3500);
+
+</script>
+
+
+<script>
+
+document.querySelectorAll('.btn-delete').forEach(btn => {
+
+    btn.addEventListener('click', function(){
+
+        const id = this.dataset.id;
+        const title = this.dataset.title;
+
+        document.getElementById(
+            'deleteMovieText'
+        ).innerHTML =
+            'Are you sure you want to delete <b>'
+            + title +
+            '</b>?';
+
+        document.getElementById(
+            'confirmDeleteBtn'
+        ).onclick = function(){
+
+            window.location.href =
+                'delete_movie.php?id=' + id;
+        };
+
+    });
+
+});
 
 </script>
 

@@ -127,11 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['success'] =
             "Movie added successfully.";
 
-        header("
-            Location:
-            " . BASE_URL . "/admin/movies/admin_movies.php
-        ");
-
+        header("Location: " . BASE_URL . "/admin/movies/admin_movies.php?success=added");
         exit();
     }
 }

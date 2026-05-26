@@ -269,19 +269,10 @@ if (!$booking){
 
         </div>
 
-        <div class="text-center mt-4">
-
-            <a href="history.php"
-               class="btn btn-history">
-                Back to History
-            </a>
-
-        </div>
-
+        <div class="text-center mt-4"><a href="<?= BASE_URL ?>/customer/history.php" class="btn btn-history">Back to History</a></div>
     </div>
 </div>
 
-<div class="text-center mt-4"><a href="<?= BASE_URL ?>/customer/history.php" class="btn btn-history">Back to History</a></div>
 </div></div>
 
 <script src="<?= BASE_URL ?>/notification.js"></script>
