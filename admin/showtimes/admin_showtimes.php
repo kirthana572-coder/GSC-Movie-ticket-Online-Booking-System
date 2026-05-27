@@ -52,6 +52,8 @@ $sql .= "
 
 
 $showtimes = $conn->query($sql);
+$success = $_SESSION['success'] ?? '';
+unset($_SESSION['success']);
 
 ?>
 
@@ -222,6 +224,64 @@ $showtimes = $conn->query($sql);
             text-align:center;
             padding:40px;
             color:#777;
+        }
+
+        .toast-msg{
+            position:fixed;
+
+            top:30px;
+            right:35px;
+
+            z-index:9999;
+
+            padding:16px 24px;
+
+            border-radius:16px;
+
+            font-weight:600;
+
+            color:white;
+
+            backdrop-filter: blur(10px);
+
+            border:1px solid rgba(255,255,255,0.2);
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,0.15);
+
+            animation:
+            slideIn 0.35s ease,
+            fadeOut 0.4s ease 3s forwards;
+        }
+
+        .success-toast{
+            background:
+            linear-gradient(
+                135deg,
+                #2ac563,
+                #16a34a
+            );
+        }
+
+        @keyframes slideIn{
+
+            from{
+                opacity:0;
+                transform:translateX(40px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateX(0);
+            }
+        }
+
+        @keyframes fadeOut{
+
+            to{
+                opacity:0;
+                transform:translateY(-10px);
+            }
         }
 
     </style>
@@ -409,12 +469,25 @@ $showtimes = $conn->query($sql);
                                         Edit
                                     </a>
 
-                                    <a
-                                        href="delete_showtime.php?id=<?= $s['id'] ?>"
-                                        class="action-btn btn-delete"
+                                    <button
+                                        type="button"
+                                        class="btn action-btn btn-delete"
+
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+
+                                        onclick="
+                                            setDeleteShowtime(
+                                                <?= $s['id'] ?>,
+                                                '<?= htmlspecialchars($s['title'], ENT_QUOTES) ?>',
+                                                '<?= htmlspecialchars($s['branch_name'], ENT_QUOTES) ?>',
+                                                '<?= date('d M Y', strtotime($s['show_date'])) ?>',
+                                                '<?= date('h:i A', strtotime($s['show_time'])) ?>'
+                                            )
+                                        "
                                     >
                                         Delete
-                                    </a>
+                                    </button>
 
                                 </div>
 
@@ -448,7 +521,147 @@ $showtimes = $conn->query($sql);
 
     </div>
 
+    <?php if($success == 'added'): ?>
+
+        <div class="toast-msg success-toast">
+
+            Showtime added successfully
+
+        </div>
+
+    <?php endif; ?>
+
+
+    <?php if($success): ?>
+
+        <div class="toast-msg success-toast">
+
+            <?= $success ?>
+
+        </div>
+
+    <?php endif; ?>
+
+
+    <?php if($success == 'deleted'): ?>
+
+        <div class="toast-msg success-toast">
+
+            Showtime deleted successfully
+
+        </div>
+
+    <?php endif; ?>
 </div>
+
+<!-- DELETE MODAL -->
+
+<div
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-4">
+
+            <div class="modal-body p-4 text-center">
+
+                <h3 class="fw-bold mb-3">
+
+                    Delete Showtime?
+
+                </h3>
+
+                <p
+                    class="text-muted mb-4"
+                    id="deleteShowtimeText"
+                >
+                </p>
+
+                <div class="d-flex gap-3 justify-content-center">
+
+                    <button
+                        class="btn btn-secondary px-4 py-2 rounded-3"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        id="confirmDeleteBtn"
+                        class="btn btn-danger px-4 py-2 rounded-3"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function setDeleteShowtime(
+    id,
+    title,
+    branch,
+    date,
+    time
+){
+
+    document.getElementById(
+        'deleteShowtimeText'
+    ).innerHTML =
+
+        'Delete showtime for <b>' +
+        title +
+        '</b><br><br>' +
+
+        '<span style="color:#666;">' +
+        branch + ' • ' +
+        date + ' • ' +
+        time +
+        '</span>';
+
+    document.getElementById(
+        'confirmDeleteBtn'
+    ).onclick = function(){
+
+        window.location.href =
+            'delete_showtime.php?id=' + id;
+    };
+}
+
+</script>
+
+
+<script>
+
+setTimeout(() => {
+
+    const toast = document.querySelector('.toast-msg');
+
+    if(toast){
+
+        toast.remove();
+
+    }
+
+}, 3500);
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

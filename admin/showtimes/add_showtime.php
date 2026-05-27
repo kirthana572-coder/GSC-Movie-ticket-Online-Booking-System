@@ -60,12 +60,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $stmt->execute();
 
 
-    header(
-        "Location: " .
-        BASE_URL .
-        "/admin/showtimes/admin_showtimes.php"
-    );
+     $_SESSION['success'] =
+            "Movie added successfully.";
 
+    header("Location: " . BASE_URL . "/admin/showtimes/admin_showtimes.php?success=added");
     exit();
 }
 
@@ -246,7 +244,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             transform:translateY(-2px);
         }
-        
+
     </style>
 
 </head>
@@ -386,17 +384,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             <div class="d-flex gap-3 mt-4 justify-content-center">
 
-                <button
-                    type="submit"
-                    class="btn-save"
-                >
+                <button class="btn btn-save">
 
                     Save Showtime
 
                 </button>
 
                 <a
-                    href="admin_showtimes.php"
+                    href="<?= BASE_URL ?>/admin/showtimes/admin_showtimes.php"
                     class="btn-back"
                 >
 

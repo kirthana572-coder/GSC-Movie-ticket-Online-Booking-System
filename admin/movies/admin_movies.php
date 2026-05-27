@@ -27,7 +27,8 @@ $sql .= "
 ";
 
 $movies = $conn->query($sql);
-$success = $_GET['success'] ?? '';
+$success = $_SESSION['success'] ?? '';
+unset($_SESSION['success']);
 
 ?>
 
@@ -528,11 +529,11 @@ $success = $_GET['success'] ?? '';
     <?php endif; ?>
 
 
-    <?php if($success == 'updated'): ?>
+    <?php if($success): ?>
 
         <div class="toast-msg success-toast">
 
-            Movie updated successfully
+            <?= $success ?>
 
         </div>
 
@@ -547,7 +548,7 @@ $success = $_GET['success'] ?? '';
 
         </div>
 
-<?php endif; ?>
+    <?php endif; ?>
 
 </div>
 
@@ -697,6 +698,22 @@ document.querySelectorAll('.btn-delete').forEach(btn => {
     });
 
 });
+
+</script>
+
+<script>
+
+setTimeout(() => {
+
+    const toast = document.querySelector('.toast-msg');
+
+    if(toast){
+
+        toast.remove();
+
+    }
+
+}, 3500);
 
 </script>
 

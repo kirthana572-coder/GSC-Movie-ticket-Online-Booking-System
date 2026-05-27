@@ -28,8 +28,8 @@ if (!$movie) {
     die("Movie not found.");
 }
 
-$success = $_GET['success'] ?? '';
-
+$success = $_SESSION['success'] ?? '';
+unset($_SESSION['success']);
 ?>
 
 <!DOCTYPE html>
@@ -387,17 +387,33 @@ $success = $_GET['success'] ?? '';
 
     </div>
 
-    <?php if($success == 'updated'): ?>
+    <?php if($success): ?>
 
-    <div class="toast-msg success-toast">
+        <div class="toast-msg success-toast">
 
-        Movie updated successfully
+            <?= $success ?>
 
-    </div>
+        </div>
 
-<?php endif; ?>
+    <?php endif; ?>
 
 </div>
+
+<script>
+
+setTimeout(() => {
+
+    const toast = document.querySelector('.toast-msg');
+
+    if(toast){
+
+        toast.remove();
+
+    }
+
+}, 3500);
+
+</script>
 
 </body>
 </html>

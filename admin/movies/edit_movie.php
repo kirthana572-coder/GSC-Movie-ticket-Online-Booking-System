@@ -109,25 +109,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->execute();
 
+    if($stmt->affected_rows > 0){
 
-    if($from == 'details'){
+        if($from == 'details'){
 
-        header(
-            "Location: " .
-            BASE_URL .
-            "/admin/movies/view_movie.php?id=$id&success=updated"
-        );
+            $_SESSION['success'] =
+                "Movie updated successfully.";
 
-    }else{
+            header(
+                "Location: " .
+                BASE_URL .
+                "/admin/movies/view_movie.php?id=$id"
+            );
 
-        header(
-            "Location: " .
-            BASE_URL .
-            "/admin/movies/admin_movies.php?success=updated"
-        );
+        }else{
+
+            $_SESSION['success'] =
+                "Movie updated successfully.";
+
+            header(
+                "Location: " .
+                BASE_URL .
+                "/admin/movies/admin_movies.php"
+            );
+        }
+
+        exit();
     }
-
-    exit();
 }
 
 ?>
