@@ -191,7 +191,7 @@ $prices = [
         <div class="total-price">
             Total: <span id="totalPrice">RM 0.00</span>
         </div>
-
+        
         <div class="mt-4">
             <form action="booking.php" method="POST" id="confirmForm">
                 <input type="hidden" name="showtime_id" value="<?= $showtime_id ?>">

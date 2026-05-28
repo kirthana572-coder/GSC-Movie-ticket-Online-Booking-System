@@ -59,11 +59,57 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $stmt->execute();
 
+    $showtime_id = $stmt->insert_id;
 
-     $_SESSION['success'] =
-            "Movie added successfully.";
+    $stmt->close();
+
+
+    // AUTO CREATE SEATS
+
+    $rows = ['A', 'B'];
+
+    $seatsPerRow = 5;
+
+    $seatStmt = $conn->prepare("
+
+        INSERT INTO seats
+        (
+            showtime_id,
+            seat_number,
+            status
+        )
+
+        VALUES
+        (
+            ?, ?, 'available'
+        )
+
+    ");
+
+    foreach ($rows as $row) {
+
+        for ($i = 1; $i <= $seatsPerRow; $i++) {
+
+            $seatNumber = $row . $i;
+
+            $seatStmt->bind_param(
+                "is",
+                $showtime_id,
+                $seatNumber
+            );
+
+            $seatStmt->execute();
+        }
+    }
+
+    $seatStmt->close();
+
+
+    $_SESSION['success'] =
+        "Showtime added successfully.";
 
     header("Location: " . BASE_URL . "/admin/showtimes/admin_showtimes.php?success=added");
+
     exit();
 }
 

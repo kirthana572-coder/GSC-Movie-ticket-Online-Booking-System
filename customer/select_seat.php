@@ -20,6 +20,7 @@ if (!$showtime) die("Showtime not found.");
 
 // 获取该场次所有座位
 $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showtime_id) . " ORDER BY seat_number");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -271,6 +272,18 @@ $seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showt
 <body>
 
 <?php include '../includes/navbar.php'; ?>
+
+<?php if(isset($_SESSION['error'])): ?>
+
+    <div class="alert alert-danger text-center m-3">
+
+        <?= $_SESSION['error']; ?>
+
+    </div>
+
+    <?php unset($_SESSION['error']); ?>
+
+<?php endif; ?>
 
 <div class="seat-container">
     <div class="booking-card">

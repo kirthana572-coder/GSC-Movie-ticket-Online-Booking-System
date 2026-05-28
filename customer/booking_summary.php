@@ -166,12 +166,12 @@ $seatText = implode('<br>', $seatList);
         </div>
 
         <div>
-            <a href="movies.php" class="btn btn-warning">Book Another Movie</a>
-            <a href="history.php" class="btn btn-outline-dark">My Bookings</a>
+            <a href="<?= BASE_URL ?>/customer/movies.php" class="btn btn-warning">Book Another Movie</a>
+            <a href="<?= BASE_URL ?>/customer/history.php" class="btn btn-outline-dark">My Bookings</a>
         </div>
     </div>
 </div>
-<div><a href="<?= BASE_URL ?>/customer/movies.php" class="btn btn-warning">Book Another Movie</a><a href="<?= BASE_URL ?>/customer/history.php" class="btn btn-outline-dark">My Bookings</a></div>
+
 </div></div>
 
 <script>var baseUrl = '<?= BASE_URL ?>';</script>
