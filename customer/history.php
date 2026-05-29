@@ -39,7 +39,12 @@ while ($e = $expired_orders->fetch_assoc()) {
 
 // 获取当前用户所有预订
 $bookings = $conn->query("
-    SELECT b.id, b.payment_status, b.booking_date,
+    SELECT 
+    b.id,
+    b.payment_status,
+    b.booking_date,
+    b.cancel_reason,
+
            m.title, s.show_date, s.show_time, br.name AS branch_name
     FROM bookings b
     JOIN showtimes s ON b.showtime_id = s.id
@@ -263,6 +268,19 @@ $bookings = $conn->query("
                     <td><?= date('h:i A', strtotime($b['show_time'])) ?></td>
                     <td>
                         <span class="badge <?= $statusClass ?>"><?= $b['payment_status'] ?></span>
+                        
+                        <?php if($b['payment_status'] === 'Cancelled' && !empty($b['cancel_reason'])): ?>
+
+                        <br>
+
+                        <small class="text-danger fw-semibold">
+
+                            <?= htmlspecialchars($b['cancel_reason']) ?>
+
+                        </small>
+
+                        <?php endif; ?>
+
                         <?php if ($b['payment_status'] === 'Pending'): ?>
                             <br>
                             <small class="text-danger countdown" data-expire="<?= $expireTimestamp ?>">

@@ -64,6 +64,7 @@ $stmt = $conn->prepare("
     ON bs.booking_id = b.id
 
     WHERE b.showtime_id = ?
+    AND b.payment_status = 'Booked'
 ");
 
 $stmt->bind_param("i", $showtime_id);
@@ -89,6 +90,7 @@ $stmt = $conn->prepare("
     ON wbs.walkin_booking_id = wb.id
 
     WHERE wb.showtime_id = ?
+    AND wb.payment_status = 'Paid'
 ");
 
 $stmt->bind_param("i", $showtime_id);
@@ -110,7 +112,9 @@ $stmt = $conn->prepare("
     SELECT *
     FROM seats
     WHERE showtime_id = ?
-    ORDER BY seat_number
+    ORDER BY
+    LEFT(seat_number,1),
+    CAST(SUBSTRING(seat_number,2) AS UNSIGNED)
 ");
 
 $stmt->bind_param("i", $showtime_id);

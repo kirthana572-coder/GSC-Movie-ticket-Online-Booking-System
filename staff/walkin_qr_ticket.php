@@ -30,15 +30,10 @@ $booking = $conn->query("
         br.name AS branch_name,
 
         GROUP_CONCAT(
-            CONCAT(
-                (
-                    SELECT seat_number
-                    FROM seats
-                    WHERE id = wbs.seat_id
-                ),
-                ' (',
-                COALESCE(wbs.ticket_type,'Unknown'),
-                ')'
+            (
+                SELECT seat_number
+                FROM seats
+                WHERE id = wbs.seat_id
             )
             SEPARATOR ', '
         ) AS seats
@@ -88,10 +83,7 @@ $isExpired = $remaining <= 0;
 // Generate QR data
 $qr_data = "WALKIN:" . $booking['booking_code'];
 
-$qr_url = "
-    https://api.qrserver.com/v1/create-qr-code/
-    ?size=250x250
-    &data=" . urlencode($qr_data);
+$qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($qr_data);
 
 ?>
 

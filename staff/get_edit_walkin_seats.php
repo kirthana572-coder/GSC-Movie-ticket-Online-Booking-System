@@ -124,7 +124,9 @@ $stmt = $conn->prepare("
     SELECT *
     FROM seats
     WHERE showtime_id = ?
-    ORDER BY seat_number
+    ORDER BY 
+    LEFT(seats.seat_number,1),
+    CAST(SUBSTRING(seats.seat_number,2) AS UNSIGNED)
 ");
 
 $stmt->bind_param("i", $showtime_id);

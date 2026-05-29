@@ -14,26 +14,96 @@ if (isset($_GET['delete'])) {
 
     $id = $_GET['delete'];
 
-    $stmt = $conn->prepare("
-        DELETE FROM walkin_bookings
+
+    // GET WALKIN BOOKING
+    $getStmt = $conn->prepare("
+
+        SELECT id
+        FROM walkin_bookings
         WHERE booking_code = ?
+
     ");
 
-    $stmt->bind_param("s", $id);
+    $getStmt->bind_param(
+        "s",
+        $id
+    );
 
-    if ($stmt->execute()) {
+    $getStmt->execute();
 
-        echo "
-            <script>
-                alert('Booking deleted successfully!');
-                window.location.href='" . BASE_URL . "/staff/walkin_bookings.php';
-            </script>
-        ";
+    $booking = $getStmt
+        ->get_result()
+        ->fetch_assoc();
 
-        exit();
+
+    if($booking){
+
+        $walkin_id = $booking['id'];
+
+
+        // RELEASE SEATS
+        $releaseStmt = $conn->prepare("
+
+            UPDATE seats s
+
+            JOIN walkin_booking_seats wbs
+            ON s.id = wbs.seat_id
+
+            SET s.status = 'available'
+
+            WHERE wbs.walkin_booking_id = ?
+
+        ");
+
+        $releaseStmt->bind_param(
+            "i",
+            $walkin_id
+        );
+
+        $releaseStmt->execute();
+
+
+        // DELETE SEAT RELATION
+        $deleteSeatStmt = $conn->prepare("
+
+            DELETE FROM walkin_booking_seats
+            WHERE walkin_booking_id = ?
+
+        ");
+
+        $deleteSeatStmt->bind_param(
+            "i",
+            $walkin_id
+        );
+
+        $deleteSeatStmt->execute();
+
+
+        // DELETE BOOKING
+        $deleteStmt = $conn->prepare("
+
+            DELETE FROM walkin_bookings
+            WHERE id = ?
+
+        ");
+
+        $deleteStmt->bind_param(
+            "i",
+            $walkin_id
+        );
+
+        $deleteStmt->execute();
     }
 
-    $stmt->close();
+
+    echo "
+        <script>
+            alert('Booking deleted successfully!');
+            window.location.href='" . BASE_URL . "/staff/walkin_bookings.php';
+        </script>
+    ";
+
+    exit();
 }
 
 // Search value
@@ -268,7 +338,7 @@ $walkinBookings = $conn->query($sql);
         <h1 class="page-title">
             Walk-in Bookings
         </h1>
-
+        
         <a
             href="<?= BASE_URL ?>/staff/add_walkin_booking.php"
             class="add-btn"
@@ -393,6 +463,19 @@ $walkinBookings = $conn->query($sql);
 
                         <span class="badge <?= $statusClass ?>">
                             <?= $booking['payment_status'] ?>
+
+                            <?php if(
+                                $booking['payment_status'] == 'Cancelled'
+                                &&
+                                $booking['cancelled_by'] == 'admin'
+                            ): ?>
+
+                                <br>
+                                <small>
+                                    by admin
+                                </small>
+
+                            <?php endif; ?>
                         </span>
 
                     </td>

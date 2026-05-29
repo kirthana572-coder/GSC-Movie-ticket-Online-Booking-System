@@ -7,21 +7,106 @@ require_once '../config/db.php';
 // Update payment status
 if(isset($_POST['update_status'])){
 
-    $booking_id = intval($_POST['booking_id']);
+    $booking_id   = intval($_POST['booking_id']);
+    $new_status   = $_POST['payment_status'];
+
+    $current = $conn->query("
+        SELECT payment_status, cancel_reason, cancelled_by 
+        FROM bookings 
+        WHERE id = $booking_id
+    ")->fetch_assoc();
+
+    if ($current['cancelled_by'] === 'admin') {
+        $_SESSION['success'] = "This booking was cancelled by admin and cannot be modified.";
+        header("Location: customer_bookings.php");
+        exit();
+    }
+
+    if ($current['payment_status'] === 'Cancelled') {
+        $_SESSION['success'] = "This booking is already cancelled and cannot be modified.";
+        header("Location: customer_bookings.php");
+        exit();
+    }
+
     $new_status = $_POST['payment_status'];
+
+    $cancel_reason = $_POST['cancel_reason'] ?? $current['cancel_reason'];
+
+    $cancelled_by  = $current['cancelled_by'];
+
+    if ($new_status === 'Cancelled') {
+
+        $cancel_reason = $cancel_reason ?: "Cancelled by staff";
+        $cancelled_by  = $cancelled_by ?: "staff";
+    }
+
 
     $allowed = ['Pending', 'Paid', 'Cancelled', 'Expired'];
 
+
+    if (!in_array($current['payment_status'], ['Pending', 'Paid'])) {
+        $_SESSION['success'] = "This booking cannot be modified.";
+        header("Location: customer_bookings.php");
+        exit();
+    }
+
     if(in_array($new_status, $allowed)){
 
-        $stmt = $conn->prepare("
-            UPDATE bookings
-            SET payment_status = ?
-            WHERE id = ?
-        ");
+        // 如果 staff cancel
+        if($new_status === 'Cancelled'){
 
-        $stmt->bind_param("si", $new_status, $booking_id);
+            $stmt = $conn->prepare("
+                UPDATE bookings
+                SET
+                    payment_status = ?,
+                    cancel_reason = ?,
+                    cancelled_by = ?,
+                    cancelled_at = NOW()
+                WHERE id = ?
+            ");
+
+            $stmt->bind_param(
+                "sssi",
+                $new_status,
+                $cancel_reason,
+                $cancelled_by,
+                $booking_id
+            );
+
+        } else {
+
+            $stmt = $conn->prepare("
+
+                UPDATE bookings
+
+                SET payment_status = ?
+
+                WHERE id = ?
+
+            ");
+
+            $stmt->bind_param(
+                "si",
+                $new_status,
+                $booking_id
+            );
+        }
+
         $stmt->execute();
+        /* 如果是 Cancelled，要 release seats */
+        if ($new_status === 'Cancelled') {
+
+            $release = $conn->prepare("
+                UPDATE seats s
+                JOIN booking_seats bs ON s.id = bs.seat_id
+                SET s.status = 'available'
+                WHERE bs.booking_id = ?
+            ");
+
+            $release->bind_param("i", $booking_id);
+            $release->execute();
+            $release->close();
+        }
         $stmt->close();
 
         header("Location: customer_bookings.php");
@@ -38,6 +123,9 @@ $sql = "
     SELECT 
         b.id,
         b.payment_status,
+        b.cancel_reason,
+        b.cancelled_by,
+        b.cancelled_at,
         b.booking_date,
         u.full_name,
         m.title,
@@ -349,7 +437,7 @@ $bookings = $conn->query($sql);
 
                         <td>
 
-                            <form method="POST" class="d-flex gap-2 align-items-center">
+                            <form method="POST" class="d-flex flex-column gap-2">
 
                                 <input 
                                     type="hidden" 
@@ -363,37 +451,81 @@ $bookings = $conn->query($sql);
                                     style="min-width:120px;"
                                 >
 
-                                    <option value="Pending"
-                                        <?= $b['payment_status'] == 'Pending' ? 'selected' : '' ?>>
+                                <?php if($b['cancelled_by'] === 'admin'): ?>
+
+                                    <option selected disabled>
+                                        Cancelled by Admin
+                                    </option>
+
+                                <?php elseif($b['payment_status'] === 'Pending'): ?>
+
+                                    <option value="Pending" selected>
                                         Pending
                                     </option>
 
-                                    <option value="Paid"
-                                        <?= $b['payment_status'] == 'Paid' ? 'selected' : '' ?>>
+                                    <option value="Paid">
                                         Paid
                                     </option>
 
-                                    <option value="Cancelled"
-                                        <?= $b['payment_status'] == 'Cancelled' ? 'selected' : '' ?>>
+                                    <option value="Cancelled">
                                         Cancelled
                                     </option>
 
-                                    <option value="Expired"
-                                        <?= $b['payment_status'] == 'Expired' ? 'selected' : '' ?>>
+                                <?php elseif($b['payment_status'] === 'Paid'): ?>
+
+                                    <option value="Paid" selected>
+                                        Paid
+                                    </option>
+
+                                <?php elseif($b['payment_status'] === 'Cancelled'): ?>
+
+                                    <option value="Cancelled" selected>
+                                        Cancelled
+                                    </option>
+
+                                <?php elseif($b['payment_status'] === 'Expired'): ?>
+
+                                    <option value="Expired" selected>
                                         Expired
                                     </option>
 
+                                <?php endif; ?>
+
                                 </select>
+
+                                <input
+                                    type="text"
+                                    name="cancel_reason"
+                                    id="cancelReasonInput"
+                                    class="form-control form-control-sm"
+                                    placeholder="Cancel reason"
+                                    style="display:none;"
+                                />
 
                                 <button 
                                     type="submit"
                                     name="update_status"
                                     class="btn btn-sm btn-dark fw-bold"
+
+                                    <?= (
+                                        $b['payment_status'] !== 'Pending'
+                                        || $b['cancelled_by'] === 'admin'
+                                    ) ? 'disabled' : '' ?>
                                 >
                                     Update
                                 </button>
 
                             </form>
+
+                            <?php if ($b['payment_status'] === 'Cancelled'): ?>
+
+                                <div class="small text-danger mt-1">
+                                    <?= htmlspecialchars($b['cancel_reason'] ?? '') ?>
+                                </div>
+
+                            <?php endif; ?>
+
+                        </td>
 
                         </td>
 
@@ -433,6 +565,31 @@ $bookings = $conn->query($sql);
         </table>
 
     </div>
+
+<script>
+
+document.querySelectorAll('select[name="payment_status"]').forEach(select => {
+
+    const form = select.closest('form');
+    const reasonInput = form.querySelector('input[name="cancel_reason"]');
+
+    // 初始化隐藏
+    reasonInput.style.display = 'none';
+
+    select.addEventListener('change', function () {
+
+        if (this.value === 'Cancelled') {
+            reasonInput.style.display = 'block';
+        } else {
+            reasonInput.style.display = 'none';
+            reasonInput.value = '';
+        }
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>

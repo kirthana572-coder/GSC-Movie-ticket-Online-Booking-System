@@ -135,9 +135,28 @@
             Showtimes
         </a>
 
-    <a href="#">
-        Seats
-    </a>
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        ?>
+
+        <a 
+            href="<?= BASE_URL ?>/admin/seats/admin_seats.php"
+
+            class="<?= 
+                in_array(
+                    $currentPage,
+                    [
+                        'admin_seats.php',
+                        'manage_seats.php'
+                        
+                    ]
+                )
+                ? 'active'
+                : ''
+            ?>"
+        >
+            Seats
+        </a>
 
     <a href="#">
         Bookings

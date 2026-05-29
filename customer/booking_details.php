@@ -6,8 +6,11 @@ $booking_id = $_GET['booking_id'] ?? 0;
 
 $booking = $conn->query("
     SELECT b.id,
-           b.payment_status,
-           b.booking_date,
+        b.payment_status,
+        b.booking_date,
+        b.cancel_reason,
+        b.cancelled_by,
+        b.cancelled_at,
 
            m.title,
 
@@ -266,6 +269,62 @@ if (!$booking){
                     <?= strtoupper($booking['payment_status']) ?>
                 </span>
             </div>
+
+            <?php if($booking['payment_status'] === 'Cancelled'): ?>
+
+            <div class="info-row">
+
+                <span class="info-label">
+
+                    Cancel Reason
+
+                </span>
+
+                <span class="info-value text-danger">
+
+                    <?= htmlspecialchars($booking['cancel_reason'] ?: 'No reason provided') ?>
+
+                </span>
+
+            </div>
+
+            <div class="info-row">
+
+                <span class="info-label">
+
+                    Cancelled By
+
+                </span>
+
+                <span class="info-value">
+
+                    <?= htmlspecialchars($booking['cancelled_by'] ?: 'Unknown') ?>
+
+                </span>
+
+            </div>
+
+            <?php if($booking['cancelled_at']): ?>
+
+            <div class="info-row">
+
+                <span class="info-label">
+
+                    Cancelled At
+
+                </span>
+
+                <span class="info-value">
+
+                    <?= date('d M Y h:i A', strtotime($booking['cancelled_at'])) ?>
+
+                </span>
+
+            </div>
+
+            <?php endif; ?>
+
+            <?php endif; ?>
 
         </div>
 

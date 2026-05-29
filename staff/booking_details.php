@@ -14,6 +14,9 @@ $booking = $conn->query("
     SELECT 
         b.id,
         b.payment_status,
+        b.cancel_reason,
+        b.cancelled_by,
+        b.cancelled_at,
         b.booking_date,
         m.title,
         s.show_date,
@@ -254,6 +257,24 @@ if (!$booking) {
                         <?= strtoupper($booking['payment_status']) ?>
                     </span>
                 </div>
+
+                <?php if($booking['payment_status'] === 'Cancelled'): ?>
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Cancel Reason
+                        </span>
+
+                        <span class="info-value text-danger">
+
+                            <?= htmlspecialchars($booking['cancel_reason'] ?: 'No reason provided') ?>
+
+                        </span>
+
+                    </div>
+
+                <?php endif; ?>
 
             </div>
 

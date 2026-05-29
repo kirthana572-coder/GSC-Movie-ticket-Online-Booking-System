@@ -19,7 +19,15 @@ $showtime = $conn->query("
 if (!$showtime) die("Showtime not found.");
 
 // 获取该场次所有座位
-$seats = $conn->query("SELECT * FROM seats WHERE showtime_id = " . intval($showtime_id) . " ORDER BY seat_number");
+$seats = $conn->query("
+    SELECT *
+    FROM seats
+    WHERE showtime_id = " . intval($showtime_id) . "
+
+    ORDER BY
+        LEFT(seat_number,1),
+        CAST(SUBSTRING(seat_number,2) AS UNSIGNED)
+");
 
 ?>
 <!DOCTYPE html>
