@@ -430,43 +430,48 @@ if(
 }
 
 
-/* RESET PENDING */
+/* ADD SEATS */
 
-if(isset($_POST['reset_pending'])){
+if(isset($_POST['add_seats'])){
+    
+    // GET LAST ROW
+    $lastRowStmt = $conn->prepare("
 
-    $stmt = $conn->prepare("
+        SELECT LEFT(seat_number,1) AS row_letter
 
-        UPDATE seats
-        SET status = 'available'
+        FROM seats
+
         WHERE showtime_id = ?
-        AND status = 'pending'
+
+        ORDER BY row_letter DESC
+
+        LIMIT 1
 
     ");
 
-    $stmt->bind_param(
+    $lastRowStmt->bind_param(
         "i",
         $showtime_id
     );
 
-    $stmt->execute();
+    $lastRowStmt->execute();
 
-    $_SESSION['success'] =
-        "Pending seats reset.";
+    $lastRow =
+        $lastRowStmt
+        ->get_result()
+        ->fetch_assoc();
 
-    header(
-        "Location: manage_seats.php?showtime_id=" . $showtime_id
-    );
+    if($lastRow){
 
-    exit();
+        $rowLetter =
+            chr(ord($lastRow['row_letter']) + 1);
 
-}
+    }
+    else{
 
-/* ADD SEATS */
+        $rowLetter = 'A';
 
-if(isset($_POST['add_seats'])){
-
-    $rowLetter =
-        strtoupper(trim($_POST['row_letter']));
+    }
 
     $seatCount =
         intval($_POST['seat_count']);
@@ -500,41 +505,6 @@ if(isset($_POST['add_seats'])){
         $lastRowStmt
         ->get_result()
         ->fetch_assoc();
-
-
-    // CHECK NEXT ROW
-    if($lastRow){
-
-        $expectedRow =
-            chr(ord($lastRow['row_letter']) + 1);
-
-        if($rowLetter !== $expectedRow){
-
-            $_SESSION['success'] =
-                "Next row must be $expectedRow";
-
-            header(
-                "Location: manage_seats.php?showtime_id=" . $showtime_id
-            );
-
-            exit();
-        }
-    }
-    else{
-
-        // FIRST ROW MUST BE A
-        if($rowLetter !== 'A'){
-
-            $_SESSION['success'] =
-                "First row must be A";
-
-            header(
-                "Location: manage_seats.php?showtime_id=" . $showtime_id
-            );
-
-            exit();
-        }
-    }
 
 
     if($seatCount <= 0){
@@ -664,38 +634,15 @@ if(isset($_POST['add_seats'])){
     exit();
 }
 
-/* DELETE SEATS */
+/* DELETE LAST ROW */
 
-if(isset($_POST['delete_seats'])){
-
-    $rowLetter =
-        strtoupper(trim($_POST['row_letter']));
-
-    $seatCount =
-        intval($_POST['seat_count']);
+if(isset($_POST['delete_last_row'])){
 
     $applyAll =
         isset($_POST['apply_all']);
 
-
-    if($seatCount <= 0){
-
-        $_SESSION['success'] =
-            "Invalid seat count.";
-
-        header(
-            "Location: manage_seats.php?showtime_id=" . $showtime_id
-        );
-
-        exit();
-    }
-
-
-    // DEFAULT CURRENT SHOWTIME
     $showtimeIds = [$showtime_id];
 
-
-    // APPLY ALL SHOWTIMES
     if($applyAll){
 
         $allShowtimes = $conn->query("
@@ -713,104 +660,77 @@ if(isset($_POST['delete_seats'])){
         }
     }
 
-
     foreach($showtimeIds as $sid){
 
-        // GET LAST SEATS OF ROW
-        $stmt = $conn->prepare("
+        // FIND LAST ROW
 
-            SELECT
-                id,
-                seat_number,
-                status
+        $rowStmt = $conn->prepare("
+
+            SELECT LEFT(seat_number,1) AS row_letter
 
             FROM seats
 
             WHERE showtime_id = ?
-            AND seat_number LIKE CONCAT(?, '%')
 
-            ORDER BY
-                CAST(SUBSTRING(seat_number,2) AS UNSIGNED) DESC
+            ORDER BY row_letter DESC
 
-            LIMIT ?
+            LIMIT 1
 
         ");
 
-        $stmt->bind_param(
-            "isi",
-            $sid,
-            $rowLetter,
-            $seatCount
+        $rowStmt->bind_param(
+            "i",
+            $sid
         );
 
-        $stmt->execute();
+        $rowStmt->execute();
 
-        $result =
-            $stmt->get_result();
+        $rowData =
+            $rowStmt
+            ->get_result()
+            ->fetch_assoc();
 
+        if(!$rowData){
 
-        $seatsToDelete = [];
-
-        while($seat = $result->fetch_assoc()){
-
-            $seatsToDelete[] = $seat;
+            continue;
         }
 
-
-        // REVERSE TO CHECK ORDER
-        $seatsToDelete =
-            array_reverse($seatsToDelete);
+        $lastRow =
+            $rowData['row_letter'];
 
 
-        $expectedNo = null;
 
-        $valid = true;
+        // CHECK BOOKED / PENDING
 
+        $checkStmt = $conn->prepare("
 
-        foreach($seatsToDelete as $seat){
+            SELECT COUNT(*) AS total
 
-            $seatNo =
-                intval(
-                    substr($seat['seat_number'],1)
-                );
+            FROM seats
 
+            WHERE showtime_id = ?
+            AND LEFT(seat_number,1) = ?
+            AND status IN ('booked','pending')
 
-            // FIRST NUMBER
-            if($expectedNo === null){
+        ");
 
-                $expectedNo = $seatNo;
-            }
+        $checkStmt->bind_param(
+            "is",
+            $sid,
+            $lastRow
+        );
 
-            // MUST BE CONTINUOUS
-            else{
+        $checkStmt->execute();
 
-                if($seatNo != ($expectedNo + 1)){
+        $check =
+            $checkStmt
+            ->get_result()
+            ->fetch_assoc();
 
-                    $valid = false;
-                    break;
-                }
-
-                $expectedNo = $seatNo;
-            }
-
-
-            // CANNOT DELETE BOOKED/PENDING
-            if(
-                $seat['status'] === 'booked'
-                ||
-                $seat['status'] === 'pending'
-            ){
-
-                $valid = false;
-                break;
-            }
-        }
-
-
-        if(!$valid){
+        if($check['total'] > 0){
 
             $_SESSION['success'] =
-                "Only latest continuous available/blocked seats can be deleted.";
+                "Cannot delete row $lastRow because it contains booked or pending seats.";
 
             header(
                 "Location: manage_seats.php?showtime_id=" . $showtime_id
@@ -820,28 +740,29 @@ if(isset($_POST['delete_seats'])){
         }
 
 
-        // DELETE SEATS
-        foreach($seatsToDelete as $seat){
 
-            $delete = $conn->prepare("
+        // DELETE ROW
 
-                DELETE FROM seats
-                WHERE id = ?
+        $deleteStmt = $conn->prepare("
 
-            ");
+            DELETE FROM seats
 
-            $delete->bind_param(
-                "i",
-                $seat['id']
-            );
+            WHERE showtime_id = ?
+            AND LEFT(seat_number,1) = ?
 
-            $delete->execute();
-        }
+        ");
+
+        $deleteStmt->bind_param(
+            "is",
+            $sid,
+            $lastRow
+        );
+
+        $deleteStmt->execute();
     }
 
-
     $_SESSION['success'] =
-        "Seats deleted successfully.";
+        "Last row deleted successfully.";
 
     header(
         "Location: manage_seats.php?showtime_id=" . $showtime_id
@@ -951,6 +872,30 @@ $success = $_SESSION['success'] ?? '';
 
 unset($_SESSION['success']);
 
+/* NEXT ROW */
+
+$lastRowResult = $conn->query("
+
+    SELECT LEFT(seat_number,1) AS row_letter
+
+    FROM seats
+
+    WHERE showtime_id = $showtime_id
+
+    ORDER BY row_letter DESC
+
+    LIMIT 1
+
+");
+
+$lastRowData = $lastRowResult->fetch_assoc();
+
+$nextRow = $lastRowData
+    ? chr(ord($lastRowData['row_letter']) + 1)
+    : 'A';
+
+$lastRowLetter =
+    $lastRowData['row_letter'] ?? 'A';
 ?>
 
 <!DOCTYPE html>
@@ -1163,17 +1108,6 @@ unset($_SESSION['success']);
             height:0;
         }
 
-        .action-bar{
-
-            margin-top:40px;
-
-            display:flex;
-
-            gap:18px;
-
-            justify-content:center;
-        }
-
         .action-btn{
 
             border:none;
@@ -1185,16 +1119,32 @@ unset($_SESSION['success']);
             font-weight:700;
         }
 
-        .reset-pending{
+        .btn-back{
 
-            background:#fbbf24;
+            background:#f3f4f6;
+
+            color:#374151;
+
+            font-weight:600;
+
+            padding:15px 30px;
+
+            border-radius:18px;
+
+            text-decoration:none;
+
+            transition:0.25s;
+
+            border:1px solid #e5e7eb;
         }
 
-        .back-btn{
+        .btn-back:hover{
 
-            background:#111827;
+            background:#e5e7eb;
 
-            color:white;
+            color:#111827;
+
+            transform:translateY(-2px);
         }
 
         .toast-msg{
@@ -1558,20 +1508,7 @@ unset($_SESSION['success']);
 
         <!-- ACTIONS -->
 
-        <div class="action-bar">
-
-            <form method="POST">
-
-                <button
-                    name="reset_pending"
-                    class="action-btn reset-pending"
-                >
-
-                    Reset Pending
-
-                </button>
-
-            </form>
+        <div class="d-flex gap-3 mt-4 justify-content-center">
 
             <button
                 type="button"
@@ -1602,7 +1539,7 @@ unset($_SESSION['success']);
 
             <a
                 href="<?= BASE_URL ?>/admin/seats/admin_seats.php"
-                class="action-btn back-btn text-decoration-none d-flex align-items-center justify-content-center"
+                class="btn-back"
             >
 
                 Back
@@ -1726,22 +1663,16 @@ unset($_SESSION['success']);
 
                 <div class="modal-body p-4">
 
-                    <h3 class="fw-bold mb-4">
+                    <h3 class="fw-bold mb-3">
                         Add Seats
                     </h3>
 
-                    <label class="fw-semibold mb-2">
-                        Row Letter
-                    </label>
+                    <div class="alert alert-info">
 
-                    <input
-                        type="text"
-                        name="row_letter"
-                        class="form-control mb-3"
-                        placeholder="Example: A"
-                        maxlength="1"
-                        required
-                    >
+                        New seats will be created in
+                        <strong>Row <?= $nextRow ?></strong>
+
+                    </div>
 
                     <label class="fw-semibold mb-2">
                         Number Of Seats
@@ -1820,34 +1751,25 @@ unset($_SESSION['success']);
 
                 <div class="modal-body p-4">
 
-                    <h3 class="fw-bold mb-4 text-danger">
+                    <h3 class="fw-bold mb-3r">
                         Delete Seats
                     </h3>
 
-                    <label class="fw-semibold mb-2">
-                        Row Letter
-                    </label>
+                    <h3 class="fw-bold mb-3 text-danger">
+                        Delete Last Row
+                    </h3>
 
-                    <input
-                        type="text"
-                        name="row_letter"
-                        class="form-control mb-3"
-                        placeholder="Example: A"
-                        maxlength="1"
-                        required
-                    >
+                    <div class="alert alert-warning">
 
-                    <label class="fw-semibold mb-2">
-                        Number Of Seats To Delete
-                    </label>
+                        Last Row:
+                        <strong><?= $lastRowLetter ?></strong>
 
-                    <input
-                        type="number"
-                        name="seat_count"
-                        class="form-control mb-4"
-                        placeholder="Example: 2"
-                        required
-                    >
+                        <br><br>
+
+                        This action will permanently remove
+                        all seats in the last row.
+
+                    </div>
 
                     <div class="form-check mb-4">
 
@@ -1879,10 +1801,10 @@ unset($_SESSION['success']);
 
                         <button
                             type="submit"
-                            name="delete_seats"
+                            name="delete_last_row"
                             class="btn btn-danger"
                         >
-                            Delete Seats
+                            Delete Row <?= $lastRowLetter ?>
                         </button>
 
                     </div>

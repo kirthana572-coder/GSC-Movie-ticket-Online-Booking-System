@@ -3,6 +3,81 @@
 require_once '../../includes/admin_auth.php';
 require_once '../../config/db.php';
 
+/* AUTOCOMPLETE */
+
+if(isset($_GET['term'])){
+
+    $term = trim($_GET['term']);
+
+    $data = [];
+
+    // MOVIES
+    $stmt = $conn->prepare("
+
+        SELECT DISTINCT title
+
+        FROM movies
+
+        WHERE title LIKE CONCAT('%', ?, '%')
+
+        LIMIT 5
+
+    ");
+
+    $stmt->bind_param(
+        "s",
+        $term
+    );
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+
+        $data[] = [
+            'type'  => 'Movie',
+            'text'  => $row['title']
+        ];
+    }
+
+
+    // BRANCHES
+    $stmt = $conn->prepare("
+
+        SELECT DISTINCT name
+
+        FROM branches
+
+        WHERE name LIKE CONCAT('%', ?, '%')
+
+        LIMIT 5
+
+    ");
+
+    $stmt->bind_param(
+        "s",
+        $term
+    );
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+
+        $data[] = [
+            'type' => 'Branch',
+            'text' => $row['name']
+        ];
+    }
+
+    header('Content-Type: application/json');
+
+    echo json_encode($data);
+
+    exit();
+}
 
 /* SEARCH */
 
@@ -96,7 +171,6 @@ unset($_SESSION['success']);
             display:flex;
             justify-content:space-between;
             align-items:center;
-
             margin-bottom:30px;
         }
 
@@ -284,6 +358,47 @@ unset($_SESSION['success']);
             }
         }
 
+        #suggestions{
+
+            position:absolute;
+
+            top:100%;
+
+            left:0;
+
+            right:0;
+
+            background:white;
+
+            border-radius:14px;
+
+            margin-top:6px;
+
+            overflow:hidden;
+
+            z-index:9999;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
+
+            display:none;
+        }
+
+        .suggestion-item{
+
+            padding:12px 16px;
+
+            cursor:pointer;
+
+            transition:.2s;
+        }
+
+        .suggestion-item:hover,
+        .suggestion-item.active{
+
+            background:#eef2ff;
+        }
+
     </style>
 
 </head>
@@ -313,20 +428,24 @@ unset($_SESSION['success']);
 
 
     <!-- SEARCH -->
-
-    <div class="search-card">
-
+    <div class="search-card position-relative">
         <form method="GET" class="d-flex gap-3">
 
-            <input
-                type="text"
-                name="search"
-                class="form-control search-input"
+            <div class="position-relative flex-grow-1">
 
-                placeholder="Search movie or branch..."
+                <input
+                    type="text"
+                    id="searchInput"
+                    name="search"
+                    class="form-control search-input"
+                    placeholder="Search movie or branch..."
+                    autocomplete="off"
+                    value="<?= htmlspecialchars($search) ?>"
+                >
 
-                value="<?= htmlspecialchars($search) ?>"
-            >
+                <div id="suggestions"></div>
+
+            </div>
 
             <button class="btn btn-dark px-4">
 
@@ -660,6 +779,169 @@ setTimeout(() => {
 
 </script>
 
+<script>
+
+const searchInput =
+    document.getElementById('searchInput');
+
+const suggestions =
+    document.getElementById('suggestions');
+
+let currentIndex = -1;
+
+searchInput.addEventListener('input', () => {
+
+    const keyword =
+        searchInput.value.trim();
+
+    if(keyword.length < 1){
+
+        suggestions.style.display = 'none';
+        return;
+    }
+
+    fetch(
+        'admin_showtimes.php?term=' +
+        encodeURIComponent(keyword)
+    )
+    .then(res => res.json())
+    .then(data => {
+
+        suggestions.innerHTML = '';
+
+        currentIndex = -1;
+
+        if(data.length === 0){
+
+            suggestions.style.display = 'none';
+            return;
+        }
+
+        data.forEach(item => {
+
+            const div =
+                document.createElement('div');
+
+            div.className =
+                'suggestion-item';
+
+            let icon = '';
+
+            if(item.type === 'Movie'){
+
+                icon = '🎬 ';
+            }
+            else{
+
+                icon = '🏢 ';
+            }
+
+            div.textContent =
+                icon + item.text;
+
+            div.dataset.value =
+                item.text;
+
+            div.onclick = () => {
+
+                searchInput.value =
+                    item.text;
+
+                suggestions.style.display =
+                    'none';
+
+                searchInput.form.submit();
+            };
+
+            suggestions.appendChild(div);
+
+        });
+
+        suggestions.style.display =
+            'block';
+
+    });
+
+});
+
+
+searchInput.addEventListener('keydown', e => {
+
+    const items =
+        document.querySelectorAll(
+            '.suggestion-item'
+        );
+
+    if(!items.length) return;
+
+    if(e.key === 'ArrowDown'){
+
+        e.preventDefault();
+
+        currentIndex++;
+
+        if(currentIndex >= items.length){
+
+            currentIndex = 0;
+        }
+
+        updateActive(items);
+    }
+
+    else if(e.key === 'ArrowUp'){
+
+        e.preventDefault();
+
+        currentIndex--;
+
+        if(currentIndex < 0){
+
+            currentIndex =
+                items.length - 1;
+        }
+
+        updateActive(items);
+    }
+
+    else if(e.key === 'Enter'){
+
+        if(currentIndex >= 0){
+
+            e.preventDefault();
+
+            items[currentIndex].click();
+        }
+    }
+
+});
+
+
+function updateActive(items){
+
+    items.forEach(item =>
+        item.classList.remove('active')
+    );
+
+    items[currentIndex]
+        .classList.add('active');
+}
+
+
+document.addEventListener('click', e => {
+
+    if(
+        !searchInput.contains(e.target)
+        &&
+        !suggestions.contains(e.target)
+    ){
+
+        suggestions.style.display =
+            'none';
+    }
+
+});
+
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

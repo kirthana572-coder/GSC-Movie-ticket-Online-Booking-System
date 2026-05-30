@@ -4,6 +4,113 @@ require_once '../../includes/admin_auth.php';
 require_once '../../config/db.php';
 
 
+/* AUTOCOMPLETE */
+
+if(isset($_GET['term'])){
+
+    $term = trim($_GET['term']);
+
+    $data = [];
+
+    // MOVIES
+    $stmt = $conn->prepare("
+
+        SELECT DISTINCT title
+
+        FROM movies
+
+        WHERE title LIKE CONCAT('%', ?, '%')
+
+        LIMIT 5
+
+    ");
+
+    $stmt->bind_param(
+        "s",
+        $term
+    );
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+
+        $data[] = [
+            'type' => 'movie',
+            'value' => $row['title']
+        ];
+    }
+
+
+    // BRANCHES
+    $stmt = $conn->prepare("
+
+        SELECT DISTINCT name
+
+        FROM branches
+
+        WHERE name LIKE CONCAT('%', ?, '%')
+
+        LIMIT 5
+
+    ");
+
+    $stmt->bind_param(
+        "s",
+        $term
+    );
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+
+        $data[] = [
+            'type' => 'branch',
+            'value' => $row['name']
+        ];
+    }
+
+
+    // SHOWTIME ID
+    $stmt = $conn->prepare("
+
+        SELECT id
+
+        FROM showtimes
+
+        WHERE id LIKE CONCAT('%', ?, '%')
+
+        LIMIT 5
+
+    ");
+
+    $stmt->bind_param(
+        "s",
+        $term
+    );
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+
+        $data[] = [
+            'type' => 'showtime',
+            'value' => $row['id']
+        ];
+    }
+
+    header('Content-Type: application/json');
+
+    echo json_encode($data);
+
+    exit();
+}
+
 /* SEARCH */
 
 $search = trim($_GET['search'] ?? '');
@@ -122,40 +229,30 @@ $showtimes = $conn->query($sql);
         .main{
 
             margin-left:260px;
-
             padding:40px;
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
         }
 
         .page-title{
 
             font-size:42px;
-
-            font-weight:800;
-
+            font-weight:700;
             color:#111827;
-
-            margin-bottom:30px;
         }
 
         .search-card{
-
-            background:white;
-
-            border-radius:24px;
-
-            padding:25px;
-
             margin-bottom:25px;
-
-            box-shadow:
-            0 10px 25px rgba(0,0,0,0.08);
         }
 
         .search-input{
-
-            height:54px;
-
-            border-radius:16px;
+            max-width:1000px;
+            height:50px;
         }
 
         .table-card{
@@ -300,6 +397,51 @@ $showtimes = $conn->query($sql);
             color:#777;
         }
 
+        #suggestions{
+
+            position:absolute;
+
+            top:100%;
+
+            left:0;
+
+            right:0;
+
+            background:white;
+
+            border-radius:12px;
+
+            margin-top:5px;
+
+            overflow:hidden;
+
+            z-index:999;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
+
+            display:none;
+        }
+
+        .suggestion-item{
+
+            padding:12px 16px;
+
+            cursor:pointer;
+
+            transition:.2s;
+        }
+
+        .suggestion-item:hover{
+
+            background:#f3f4f6;
+        }
+
+        .suggestion-item.active{
+
+            background:#e0e7ff;
+        }
+
     </style>
 
 </head>
@@ -310,28 +452,37 @@ $showtimes = $conn->query($sql);
 
 <div class="main">
 
-    <div class="page-title">
+    <div class="top-bar">
 
-        Seats Management
+        <div class="page-title">
+
+            Seats Management
+
+        </div>
 
     </div>
 
-
     <!-- SEARCH -->
 
-    <div class="search-card">
+    <div class="search-card position-relative">
 
-        <form method="GET" class="d-flex gap-3">
+    <form method="GET" class="d-flex gap-3">
+
+        <div class="position-relative flex-grow-1">
 
             <input
                 type="text"
+                id="searchInput"
                 name="search"
                 class="form-control search-input"
-
                 placeholder="Search movie, branch or showtime ID..."
-
+                autocomplete="off"
                 value="<?= htmlspecialchars($search) ?>"
             >
+
+            <div id="suggestions"></div>
+
+        </div>
 
             <button class="btn btn-dark px-4">
 
@@ -521,5 +672,167 @@ $showtimes = $conn->query($sql);
 
 </div>
 
+<script>
+
+const searchInput =
+    document.getElementById('searchInput');
+
+const suggestions =
+    document.getElementById('suggestions');
+
+let currentIndex = -1;
+
+searchInput.addEventListener('input', () => {
+
+    const keyword =
+        searchInput.value.trim();
+
+    currentIndex = -1;
+
+    if(keyword.length < 1){
+
+        suggestions.style.display = 'none';
+        return;
+    }
+
+    fetch(
+        'admin_seats.php?term=' +
+        encodeURIComponent(keyword)
+    )
+    .then(res => res.json())
+    .then(data => {
+
+        suggestions.innerHTML = '';
+
+        if(data.length === 0){
+
+            suggestions.style.display = 'none';
+            return;
+        }
+
+        data.forEach(item => {
+
+            const div =
+                document.createElement('div');
+
+            div.className =
+                'suggestion-item';
+
+            let icon = '';
+
+            if(item.type === 'movie'){
+
+                icon = '🎬 ';
+            }
+            else if(item.type === 'branch'){
+
+                icon = '🏢 ';
+            }
+            else{
+
+                icon = '🆔 ';
+            }
+
+            div.textContent =
+                icon + item.value;
+
+            div.dataset.value =
+                item.value;
+
+            div.onclick = () => {
+
+                searchInput.value =
+                    item.value;
+
+                suggestions.style.display =
+                    'none';
+
+                searchInput.form.submit();
+            };
+
+            suggestions.appendChild(div);
+        });
+
+        suggestions.style.display =
+            'block';
+    });
+
+});
+
+document.addEventListener('click', e => {
+
+    if(
+        !searchInput.contains(e.target)
+        &&
+        !suggestions.contains(e.target)
+    ){
+
+        suggestions.style.display =
+            'none';
+    }
+
+});
+
+searchInput.addEventListener('keydown', e => {
+
+    const items =
+        document.querySelectorAll(
+            '.suggestion-item'
+        );
+
+    if(!items.length) return;
+
+    if(e.key === 'ArrowDown'){
+
+        e.preventDefault();
+
+        currentIndex++;
+
+        if(currentIndex >= items.length){
+
+            currentIndex = 0;
+        }
+
+        updateSelection(items);
+    }
+
+    if(e.key === 'ArrowUp'){
+
+        e.preventDefault();
+
+        currentIndex--;
+
+        if(currentIndex < 0){
+
+            currentIndex =
+                items.length - 1;
+        }
+
+        updateSelection(items);
+    }
+
+    if(e.key === 'Enter'){
+
+        if(currentIndex >= 0){
+
+            e.preventDefault();
+
+            items[currentIndex].click();
+        }
+    }
+
+});
+
+function updateSelection(items){
+
+    items.forEach(item =>
+        item.classList.remove('active')
+    );
+
+    items[currentIndex]
+        .classList.add('active');
+}
+
+</script>
 </body>
 </html>
