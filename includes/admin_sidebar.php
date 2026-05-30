@@ -158,25 +158,30 @@
             Seats
         </a>
 
-    <a href="#">
-        Bookings
-    </a>
+    <a
+    href="<?= BASE_URL ?>/admin/users/users.php"
 
-    <a href="#">
-        Walk-in Bookings
-    </a>
-
-    <a href="#">
-        Users
-    </a>
+    class="<?= 
+        in_array(
+            $currentPage,
+            [
+                'users.php',
+                'view_user.php',
+                'view_booking.php',
+                'toggle_user.php'
+            ]
+        )
+        ? 'active'
+        : ''
+    ?>"
+>
+    Users
+</a>
 
     <a href="#">
         Staff
     </a>
 
-    <a href="#">
-        Reports
-    </a>
 
     <?php
         $currentPage = basename($_SERVER['PHP_SELF']);
