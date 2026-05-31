@@ -31,6 +31,34 @@ if(!$showtime){
     die("Showtime not found.");
 }
 
+$stmt = $conn->prepare("
+    SELECT COUNT(*) as total
+    FROM bookings
+    WHERE showtime_id = ?
+    AND payment_status IN ('pending', 'paid')
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$online = $stmt->get_result()->fetch_assoc()['total'];
+
+$stmt = $conn->prepare("
+    SELECT COUNT(*) as total
+    FROM walkin_bookings
+    WHERE showtime_id = ?
+    AND payment_status = 'Paid'
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$walkin = $stmt->get_result()->fetch_assoc()['total'];
+
+if (($online + $walkin) > 0) {
+
+    echo "<script>
+        alert('Cannot delete: this showtime has existing bookings (online or walk-in).');
+        window.location.href='admin_showtimes.php';
+    </script>";
+    exit();
+}
 
 /* DELETE SHOWTIME */
 

@@ -28,6 +28,28 @@ if(!$movie){
     die("Movie not found.");
 }
 
+$stmt = $conn->prepare("
+    SELECT COUNT(*) as total
+    FROM bookings b
+    JOIN showtimes s ON b.showtime_id = s.id
+    WHERE s.movie_id = ?
+    AND b.payment_status IN ('pending', 'paid')
+");
+
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$result = $stmt->get_result()->fetch_assoc();
+
+if ($result['total'] > 0) {
+
+    echo "<script>
+        alert('Cannot delete: this movie has active bookings.');
+        window.location.href='admin_movies.php';
+    </script>";
+    exit();
+}
+
 
 /* DELETE POSTER */
 
