@@ -42,28 +42,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         WHERE id = ?
     ");
 
-    $stmt->bind_param("i", $booking_id);
-
-
-    // Execute update
     if ($stmt->execute()) {
 
+    // UPDATE SEATS TO BOOKED
+
+        $seatStmt = $conn->prepare("
+
+            UPDATE seats s
+
+            JOIN booking_seats bs
+            ON s.id = bs.seat_id
+
+            SET s.status = 'booked'
+
+            WHERE bs.booking_id = ?
+
+        ");
+
+        $seatStmt->bind_param(
+            "i",
+            $booking_id
+        );
+
+        $seatStmt->execute();
+
+        $seatStmt->close();
+
+
         // Get user ID
+
         $user_id = $row['user_id'];
 
+        $msg =
+            "Your booking #$booking_id has been paid. You can now download your QR ticket.";
 
-        // Notification message
-        $msg = "Your booking #$booking_id has been paid. You can now download your QR ticket.";
-
-
-        // Insert notification
         $conn->query("
             INSERT INTO notifications (user_id, message)
             VALUES ($user_id, '$msg')
         ");
 
-
-        // Success message
         echo "
         <script>
             alert('Payment status updated successfully!');

@@ -74,6 +74,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $seat_id = intval($seat_id);
 
+        // 检查 seat 当前状态
+
+        $seatCheck = $conn->prepare("
+
+            SELECT status
+
+            FROM seats
+
+            WHERE id = ?
+            AND showtime_id = ?
+
+        ");
+
+        $seatCheck->bind_param(
+            "ii",
+            $seat_id,
+            $showtime_id
+        );
+
+        $seatCheck->execute();
+
+        $seatStatus =
+            $seatCheck
+            ->get_result()
+            ->fetch_assoc();
+
+        $seatCheck->close();
+
+        if(
+            !$seatStatus
+            ||
+            $seatStatus['status'] !== 'available'
+        ){
+
+            echo "
+
+            <script>
+
+                alert('One or more selected seats are not available.');
+
+                history.back();
+
+            </script>
+
+            ";
+
+            exit();
+        }
+
 
         // -------------------------
         // Check online bookings
@@ -87,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             WHERE b.showtime_id = ?
             AND bs.seat_id = ?
+            AND b.payment_status IN ('Pending','Paid')
         ");
 
         $stmt->bind_param(
@@ -114,6 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             WHERE wb.showtime_id = ?
             AND wbs.seat_id = ?
+            AND wb.payment_status IN ('Pending','Paid')
         ");
 
         $stmt2->bind_param(

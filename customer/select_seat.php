@@ -181,14 +181,12 @@ $seats = $conn->query("
         }
 
         /* Booked */
-        .booked,
-        .pending{
+        .unavailable{
             background: #e74c3c;
             color: white;
 
             cursor: not-allowed;
-
-            opacity: 0.7;
+            opacity: 0.75;
         }
 
         /* ===== Legend ===== */
@@ -275,6 +273,7 @@ $seats = $conn->query("
                 transform: translateY(0);
             }
         }
+
     </style>
 </head>
 <body>
@@ -322,8 +321,14 @@ $seats = $conn->query("
                     while($seat = $seats->fetch_assoc()): 
                     $status = $seat['status'];
                     $disabled = ($status !== 'available') ? 'disabled' : '';
+
                     $btnClass = 'available';
-                    if ($status === 'booked' || $status === 'pending') $btnClass = 'booked';
+
+                        if ($status !== 'available'){
+
+                            $btnClass = 'unavailable';
+
+                        }
                     if($rowCounter % 10 == 5) echo '<div class="aisle"></div>';
                 ?>
 
@@ -341,14 +346,22 @@ $seats = $conn->query("
                     endwhile; ?>
             </div>
             <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-box available">
 
-                    </div>Available</div>
                 <div class="legend-item">
-                    <div class="legend-box selected">
-                    </div>Selected</div>
-                <div class="legend-item"><div class="legend-box booked"></div>Booked</div>
+                    <div class="legend-box available"></div>
+                    Available
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-box selected"></div>
+                    Selected
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-box unavailable"></div>
+                    Unavailable
+                </div>
+
             </div>
             <input type="hidden" name="seat_ids" id="seatIdsInput" value="">
             <div class="summary-box">Selected Seats: <span class="selected-text" id="selectedSeatsDisplay">None</span></div>

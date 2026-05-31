@@ -64,7 +64,7 @@ $stmt = $conn->prepare("
     ON bs.booking_id = b.id
 
     WHERE b.showtime_id = ?
-    AND b.payment_status = 'Booked'
+    AND b.payment_status IN ('Pending','Paid')
 ");
 
 $stmt->bind_param("i", $showtime_id);
@@ -127,10 +127,12 @@ $seats = $stmt->get_result();
 // Display seats
 while ($seat = $seats->fetch_assoc()) {
 
-    // Check seat status
-    $disabled = in_array(
-        $seat['id'],
-        $bookedSeats
+    $disabled =
+    in_array($seat['id'], $bookedSeats)
+    ||
+    in_array(
+        $seat['status'],
+        ['blocked','booked','pending']
     );
 
     ?>

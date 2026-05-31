@@ -433,45 +433,6 @@ if(
 /* ADD SEATS */
 
 if(isset($_POST['add_seats'])){
-    
-    // GET LAST ROW
-    $lastRowStmt = $conn->prepare("
-
-        SELECT LEFT(seat_number,1) AS row_letter
-
-        FROM seats
-
-        WHERE showtime_id = ?
-
-        ORDER BY row_letter DESC
-
-        LIMIT 1
-
-    ");
-
-    $lastRowStmt->bind_param(
-        "i",
-        $showtime_id
-    );
-
-    $lastRowStmt->execute();
-
-    $lastRow =
-        $lastRowStmt
-        ->get_result()
-        ->fetch_assoc();
-
-    if($lastRow){
-
-        $rowLetter =
-            chr(ord($lastRow['row_letter']) + 1);
-
-    }
-    else{
-
-        $rowLetter = 'A';
-
-    }
 
     $seatCount =
         intval($_POST['seat_count']);
@@ -544,6 +505,47 @@ if(isset($_POST['add_seats'])){
 
 
     foreach($showtimeIds as $sid){
+
+        // GET LAST ROW OF CURRENT SHOWTIME
+
+        $rowStmt = $conn->prepare("
+
+            SELECT LEFT(seat_number,1) AS row_letter
+
+            FROM seats
+
+            WHERE showtime_id = ?
+
+            ORDER BY row_letter DESC
+
+            LIMIT 1
+
+        ");
+
+        $rowStmt->bind_param(
+            "i",
+            $sid
+        );
+
+        $rowStmt->execute();
+
+        $rowData =
+            $rowStmt
+            ->get_result()
+            ->fetch_assoc();
+
+        if($rowData){
+
+            $rowLetter =
+                chr(ord($rowData['row_letter']) + 1);
+
+        }
+        else{
+
+            $rowLetter = 'A';
+
+        }
+
 
         // FIND LAST NUMBER OF ROW
         $stmt = $conn->prepare("
@@ -661,6 +663,47 @@ if(isset($_POST['delete_last_row'])){
     }
 
     foreach($showtimeIds as $sid){
+
+        // GET LAST ROW FOR THIS SHOWTIME
+
+        $lastRowStmt = $conn->prepare("
+
+            SELECT LEFT(seat_number,1) AS row_letter
+
+            FROM seats
+
+            WHERE showtime_id = ?
+
+            ORDER BY row_letter DESC
+
+            LIMIT 1
+
+        ");
+
+        $lastRowStmt->bind_param(
+            "i",
+            $sid
+        );
+
+        $lastRowStmt->execute();
+
+        $lastRow =
+            $lastRowStmt
+            ->get_result()
+            ->fetch_assoc();
+
+        if($lastRow){
+
+            $rowLetter =
+                chr(ord($lastRow['row_letter']) + 1);
+
+        }
+        else{
+
+            $rowLetter = 'A';
+
+        }
+
 
         // FIND LAST ROW
 

@@ -66,9 +66,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // AUTO CREATE SEATS
 
-    $rows = ['A', 'B'];
-
-    $seatsPerRow = 5;
+    $rows = ['A', 'B', 'C'];
+    $seatsPerRow = 10;
 
     $seatStmt = $conn->prepare("
 

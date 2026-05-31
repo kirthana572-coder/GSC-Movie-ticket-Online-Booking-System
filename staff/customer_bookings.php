@@ -93,6 +93,34 @@ if(isset($_POST['update_status'])){
         }
 
         $stmt->execute();
+
+        /* PAID -> BOOKED */
+
+        if($new_status === 'Paid'){
+
+            $seatStmt = $conn->prepare("
+
+                UPDATE seats s
+
+                JOIN booking_seats bs
+                ON s.id = bs.seat_id
+
+                SET s.status = 'booked'
+
+                WHERE bs.booking_id = ?
+
+            ");
+
+            $seatStmt->bind_param(
+                "i",
+                $booking_id
+            );
+
+            $seatStmt->execute();
+
+            $seatStmt->close();
+        }
+
         /* 如果是 Cancelled，要 release seats */
         if ($new_status === 'Cancelled') {
 
