@@ -26,7 +26,7 @@ if(isset($_GET['term'])){
                 OR
                 email LIKE CONCAT('%', ?, '%')
             )
-            AND role = 'customer'
+            AND role = 'staff'
            
         LIMIT 10
 
@@ -79,7 +79,7 @@ $sql = "
         created_at
 
     FROM users
-    WHERE role = 'customer'
+    WHERE role = 'staff'
 
 ";
 
@@ -161,6 +161,26 @@ $users = $conn->query($sql);
             font-size:42px;
             font-weight:700;
             color:#111827;
+        }
+
+        .add-btn{
+            background:#f5c518;
+            color:#111;
+
+            text-decoration:none;
+
+            padding:12px 20px;
+
+            border-radius:16px;
+
+            font-weight:700;
+
+            transition:0.25s;
+        }
+
+        .add-btn:hover{
+            background:#ffd93d;
+            transform:translateY(-2px);
         }
 
         .search-card{
@@ -260,6 +280,16 @@ $users = $conn->query($sql);
             transform:scale(1.05);
         }
 
+        .btn-edit{
+            background:#e0f2fe;
+            color:#0369a1;
+        }
+
+        .btn-edit:hover{
+            background:#bae6fd;
+            color:#075985;
+        }
+
         .empty-text{
 
             text-align:center;
@@ -330,13 +360,38 @@ $users = $conn->query($sql);
 
 <div class="main">
 
+    <?php if(isset($_GET['updated'])): ?>
+
+    <div
+        id="successToast"
+        class="toast align-items-center text-bg-success border-0 position-fixed top-0 end-0 m-4 show"
+        style="z-index:9999;"
+    >
+        <div class="d-flex">
+
+            <div class="toast-body">
+
+                Staff updated successfully.
+
+            </div>
+
+        </div>
+    </div>
+
+    <?php endif; ?>
+
     <div class="top-bar">
 
         <div class="page-title">
 
-            Users Management
+            Staff Management
 
         </div>
+
+        <a href="add_staff.php"
+            class="add-btn">
+                + Add Staff
+            </a>
 
     </div>
 
@@ -369,7 +424,7 @@ $users = $conn->query($sql);
             <?php if($search != ''): ?>
 
                 <a
-                    href="users.php"
+                    href="staffs.php"
                     class="btn btn-secondary d-flex align-items-center justify-content-center"
                 >
                     Reset
@@ -440,10 +495,15 @@ $users = $conn->query($sql);
                         <td>
                             <div class="d-flex gap-2 align-items-center">
 
-                                <a href="view_user.php?id=<?= $u['id'] ?>"
-                                class="action-btn btn-view">
-                                    View
+                                <a href="view_staff.php?id=<?= $u['id'] ?>"
+                                    class="action-btn btn-view">
+                                        View
                                 </a>
+
+                                <a href="edit_staff.php?id=<?= $u['id'] ?>"
+                                    class="action-btn btn-edit">
+                                        Edit
+                                    </a>
 
                                 <button 
                                     class="action-btn toggle-btn <?= $u['status'] == 'active' ? 'btn-danger' : 'btn-success' ?>"
@@ -456,9 +516,13 @@ $users = $conn->query($sql);
 
                         <td>
                             <?php if($u['status'] == 'active'): ?>
-                                <span class="status-badge badge bg-success">Active</span>
+                                <span class="status-badge badge bg-success">
+                                    Active
+                                </span>
                             <?php else: ?>
-                                <span class="status-badge badge bg-secondary">Inactive</span>
+                                <span class="status-badge badge bg-secondary">
+                                    Inactive
+                                </span>
                             <?php endif; ?>
                         </td>
 
@@ -473,7 +537,7 @@ $users = $conn->query($sql);
 
                             <div class="empty-text">
 
-                                No users found.
+                                No staff found.
 
                             </div>
 
@@ -523,7 +587,7 @@ searchInput.addEventListener('input', () => {
     }
 
     fetch(
-        'users.php?term=' +
+        'staffs.php?term=' +
         encodeURIComponent(keyword)
     )
     .then(res => res.json())
@@ -713,10 +777,13 @@ const confirmBtn = document.getElementById('confirmBtn');
 
 confirmBtn.addEventListener('click', function () {
 
+console.log('CONFIRM CLICKED');
+    console.log('User ID:', selectedUserId);
+
     confirmBtn.disabled = true;
     confirmBtn.innerHTML = 'Processing...';
 
-    fetch('toggle_user.php', {
+    fetch('toggle_staff.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -784,6 +851,22 @@ confirmBtn.addEventListener('click', function () {
     });
 
 });
+</script>
+
+<script>
+
+setTimeout(() => {
+
+    const toast =
+        document.getElementById('successToast');
+
+    if(toast){
+
+        toast.remove();
+    }
+
+},3000);
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

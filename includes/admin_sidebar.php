@@ -53,20 +53,26 @@
 }
 
 .sidebar a.active{
-    background:rgb(255, 231, 46);
+    background:rgb(252, 233, 87);
     color:#111 !important;
 }
 
 .logout-btn{
     margin-top:40px !important;
 
-    background:rgba(213, 213, 213, 0.72);
+    background:rgb(255, 242, 0);
     color:rgb(10, 10, 10) !important;
 }
 
 .logout-btn:hover{
     background:rgba(255, 253, 207, 0.89) !important;
     color:#000 !important;
+}
+
+.logout-section{
+    margin-top:80px;
+    padding-top:40px;
+    border-top:1px solid rgba(255,255,255,0.08);
 }
 
 </style>
@@ -158,29 +164,55 @@
             Seats
         </a>
 
-    <a
-    href="<?= BASE_URL ?>/admin/users/users.php"
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        ?>
 
-    class="<?= 
-        in_array(
-            $currentPage,
-            [
-                'users.php',
-                'view_user.php',
-                'view_booking.php',
-                'toggle_user.php'
-            ]
-        )
-        ? 'active'
-        : ''
-    ?>"
->
-    Users
-</a>
+        <a
+            href="<?= BASE_URL ?>/admin/users/users.php"
 
-    <a href="#">
-        Staff
-    </a>
+            class="<?= 
+                in_array(
+                    $currentPage,
+                    [
+                        'users.php',
+                        'view_user.php',
+                        'view_booking.php',
+                        'toggle_user.php'
+                    ]
+                )
+                ? 'active'
+                : ''
+            ?>"
+        >
+            Users
+        </a>
+
+
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        ?>
+
+        <a
+            href="<?= BASE_URL ?>/admin/staff/staffs.php"
+
+            class="<?= 
+                in_array(
+                    $currentPage,
+                    [
+                        'toggle_staff.php',
+                        'view_staff.php',
+                        'add_staff.php',
+                        'edit_staff.php',
+                        'staffs.php'
+                    ]
+                )
+                ? 'active'
+                : ''
+            ?>"
+        >
+            Staff
+        </a>
 
 
     <?php
@@ -205,11 +237,15 @@
             Profile
         </a>
 
-    <a 
-        href="<?= BASE_URL ?>/auth/logout.php"
-        class="logout-btn"
-    >
-        Logout
-    </a>
+    <div class="logout-section">
+        <a 
+            href="<?= BASE_URL ?>/auth/logout.php"
+            class="logout-btn"
+        >
+            Logout
+        </a>
+    </div>
+
+</div>
 
 </div>

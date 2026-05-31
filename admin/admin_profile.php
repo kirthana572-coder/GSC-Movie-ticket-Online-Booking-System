@@ -31,7 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_name = trim($_POST['full_name'] ?? '');
 
 
-    if ($new_name) {
+    if (
+        $new_name &&
+        $new_name !== $user['full_name']
+    ) {
 
         $stmt = $conn->prepare("
             UPDATE users
@@ -246,6 +249,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color:white;
         }
 
+        .btn-save:disabled{
+
+            background:#d1d5db !important;
+
+            color:#6b7280 !important;
+
+            cursor:not-allowed;
+
+            transform:none;
+
+            box-shadow:none;
+        }
+
     </style>
 
 </head>
@@ -332,7 +348,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="d-grid gap-3">
 
-                <button class="btn btn-save">
+                <button
+                    type="submit"
+                    class="btn btn-save"
+                    id="updateBtn"
+                    disabled
+                >
 
                     Update Profile
 
@@ -352,6 +373,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
 </div>
+
+<script>
+
+const nameInput =
+    document.querySelector(
+        'input[name="full_name"]'
+    );
+
+const updateBtn =
+    document.getElementById(
+        'updateBtn'
+    );
+
+const originalName =
+    nameInput.value;
+
+nameInput.addEventListener(
+    'input',
+    function(){
+
+        updateBtn.disabled =
+            this.value.trim() === originalName;
+    }
+);
+
+</script>
 
 </body>
 </html>

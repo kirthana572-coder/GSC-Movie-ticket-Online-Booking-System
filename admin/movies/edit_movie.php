@@ -109,34 +109,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->execute();
 
-    if($stmt->affected_rows > 0){
+    $_SESSION['success'] =
+    "Movie updated successfully.";
 
         if($from == 'details'){
 
-            $_SESSION['success'] =
-                "Movie updated successfully.";
-
             header(
-                "Location: " .
-                BASE_URL .
-                "/admin/movies/view_movie.php?id=$id"
+                "Location:view_movie.php?id=$id&updated=1"
             );
 
         }else{
 
-            $_SESSION['success'] =
-                "Movie updated successfully.";
-
             header(
-                "Location: " .
-                BASE_URL .
-                "/admin/movies/admin_movies.php"
+                "Location:admin_movies.php?updated=1"
             );
         }
 
         exit();
-    }
-}
+            }
+
 
 ?>
 
@@ -274,6 +265,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background:#d1d5db;
             color:#111827;
             transform:translateY(-2px);
+        }
+
+        .save-btn:disabled{
+
+            background:#d1d5db;
+
+            color:#6b7280;
+
+            cursor:not-allowed;
+
+            box-shadow:none;
+
+            transform:none;
         }
 
     </style>
@@ -438,10 +442,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- BUTTON -->
 
             <div class="d-flex gap-3">
-                <button class="save-btn">
-
+                <button
+                    type="submit"
+                    class="save-btn"
+                    id="updateBtn"
+                    disabled
+                >
                     Save Changes
-
                 </button>
 
                 <?php if($from == 'details'): ?>
@@ -470,5 +477,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 
+<script>
+
+const form =
+    document.querySelector('form');
+
+const updateBtn =
+    document.getElementById('updateBtn');
+
+const initialData =
+    new FormData(form);
+
+form.addEventListener('input', checkChanges);
+form.addEventListener('change', checkChanges);
+
+function checkChanges(){
+
+    const currentData =
+        new FormData(form);
+
+    let changed = false;
+
+    for(const [key,value] of currentData.entries()){
+
+        if(value !== initialData.get(key)){
+
+            changed = true;
+            break;
+        }
+    }
+
+    updateBtn.disabled = !changed;
+}
+
+</script>
 </body>
 </html>

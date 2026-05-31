@@ -14,16 +14,19 @@ $totalMovies = $conn->query("
 ")->fetch_assoc()['total'];
 
 // Total Users
-$totalUsers = $conn->query("
-    SELECT COUNT(*) AS total 
+$totalCustomers = $conn->query("
+    SELECT COUNT(*) AS total
     FROM users
     WHERE role = 'customer'
 ")->fetch_assoc()['total'];
 
 // Total Bookings
-$totalBookings = $conn->query("
-    SELECT COUNT(*) AS total 
-    FROM bookings
+$totalTicketsSold = $conn->query("
+    SELECT COUNT(*) AS total
+    FROM booking_seats bs
+    JOIN bookings b
+    ON bs.booking_id = b.id
+    WHERE b.payment_status = 'Paid'
 ")->fetch_assoc()['total'];
 
 // Total Sales
@@ -45,6 +48,54 @@ $totalSales = $conn->query("
 
 if (!$totalSales) {
     $totalSales = 0;
+}
+
+$weeklyLabels = [];
+$weeklySales  = [];
+
+for($i = 6; $i >= 0; $i--){
+
+    $date = date('Y-m-d', strtotime("-$i days"));
+
+    $weeklyLabels[] =
+        date('D', strtotime($date));
+
+    $stmt = $conn->prepare("
+
+        SELECT
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN bs.ticket_type = 'Adult' THEN 12
+                        WHEN bs.ticket_type = 'Student' THEN 10
+                        WHEN bs.ticket_type = 'Senior' THEN 8
+                        WHEN bs.ticket_type = 'Children' THEN 6
+                        ELSE 0
+                    END
+                ),
+                0
+            ) AS total
+
+        FROM bookings b
+
+        JOIN booking_seats bs
+        ON b.id = bs.booking_id
+
+        WHERE b.payment_status = 'Paid'
+        AND DATE(b.booking_date) = ?
+
+    ");
+
+    $stmt->bind_param("s", $date);
+
+    $stmt->execute();
+
+    $row = $stmt
+        ->get_result()
+        ->fetch_assoc();
+
+    $weeklySales[] =
+        (float)$row['total'];
 }
 
 // Recent Bookings
@@ -316,6 +367,27 @@ $recentBookings = $conn->query("
             font-size:13px;
         }
 
+        .dashboard-card{
+
+            text-decoration:none;
+
+            display:block;
+
+            color:inherit;
+        }
+
+        .dashboard-card:hover{
+
+            text-decoration:none;
+
+            color:inherit;
+
+            transform:translateY(-6px);
+
+            box-shadow:
+            0 15px 35px rgba(0,0,0,.12);
+        }
+
     </style>
 
 </head>
@@ -348,47 +420,28 @@ $recentBookings = $conn->query("
 
         <div class="cards">
 
-            <div class="card-box">
-                <div class="card-title">
-                    Total Movies
-                </div>
+            <!-- Total Movies -->
+            <a href="<?= BASE_URL ?>/admin/movies/admin_movies.php" class="card-box dashboard-card">
+                <div class="card-title">Total Movies</div>
+                <div class="card-value"><?= $totalMovies ?></div>
+            </a>
 
-                <div class="card-value">
-                    <?= $totalMovies ?>
-                </div>
+            <!-- Total Customers -->
+            <a href="<?= BASE_URL ?>/admin/users/users.php" class="card-box dashboard-card">
+                <div class="card-title">Total Customers</div>
+                <div class="card-value"><?= $totalCustomers ?></div>
+            </a>
+
+            <!-- Total Tickets -->
+            <div class="card-box">
+                <div class="card-title">Total Tickets Sold</div>
+                <div class="card-value"><?= $totalTicketsSold ?></div>
             </div>
 
-
+            <!-- Total Revenue -->
             <div class="card-box">
-                <div class="card-title">
-                    Total Users
-                </div>
-
-                <div class="card-value">
-                    <?= $totalUsers ?>
-                </div>
-            </div>
-
-
-            <div class="card-box">
-                <div class="card-title">
-                    Total Bookings
-                </div>
-
-                <div class="card-value">
-                    <?= $totalBookings ?>
-                </div>
-            </div>
-
-
-            <div class="card-box">
-                <div class="card-title">
-                    Total Sales
-                </div>
-
-                <div class="card-value">
-                    RM <?= number_format($totalSales, 2) ?>
-                </div>
+                <div class="card-title">Total Revenue</div>
+                <div class="card-value">RM <?= number_format($totalSales, 2) ?></div>
             </div>
 
         </div>
@@ -406,7 +459,9 @@ $recentBookings = $conn->query("
                     Weekly Sales
                 </h3>
 
-                <canvas id="salesChart"></canvas>
+                <div style="height:400px;">
+                    <canvas id="salesChart"></canvas>
+                </div>
 
             </div>
 
@@ -477,29 +532,13 @@ new Chart(document.getElementById('salesChart'), {
 
     data: {
 
-        labels: [
-            'Mon',
-            'Tue',
-            'Wed',
-            'Thu',
-            'Fri',
-            'Sat',
-            'Sun'
-        ],
+        labels: <?= json_encode($weeklyLabels) ?>,
 
         datasets: [{
 
-            label: 'Sales',
+            label: 'Sales (RM)',
 
-            data: [
-                120,
-                190,
-                300,
-                250,
-                420,
-                500,
-                390
-            ],
+            data: <?= json_encode($weeklySales) ?>,
 
             borderColor: '#f5c518',
 
@@ -507,7 +546,9 @@ new Chart(document.getElementById('salesChart'), {
 
             fill: true,
 
-            tension: 0.4
+            tension: 0.4,
+
+            borderWidth: 3
         }]
     },
 
@@ -515,8 +556,30 @@ new Chart(document.getElementById('salesChart'), {
 
         responsive: true,
 
+        maintainAspectRatio: false,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                    stepSize: 50,
+
+                    callback: function(value){
+
+                        return 'RM ' + value;
+                    }
+                }
+            }
+        },
+
         plugins: {
+
             legend: {
+
                 display: true
             }
         }

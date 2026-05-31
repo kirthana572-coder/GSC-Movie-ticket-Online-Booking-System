@@ -21,6 +21,7 @@ $stmt->bind_param("i", $id);
 
 $stmt->execute();
 
+
 $showtime = $stmt
     ->get_result()
     ->fetch_assoc();
@@ -89,34 +90,25 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $stmt->execute();
 
-    if($stmt->affected_rows > 0){
+    $_SESSION['success'] =
+    "Showtime updated successfully.";
 
         if($from == 'details'){
 
-            $_SESSION['success'] =
-                "Showtime updated successfully.";
-
             header(
-                "Location: " .
-                BASE_URL .
-                "/admin/showtimes/view_showtime.php?id=$id"
+                "Location:view_showtime.php?id=$id&updated=1"
             );
 
         }else{
 
-            $_SESSION['success'] =
-                "Showtime updated successfully.";
-
             header(
-                "Location: " .
-                BASE_URL .
-                "/admin/showtimes/admin_showtimes.php"
+                "Location:admin_showtimes.php?updated=1"
             );
         }
 
         exit();
-    }
-}
+            }
+
 ?>
 
 <!DOCTYPE html>
@@ -287,6 +279,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             transform:translateY(-2px);
         }
 
+        .btn-save:disabled{
+
+            background:#d1d5db;
+
+            color:#6b7280;
+
+            cursor:not-allowed;
+
+            box-shadow:none;
+
+            transform:none;
+        }
+
     </style>
 
 </head>
@@ -431,6 +436,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <button
                     type="submit"
                     class="btn-save"
+                    id="updateBtn"
+                    disabled
                 >
 
                     Update Showtime
@@ -465,6 +472,41 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     </div>
 
 </div>
+
+<script>
+
+const form =
+    document.querySelector('form');
+
+const updateBtn =
+    document.getElementById('updateBtn');
+
+const initialData =
+    new FormData(form);
+
+form.addEventListener('input', checkChanges);
+form.addEventListener('change', checkChanges);
+
+function checkChanges(){
+
+    const currentData =
+        new FormData(form);
+
+    let changed = false;
+
+    for(const [key,value] of currentData.entries()){
+
+        if(value !== initialData.get(key)){
+
+            changed = true;
+            break;
+        }
+    }
+
+    updateBtn.disabled = !changed;
+}
+
+</script>
 
 </body>
 </html>
