@@ -76,8 +76,15 @@ $qr = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . urlenco
     <style>
 
     body{
-        background: #f5f5f5;
-        font-family: 'Segoe UI', sans-serif;
+        margin:0;
+            font-family:'Segoe UI',sans-serif;
+            background:
+            linear-gradient(
+                180deg,
+                #faf8f2,
+                #f3ede0
+            );
+            min-height:100vh;
     }
 
     .ticket-container{

@@ -274,6 +274,42 @@ $seats = $conn->query("
             }
         }
 
+        .breadcrumb-nav{
+            display:flex;
+            align-items:center;
+            gap:10px;
+
+            margin-bottom:28px;
+
+            font-size:18px;
+            font-weight:600;
+        }
+
+        .breadcrumb-nav a{
+            color:#f5c518;
+
+            text-decoration:none;
+
+            transition:.25s;
+        }
+
+        .breadcrumb-nav a:hover{
+            color:#ffd84c;
+        }
+
+        .breadcrumb-nav a i{
+            margin-right:6px;
+        }
+
+        .breadcrumb-nav .separator{
+            color:rgba(255,255,255,.45);
+        }
+
+        .breadcrumb-nav .current-page{
+            color:white;
+            font-weight:700;
+        }
+
     </style>
 </head>
 <body>
@@ -293,6 +329,17 @@ $seats = $conn->query("
 <?php endif; ?>
 
 <div class="seat-container">
+
+<div class="breadcrumb-nav">
+    <a href="javascript:history.back()">
+        <i class="bi bi-chevron-left"></i>
+        Movies
+    </a>
+
+    <span>/</span>
+
+    <span>Select Seat</span>
+</div>
     <div class="booking-card">
         <h2 class="movie-title">
             <?= htmlspecialchars($showtime['title']) ?>

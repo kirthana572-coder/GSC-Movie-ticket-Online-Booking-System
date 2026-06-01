@@ -26,46 +26,379 @@ $showtimes = $conn->query("
     <title><?= htmlspecialchars($movie['title']) ?> - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= BASE_URL ?>/frontend/gsc-style.css">
+    
+
+    <style>
+
+        body{
+
+            background:
+            linear-gradient(
+                135deg,
+                #faf8f2,
+                #f3ede0
+            );
+        }
+
+        .movie-hero{
+
+            background:
+            linear-gradient(
+                135deg,
+                #ffffff,
+                #faf7ef
+            );
+
+            border-radius:30px;
+
+            padding:45px;
+
+            box-shadow:
+            0 15px 40px rgba(0,0,0,.08);
+        }
+
+        .hero-poster{
+
+            width:100%;
+
+            height:550px;
+
+            object-fit:cover;
+
+            border-radius:20px;
+
+            box-shadow:
+            0 15px 35px rgba(0,0,0,.2);
+        }
+
+        .movie-title{
+
+            font-size:52px;
+
+            font-weight:900;
+
+            color:#111;
+
+            margin-bottom:20px;
+        }
+
+        .movie-meta{
+
+            display:flex;
+
+            gap:20px;
+
+            margin-bottom:20px;
+
+            color:#666;
+
+            font-weight:600;
+        }
+
+        .movie-description{
+
+            font-size:17px;
+
+            line-height:1.8;
+
+            color:#555;
+        }
+
+        .showtime-card{
+
+            background:white;
+
+            border-radius:20px;
+
+            padding:25px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+
+            transition:.3s;
+        }
+
+        .showtime-card:hover{
+
+            transform:translateY(-4px);
+
+            box-shadow:
+            0 15px 30px rgba(0,0,0,.12);
+        }
+
+        .showtime-card h5{
+
+            font-weight:800;
+
+            margin-bottom:5px;
+        }
+
+        .showtime-date{
+
+            font-size:20px;
+
+            font-weight:800;
+
+            color:#111;
+        }
+
+        .showtime-time{
+
+            font-size:16px;
+
+            color:#f5c518;
+
+            font-weight:700;
+        }
+
+        .showtime-branch{
+
+            color:#666;
+        }
+
+        .section-title{
+
+            margin-bottom:25px;
+        }
+
+        .section-title h2{
+
+            font-size:34px;
+
+            font-weight:800;
+
+            color:#222;
+        }
+
+        .meta-pill{
+
+            background:#f8f9fa;
+
+            padding:10px 18px;
+
+            border-radius:50px;
+
+            font-size:14px;
+
+            font-weight:600;
+
+            border:1px solid #e5e5e5;
+        }
+
+        .btn-book{
+
+            background:#f5c518;
+
+            border:none;
+
+            color:#000;
+
+            font-weight:700;
+
+            padding:12px 24px;
+
+            border-radius:12px;
+
+            transition:.3s;
+        }
+
+        .btn-book:hover{
+
+            background:#e6b800;
+
+            transform:translateY(-2px);
+        }
+
+        .empty-showtime{
+
+            background:white;
+
+            border-radius:25px;
+
+            padding:60px 40px;
+
+            text-align:center;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
+        }
+
+        .empty-icon{
+
+            font-size:70px;
+
+            margin-bottom:20px;
+        }
+
+        .empty-showtime h4{
+
+            font-size:28px;
+
+            font-weight:700;
+
+            color:#222;
+
+            margin-bottom:15px;
+        }
+
+        .empty-showtime p{
+
+            color:#6c757d;
+
+            max-width:500px;
+
+            margin:0 auto;
+
+            line-height:1.7;
+        }
+
+    </style>
 </head>
 <body>
 
 <?php include '../includes/navbar.php'; ?>
 
-<div class="container mt-4">
-    <div class="row">
+<div class="container py-5">
+    <div class="movie-hero mb-5">
+
+    <div class="row align-items-center">
+
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3><?= htmlspecialchars($movie['title']) ?></h3>
-                    <p><strong>Genre:</strong> <?= htmlspecialchars($movie['genre']) ?></p>
-                    <p><strong>Duration:</strong> <?= $movie['duration'] ?> mins</p>
-                    <p><?= nl2br(htmlspecialchars($movie['description'])) ?></p>
-                </div>
-            </div>
+
+            <img
+                src="<?= BASE_URL ?>/uploads/posters/<?= $movie['poster_image'] ?>"
+                class="hero-poster"
+                alt="<?= htmlspecialchars($movie['title']) ?>"
+            >
+
         </div>
+
         <div class="col-md-8">
-            <h4>Upcoming Showtimes</h4>
-            <?php if ($showtimes->num_rows > 0): ?>
-                <table class="table table-bordered">
-                    <thead><tr><th>Date</th><th>Time</th><th>Branch</th><th>Action</th></tr></thead>
-                    <tbody>
-                    <?php while($s = $showtimes->fetch_assoc()): ?>
-                        <tr>
-                            <td><?= date('d M Y', strtotime($s['show_date'])) ?></td>
-                            <td><?= date('h:i A', strtotime($s['show_time'])) ?></td>
-                            <td><?= htmlspecialchars($s['branch_name']) ?></td>
-                            <td><a href="<?= BASE_URL ?>/customer/select_seat.php?showtime_id=<?= $s['showtime_id'] ?>" class="btn btn-sm btn-warning">Book Now</a></td>
-                        </tr>
-                    <?php endwhile; ?>
-                    </tbody>
-                </table>
 
 
-            <?php else: ?>
-                <div class="alert alert-info">No upcoming showtimes for this movie.</div>
-            <?php endif; ?>
+            <h1 class="movie-title">
+                <?= htmlspecialchars($movie['title']) ?>
+            </h1>
+
+            <div class="movie-meta">
+
+                <div class="meta-pill">
+                    🎬 <?= htmlspecialchars($movie['genre']) ?>
+                </div>
+
+                <div class="meta-pill">
+                    ⏱ <?= $movie['duration'] ?> Minutes
+                </div>
+
+            </div>
+
+            <p class="movie-description">
+
+                <?= nl2br(htmlspecialchars($movie['description'])) ?>
+
+            </p>
+
         </div>
+
     </div>
+
+</div>
+
+<div class="section-title">
+
+    <h2>
+        Available Showtimes
+    </h2>
+
+</div>
+
+
+<?php if ($showtimes->num_rows > 0): ?>
+
+    <div class="row">
+
+        <?php while($s = $showtimes->fetch_assoc()): ?>
+
+            <div class="col-md-6 mb-4">
+
+                <div class="showtime-card">
+
+                    <div class="showtime-info">
+
+                        <div class="showtime-date">
+                            <?= date('d M Y', strtotime($s['show_date'])) ?>
+                        </div>
+
+                        <div class="showtime-time">
+                            <?= date('h:i A', strtotime($s['show_time'])) ?>
+                        </div>
+
+                        <div class="showtime-branch">
+                            📍 <?= htmlspecialchars($s['branch_name']) ?>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="<?= BASE_URL ?>/customer/select_seat.php?showtime_id=<?= $s['showtime_id'] ?>"
+                        class="btn btn-book"
+                    >
+                        Book Now
+                    </a>
+
+                </div>
+
+            </div>
+
+        <?php endwhile; ?>
+
+    </div>
+<?php else: ?>
+
+    <div class="empty-showtime">
+
+        <div class="empty-icon">
+            🎭
+        </div>
+
+        <h4>
+            No Showtimes Available
+        </h4>
+
+        <p>
+            There are currently no scheduled showtimes for this movie.
+            Please check back later for upcoming screenings.
+        </p>
+
+        <a href="<?= BASE_URL ?>/customer/movies.php"
+        class="btn btn-warning mt-3">
+            Browse Other Movies
+        </a>
+
+    </div>
+<?php endif; ?>
+
+
+<div class="text-center mt-5">
+
+    <a
+        href="<?= BASE_URL ?>/index.php"
+        class="btn btn-outline-dark btn-lg px-5"
+    >
+
+        Back
+
+    </a>
+
+</div>
+
+
 </div>
 <script src="<?= BASE_URL ?>/notification.js"></script>
 </body>

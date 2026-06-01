@@ -2,8 +2,12 @@
 require_once 'config/db.php';
 
 $hotMovies = $conn->query("
-    SELECT id, title, genre 
-    FROM movies 
+    SELECT
+        id,
+        title,
+        genre,
+        poster_image
+    FROM movies
     LIMIT 6
 ");
 ?>
@@ -15,6 +19,8 @@ $hotMovies = $conn->query("
     <title>GSC Movie Ticket Booking System</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
 
@@ -26,9 +32,12 @@ $hotMovies = $conn->query("
             margin:0;
             font-family:'Segoe UI',sans-serif;
             background:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') 
-            no-repeat center center/cover;
-            height:100vh;
-            overflow:hidden;
+            no-repeat center center/cover fixed;
+
+            min-height:100vh;
+
+            overflow-x:hidden;
+            overflow-y:auto;
             animation:zoomBg 20s infinite alternate;
         }
 
@@ -39,7 +48,7 @@ $hotMovies = $conn->query("
             background:
                 linear-gradient(
                     rgba(0,0,0,0.5),
-                    rgba(0,0,0,0.8)
+                    rgba(0, 0, 0, 0.64)
                 ),
                 radial-gradient(
                     circle at top,
@@ -63,15 +72,16 @@ $hotMovies = $conn->query("
         }
 
         .dashboard-body {
-            margin:0;
-            font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(135deg,#f5f2e9,#f7d7a8);
-            min-height:100vh;
-            overflow-y:auto;
+            background:
+            linear-gradient(
+                180deg,
+                #faf8f2,
+                #f3ede0
+            );
         }
 
         .dashboard-container {
-            padding-top:30px;
+            padding-top:90px;
             padding-bottom:50px;
         }
 
@@ -123,6 +133,118 @@ $hotMovies = $conn->query("
             animation:floatLogo 3s infinite alternate;
         }
 
+        .hero-banner{
+
+            min-height:320px;
+
+            border-radius:30px;
+
+            background:
+            linear-gradient(
+                90deg,
+                rgba(0,0,0,.85) 0%,
+                rgba(0,0,0,.55) 45%,
+                rgba(0,0,0,.2) 100%
+            ),
+            url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2000')
+            center center/cover;
+
+            display:flex;
+            align-items:center;
+
+            padding:35px;
+            overflow:hidden;
+
+            margin-top:-50px;
+
+            box-shadow:
+            0 20px 40px rgba(0,0,0,.15);
+        }
+
+        .hero-content{
+
+            color:white;
+        }
+
+        .hero-content h1{
+
+            font-size:58px;
+            font-weight:900;
+            line-height:1.1;
+            margin-bottom:15px;
+        }
+
+        .hero-content h3{
+            font-size:22px;
+            font-weight:600;
+            opacity:.9;
+        }
+
+        .hero-content p{
+            font-size:18px;
+            opacity:.9;
+        }
+
+        .badge-now-showing{
+
+            background:#f5c518;
+            color:#000;
+
+            padding:8px 15px;
+
+            border-radius:30px;
+
+            font-weight:700;
+        }
+
+
+        .action-card{
+
+            background:white;
+
+            border-radius:20px;
+
+            padding:30px;
+
+            text-align:center;
+
+            font-size:30px;
+
+            cursor:pointer;
+
+            box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+
+            transition:.3s;
+
+            height:180px;
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:center;
+        }
+
+        .action-card h5{
+
+            margin-top:15px;
+
+            font-size:18px;
+
+            color:#222;
+
+            font-weight:700;
+        }
+
+        .action-card:hover{
+
+            transform:translateY(-6px);
+
+            box-shadow:
+            0 12px 28px rgba(0,0,0,.15);
+        }
+
         /* =========================
            BUTTON
         ========================= */
@@ -167,17 +289,72 @@ $hotMovies = $conn->query("
            SEARCH BAR
         ========================= */
 
-        .search-bar {
-            max-width:600px;
-            margin:0 auto 30px auto;
+        .search-bar{
+            max-width:700px;
+            margin:40px auto;
         }
 
-        .search-bar input {
-            border-radius:30px;
-            padding:14px 20px;
-            border:2px solid #f5c518;
-            background:white;
-            font-size:16px;
+        .search-wrapper{
+            position:relative;
+        }
+
+        .search-input{
+            width:100%;
+
+            height:68px;
+
+            border:none;
+
+            border-radius:50px;
+
+            padding:0 70px 0 28px;
+
+            font-size:18px;
+
+            background:#fff;
+
+            box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+
+            transition:.3s;
+        }
+
+        .search-input:focus{
+            outline:none;
+
+            box-shadow:
+            0 10px 30px rgba(245,197,24,.25);
+
+            border:2px solid #ffda56;
+        }
+
+
+        .search-btn{
+            position:absolute;
+
+            right:8px;
+            top:8px;
+
+            width:52px;
+            height:52px;
+
+            border:none;
+
+            border-radius:50%;
+
+            background:#ffda56;
+
+            color:#111;
+
+            font-size:20px;
+
+            transition:.3s;
+        }
+
+        .search-btn:hover{
+            background:#e0b400;
+
+            transform:scale(1.05);
         }
 
         /* =========================
@@ -195,12 +372,15 @@ $hotMovies = $conn->query("
         }
 
         .movie-card:hover {
-            transform:translateY(-6px);
-            box-shadow:0 12px 28px rgba(0,0,0,0.14);
+            transform:
+            translateY(-8px);
+
+            box-shadow:
+            0 20px 40px rgba(0,0,0,.18);
         }
 
         .movie-card .card-body {
-            padding:24px;
+            padding:20px;
         }
 
         .movie-card .card-title {
@@ -260,6 +440,34 @@ $hotMovies = $conn->query("
             transform:translateX(100%);
             transition:opacity 0.3s, transform 0.3s;
         }
+
+        .movie-poster{
+
+            height:420px;
+
+            object-fit:cover;
+
+            transition:.4s;
+        }
+
+        .movie-card:hover .movie-poster{
+
+            transform:scale(1.05);
+        }
+
+        .section-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+        }
+
+        .section-header h2{
+            font-size:32px;
+            font-weight:800;
+            color:#222;
+        }
+
 
     </style>
 </head>
@@ -323,49 +531,134 @@ $hotMovies = $conn->query("
 
         <div class="container dashboard-container">
 
-            <!-- Welcome -->
+            <div class="hero-banner">
 
-            <h2 class="text-center mb-2"
-                style="font-weight:700; color:#222;">
+                <div class="hero-content">
 
-                Welcome back,
-                <?= htmlspecialchars($_SESSION['full_name']) ?>!
+                    <h3>
+                        Hello,
+                        <?= htmlspecialchars($_SESSION['full_name']) ?>
+                    </h3>
 
-            </h2>
+                    <h1 class="mt-3">
+                        Book Your Next Movie Night
+                    </h1>
 
-            <p class="text-center text-muted mb-4">
+                    <p>
+                        Browse the latest movies and reserve your favourite seats.
+                    </p>
 
-                You are logged in as
-                <strong>
-                    <?= ucfirst($_SESSION['role']) ?>
-                </strong>.
 
-            </p>
+                    <!-- Search -->
 
-            <!-- Search -->
+                    <div class="search-bar">
 
-            <div class="search-bar">
+                        <form action="<?= BASE_URL ?>/customer/movies.php"
+                            method="GET">
 
-                <form action="<?= BASE_URL ?>/customer/movies.php"
-                      method="GET">
+                            <div class="search-wrapper">
 
-                    <input type="text"
-                           name="search"
-                           class="form-control"
-                           placeholder="Search movies...">
+                                <input type="text"
+                                    name="search"
+                                    class="search-input"
+                                    placeholder="Search movie title, genre or keyword...">
 
-                </form>
+                                <button type="submit"
+                                        class="search-btn">
+
+                                    🔍
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
             </div>
 
+
+            <br><br><br>
+
+            <!-- Quick Actions -->
+
+            <div class="quick-actions text-center">
+
+                <div class="row">
+
+                    <div class="section-header">
+
+                        <h2>Quick Actions</h2>
+
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+
+                        <a href="<?= BASE_URL ?>/customer/profile.php"
+                        class="text-decoration-none">
+
+                            <div class="action-card">
+
+                                <i class="bi bi-person-circle"></i>
+
+                                <h5>Profile</h5>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+
+                        <a href="<?= BASE_URL ?>/customer/history.php"
+                        class="text-decoration-none">
+
+                            <div class="action-card">
+
+                                <i class="bi bi-ticket-perforated"></i>
+
+                                <h5>My Bookings</h5>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+
+                        <a href="<?= BASE_URL ?>/customer/movies.php"
+                        class="text-decoration-none">
+
+                            <div class="action-card">
+
+                                <i class="bi bi-film"></i>
+
+                                <h5>Movies</h5>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br><br>
             <!-- Movie Section -->
 
-            <h4 class="mb-3"
-                style="font-weight:600; color:#333;">
+            <div class="section-header">
 
-                🎬 Movies
 
-            </h4>
+                <h2>Now Showing</h2>
+
+            </div>
 
             <div class="row mb-4">
 
@@ -377,28 +670,24 @@ $hotMovies = $conn->query("
 
                             <div class="card movie-card">
 
-                                <div class="card-body text-center">
+                                <img src="<?= BASE_URL ?>/uploads/posters/<?= $movie['poster_image'] ?>"
+                                    class="movie-poster"
+                                    alt="<?= htmlspecialchars($movie['title']) ?>">
+
+                                <div class="card-body">
 
                                     <h5 class="card-title">
-
-                                        <a href="<?= BASE_URL ?>/customer/movie_detail.php?movie_id=<?= $movie['id'] ?>">
-
-                                            <?= htmlspecialchars($movie['title']) ?>
-
-                                        </a>
-
+                                        <?= htmlspecialchars($movie['title']) ?>
                                     </h5>
 
                                     <p class="text-muted">
-
                                         <?= htmlspecialchars($movie['genre']) ?>
-
                                     </p>
 
-                                    <a href="<?= BASE_URL ?>/customer/movies.php?search=<?= urlencode($movie['title']) ?>"
-                                       class="btn btn-warning btn-sm mt-2">
+                                    <a href="<?= BASE_URL ?>/customer/movie_detail.php?movie_id=<?= $movie['id'] ?>"
+                                    class="btn btn-warning w-100">
 
-                                        View Showtimes
+                                        Book Now
 
                                     </a>
 
@@ -417,49 +706,6 @@ $hotMovies = $conn->query("
                     </p>
 
                 <?php endif; ?>
-
-            </div>
-
-            <!-- Quick Actions -->
-
-            <div class="quick-actions text-center">
-
-                <div class="row">
-
-                    <div class="col-md-4 mb-3">
-
-                        <a href="<?= BASE_URL ?>/customer/profile.php"
-                           class="btn btn-outline-dark w-100">
-
-                            👤 View Profile
-
-                        </a>
-
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <a href="<?= BASE_URL ?>/customer/history.php"
-                           class="btn btn-outline-dark w-100">
-
-                            📋 Booking History
-
-                        </a>
-
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-
-                        <a href="<?= BASE_URL ?>/customer/movies.php"
-                           class="btn btn-warning w-100">
-
-                            🎟️ Browse All Movies
-
-                        </a>
-
-                    </div>
-
-                </div>
 
             </div>
 

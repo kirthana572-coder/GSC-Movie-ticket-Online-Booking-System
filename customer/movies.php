@@ -4,15 +4,34 @@ require_once '../config/db.php';
 
 // 获取筛选参数
 $branch_id = $_GET['branch_id'] ?? '';
-$date = $_GET['date'] ?? date('Y-m-d', strtotime('+1 day'));
+$date = $_GET['date'] ?? '';
+
+if (empty($date)) {
+
+    $firstDate = $conn->query("
+        SELECT MIN(show_date) AS first_date
+        FROM showtimes
+        WHERE show_date >= CURDATE()
+    ");
+
+    $date = $firstDate->fetch_assoc()['first_date'] ?? date('Y-m-d');
+}
+
 $search = $_GET['search'] ?? '';
 
 // 获取所有分店
 $branches = $conn->query("SELECT * FROM branches");
 
+$availableDates = $conn->query("
+    SELECT DISTINCT show_date
+    FROM showtimes
+    WHERE show_date >= CURDATE()
+    ORDER BY show_date ASC
+");
+
 // 查询电影及场次
 $sql = "
-SELECT m.id AS movie_id, m.title, m.genre, m.duration, m.description,
+SELECT m.id AS movie_id, m.poster_image, m.title, m.genre, m.duration, m.description,
        s.id AS showtime_id, s.show_date, s.show_time,
        b.name AS branch_name, b.id AS branch_id
 FROM showtimes s
@@ -42,18 +61,17 @@ $result = $conn->query($sql);
     <style>
         /* ===== Page Background ===== */
     body{
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
 
         background:
         linear-gradient(
-      rgba(244,237,217,0.80),
-      rgba(249,213,159,0.8)
-        ),
+            180deg,
+            #faf8f2,
+            #f3ede0
+        );
 
-        url('https://images.unsplash.com/photo-1513106580091-1d82408b8cd6?q=80&w=1974&auto=format&fit=crop')
-        center center / cover no-repeat fixed;        
-        min-height: 100vh;
+        min-height:100vh;
+
+        font-family:'Segoe UI',sans-serif;
     }
 
      body::before{
@@ -90,24 +108,23 @@ $result = $conn->query($sql);
 
     /* ===== Filter Box ===== */
     .filter-box{
-        background: rgba(250, 249, 239, 0.30);
 
-        padding: 20px;
+        background:white;
 
-        border: 1px solid rgba(255,255,255,0.35);
+        border-radius:24px;
 
-        backdrop-filter: blur(10px);
+        padding:25px;
 
         box-shadow:
-        0 6px 18px rgba(0,0,0,0.05);
+        0 10px 30px rgba(0,0,0,.08);
 
-        margin-bottom: 30px;
+        border:none;
     }
 
     /* ===== Inputs ===== */
     .form-control,
     .form-select{
-        background: rgb(251, 253, 213)f !important;
+        background:#fff !important;
         color: #000 !important;
 
         border-radius: 12px !important;
@@ -205,6 +222,60 @@ $result = $conn->query($sql);
     .alert{
         border-radius: 16px;
     } 
+
+    .page-header{
+
+        text-align:center;
+
+        margin-bottom:35px;
+    }
+
+    .page-header h1{
+
+        font-size:48px;
+
+        font-weight:900;
+
+        color:#222;
+    }
+
+    .page-header p{
+
+        color:#666;
+
+        font-size:17px;
+    }
+
+    .movie-poster{
+
+        height:400px;
+
+        width:100%;
+
+        object-fit:cover;
+    }
+
+    .empty-state{
+
+        background:white;
+
+        padding:60px;
+
+        border-radius:24px;
+
+        text-align:center;
+
+        box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+    }
+
+    .empty-icon{
+
+        font-size:70px;
+
+        margin-bottom:15px;
+    }
+
     </style>
 </head>
 <body>
@@ -213,7 +284,23 @@ $result = $conn->query($sql);
 
 <div class="container movies-container">
 
-    <h2 class="page-title">Now Showing</h2>
+    <div class="page-header">
+
+        <h1>
+
+            Now Showing
+
+        </h1>
+
+        <p>
+
+            Explore available movies and choose your preferred showtime.
+
+        </p>
+
+    </div>
+
+    <br>
 
     <!-- 筛选表单 -->
     <form method="GET" class="row g-3 mb-4 filter-box">
@@ -226,7 +313,24 @@ $result = $conn->query($sql);
             </select>
         </div>
         <div class="col-md-3">
-            <input type="date" name="date" class="form-control" value="<?= htmlspecialchars($date) ?>">
+
+            <select name="date" class="form-select">
+
+                <?php while($d = $availableDates->fetch_assoc()): ?>
+
+                    <option
+                        value="<?= $d['show_date'] ?>"
+                        <?= $date == $d['show_date'] ? 'selected' : '' ?>
+                    >
+
+                        <?= date('d M Y (D)', strtotime($d['show_date'])) ?>
+
+                    </option>
+
+                <?php endwhile; ?>
+
+            </select>
+
         </div>
         <div class="col-md-3">
             <input type="text" name="search" class="form-control" placeholder="Search movie..."
@@ -235,27 +339,50 @@ $result = $conn->query($sql);
         <div class="col-md-2"><button type="submit" class="btn btn-warning w-100">Filter</button></div>
     </form>
 
+    <br><br>
     <!-- 电影卡片列表 -->
     <div class="row">
         <?php if ($result && $result->num_rows > 0): ?>
             <?php while($row = $result->fetch_assoc()): ?>
                 <div class="col-md-4 mb-4">
                     <div class="card movie-card">
+
+                        <img
+                            src="<?= BASE_URL ?>/uploads/posters/<?= $row['poster_image'] ?>"
+                            class="movie-poster"
+                            alt="<?= htmlspecialchars($row['title']) ?>">
+
                         <div class="card-body">
                             <h5 class="movie-title"><a href="<?= BASE_URL ?>/customer/movie_detail.php?movie_id=<?= $row['movie_id'] ?>"><?= htmlspecialchars($row['title']) ?></a></h5>
                             <p class="movie-info"><strong><?= htmlspecialchars($row['genre']) ?></strong><br><?= $row['duration'] ?> mins</p>
                             <p><small><?= htmlspecialchars($row['branch_name']) ?></small></p>
                             <p><strong>Date:</strong> <?= date('d M Y', strtotime($row['show_date'])) ?></p>
                             <p><strong>Time:</strong> <?= date('h:i A', strtotime($row['show_time'])) ?></p>
-                            <a href="<?= BASE_URL ?>/customer/select_seat.php?showtime_id=<?= $row['showtime_id'] ?>" class="btn btn-warning">Book Now</a>
+                            <a href="<?= BASE_URL ?>/customer/select_seat.php?showtime_id=<?= $row['showtime_id'] ?>" class="btn btn-warning w-100 mt-3">Book Now</a>
                         </div>
                     </div>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
+
             <div class="col-12">
-                <div class="alert alert-info">No showtimes found for selected filters.</div>
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🍿
+                    </div>
+
+                    <h3>
+                        No Movies Available
+                    </h3>
+
+                    <p>
+                        There are currently no movies scheduled for the selected filters.
+                    </p>
+
+                </div>
             </div>
+
         <?php endif; ?>
     </div>
 </div>

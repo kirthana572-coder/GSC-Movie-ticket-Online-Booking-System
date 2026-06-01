@@ -8,7 +8,10 @@ $conn->query("
     JOIN showtimes s ON b.showtime_id = s.id
     SET b.payment_status = 'Expired'
     WHERE b.payment_status = 'Pending'
-      AND b.booking_date < DATE_SUB(NOW(), INTERVAL 30 MINUTE)
+      AND NOW() >= DATE_SUB(
+            CONCAT(s.show_date, ' ', s.show_time),
+            INTERVAL 30 MINUTE
+      )
 ");
 
 // 释放座位
@@ -59,165 +62,310 @@ $bookings = $conn->query("
 <head>
     <title>Booking History - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
 
         /*Page Background*/
         body{
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-
             background:
             linear-gradient(
-                rgba(244,237,217,0.50),
-                rgba(46, 45, 45, 0.85)
-            ),
-            url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?q=80&w=1974&auto=format&fit=crop')
-            center center / cover no-repeat fixed;
+                180deg,
+                #faf8f2,
+                #f3ede0
+            );
 
-            min-height: 100vh;
+            min-height:100vh;
+            font-family:'Segoe UI',sans-serif;
         }
 
-        /* Top Section */
-        .top-bar{
-            display: flex;
+        .history-hero{
 
-            justify-content: space-between;
+            background:white;
 
-            align-items: center;
+            border-radius:24px;
 
-            margin-bottom: 20px;
+            padding:45px;
 
-            flex-wrap: wrap;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            box-shadow:
+            0 10px 30px rgba(0,0,0,.08);
+
+            margin-bottom:25px;
+        }
+
+        .history-hero h1{
+
+            font-size:42px;
+
+            font-weight:800;
+
+            color:#222;
+        }
+
+        @media (max-width:768px){
+
+            .history-hero{
+
+                flex-direction:column;
+
+                gap:20px;
+
+                text-align:center;
+            }
+
+            .history-hero h1{
+
+                font-size:32px;
+            }
+        }
+
+        .history-hero p{
+            color:#666;
+
+            font-size:15px;
+
+            margin-top:6px;
         }
 
         /* Back Home Button */
         .back-home-btn{
-            background: rgb(64, 64, 68);
 
-            color: #fff;
+            background:#f5c518;
 
-            text-decoration: none;
+            color:#222;
 
-            padding: 12px 22px;
+            text-decoration:none;
 
-            border-radius: 30px;
+            border-radius:30px;
 
-            font-weight: 600;
+            padding:12px 24px;
 
-            transition: 0.25s;
+            font-weight:600;
 
-            box-shadow:
-            0 6px 16px rgba(0,0,0,0.2);
+            transition:.3s;
         }
 
         .back-home-btn:hover{
-            background: #ffd230;
+            background:#e0b400;
 
-            color: #111;
+            color:#222;
 
-            transform: translateY(-2px);
+            transform:translateY(-2px);
+
         }
 
-        /* Title */
-        .history-card h2{
-            font-size: 42px;
+        .booking-table tbody tr{
 
-            font-weight: 700;
-
-            color: #31343c;
-
-            margin: 0;
+            transition:.25s;
         }
 
-        /*Booking Table*/
-        .table{
-            overflow: hidden !important;
+        .booking-table tbody tr:hover{
 
-            border-radius: 18px !important; 
-
-            margin-top: 25px !important;
-
-            background: rgba(252, 251, 240, 0.92) !important; 
-        }
-
-        /*Table Header*/
-        .table thead th{
-            border: none !important;
-
-            padding: 18px !important;
-
-            font-size: 18px !important;
-        }
-
-        /*Table Body*/
-        .table tbody td{
-            padding: 22px 16px !important;
-
-            vertical-align: middle !important;
-
-            border-color: rgba(0,0,0,0.08) !important;
-
-            background: rgba(255, 255, 255, 0) !important;
+            transform:scale(1.005);
         }
 
         /*Hover effect*/
-        .table tbody tr:hover td{
-            background: rgba(255, 200, 0, 0.08) !important;
-
-            transition: 0.2s !important;
+        .booking-table tbody tr:hover td{
+            background:rgba(245,197,24,.08);
+            transition:.2s;
         }
 
         /*Status badge*/
         .badge{
-            padding: 8px 14px !important;
 
-            border-radius: 30px !important;
+            padding:8px 14px !important;
 
-            font-size: 14px !important;
+            border-radius:30px !important;
+
+            font-size:12px !important;
+
+            font-weight:700;
         }
 
-        /*cancel button*/
-        .btn-danger{
-            border-radius: 20px !important;
+        .status-paid{
 
-            padding: 6px 16px !important;
+            background:#dcfce7;
+            color:#166534;
+        }
 
-            background: #e65867 !important;
+        .status-pending{
 
-            border: none !important;
+            background:#fef3c7;
+            color:#92400e;
+        }
 
-            font-weight: 600;
+        .status-cancelled{
 
+            background:#fee2e2;
+            color:#991b1b;
+        }
+
+        .status-expired{
+
+            background:#e5e7eb;
+            color:#374151;
         }
 
         /* View Details Button */
         .btn-details{
-            background: #f8d146 !important;
 
-            color: #111 !important;
+            background:#f5c518;
+            color:#222;
 
-            border: none !important;
+            border:none;
 
-            border-radius: 20px !important;
+            border-radius:30px;
 
-            padding: 6px 16px !important;
+            font-weight:600;
+        }
 
-            font-weight: 600 !important;
+        .btn-details,
+        .btn-qr,
+        .btn-cancel{
 
-            transition: 0.2s;
+            min-height:44px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
         }
 
         .btn-details:hover{
-            background: #ffd84c !important;
 
-            transform: scale(1.05);
+            background:#e0b400;
+
+            color:#222;
+
+            transform:translateY(-2px);
+        }
+        
+        .btn-action:hover{
+            transform:translateY(-2px);
         }
 
-        .btn-danger:hover{
-            transform: scale(1.05);
+        .booking-card{
 
-            transition: 0.2s;
+            background:white;
+
+            border-radius:24px;
+
+            padding:32px;
+
+            border:none;
+
+            box-shadow:
+            0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .booking-table{
+            overflow:hidden;
+            border-radius:18px;
+        }
+
+        .booking-table thead th:first-child{
+            border-top-left-radius:16px;
+        }
+
+        .booking-table thead th:last-child{
+            border-top-right-radius:16px;
+        }
+
+        .booking-table thead{
+            background:#fff8dc;
+        }
+
+        .booking-table thead th{
+            color:#444;
+
+            font-weight:700;
+
+            border:none;
+
+            padding:16px;
+        }
+
+        .booking-table tbody td{
+            padding:18px;
+            vertical-align:middle;
+            border-color:#e5e7eb;
+        }
+
+        .movie-title{
+            font-weight:700;
+            color:#111827;
+        }
+
+        .btn-action{
+            border-radius:12px;
+
+            padding:8px 15px;
+
+            font-weight:600;
+
+            transition:.25s;
+        }
+
+        .btn-action:hover{
+            transform:translateY(-2px);
+        }
+
+        .empty-booking{
+
+            background:white;
+
+            padding:80px 40px;
+
+            border-radius:24px;
+
+            text-align:center;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
+        }
+
+        .empty-icon{
+
+            font-size:72px;
+
+            color:#f5c518;
+
+            margin-bottom:20px;
+        }
+
+        .history-card{
+            padding-bottom:40px;
+        }
+
+        .btn-qr{
+
+            background:#0d6efd;
+
+            color:white;
+
+            border:none;
+
+            border-radius:30px;
+        }
+
+        .btn-qr:hover{
+
+            background:#0b5ed7;
+
+            color:white;
+
+            transform:translateY(-2px);
+        }
+
+        .btn-cancel{
+
+            border-radius:30px;
+
+            font-weight:600;
         }
     </style>
 </head>
@@ -225,100 +373,178 @@ $bookings = $conn->query("
 
 <?php include '../includes/navbar.php'; ?>
 
-<div class="container mt-5">
+<div class="container py-5">
 
     <div class="history-card">
 
-    <div class="top-bar">
+        <div class="history-hero">
 
-        <a href=http://localhost/GSC-Movie-ticket-Online-Booking-System/index.php class="back-home-btn">
-            ←  Back to Home
-        </a>
+            <div>
 
-        <h2>My Bookings</h2>
+                <h1>
+                    My Bookings
+                </h1>
 
-    </div>
+                <p>
+                    View your movie tickets, booking status and payment records.
+                </p>
+
+            </div>
+
+            <a href="<?= BASE_URL ?>/index.php"
+            class="back-home-btn">
+
+                <i class="bi bi-arrow-left"></i>
+                    Back Home
+
+            </a>
+
+        </div>
 
     <?php if ($bookings->num_rows > 0): ?>
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Movie</th>
-                    <th>Branch</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Booked On</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($b = $bookings->fetch_assoc()): 
-                    $statusClass = 'bg-warning text-dark';
-                    if ($b['payment_status'] === 'Paid') $statusClass = 'bg-success';
-                    if (in_array($b['payment_status'], ['Cancelled', 'Expired'])) $statusClass = 'bg-danger';
 
-                    // 计算过期时间戳（booking_date + 30分钟）
-                    $expireTimestamp = strtotime($b['booking_date']) + (30 * 60);
-                ?>
-                <tr>
-                    <td><?= htmlspecialchars($b['title']) ?></td>
-                    <td><?= htmlspecialchars($b['branch_name']) ?></td>
-                    <td><?= date('d M Y', strtotime($b['show_date'])) ?></td>
-                    <td><?= date('h:i A', strtotime($b['show_time'])) ?></td>
-                    <td>
-                        <span class="badge <?= $statusClass ?>"><?= $b['payment_status'] ?></span>
-                        
-                        <?php if($b['payment_status'] === 'Cancelled' && !empty($b['cancel_reason'])): ?>
+        <div class="booking-card">
+        <div class="table-responsive">
 
-                        <br>
+            <table class="table booking-table">
+                <thead>
+                    <tr>
+                        <th>Movie</th>
+                        <th>Branch</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Booked On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                        <small class="text-danger fw-semibold">
+                <tbody>
+                    <?php while($b = $bookings->fetch_assoc()):
 
-                            <?= htmlspecialchars($b['cancel_reason']) ?>
+                        $statusClass = '';
 
-                        </small>
+                        switch($b['payment_status']){
+                            case 'Paid':
+                                $statusClass = 'status-paid';
+                                $statusText = 'Paid';
+                                break;
 
-                        <?php endif; ?>
+                            case 'Pending':
+                                $statusClass = 'status-pending';
+                                $statusText = 'Pending';
+                                break;
 
-                        <?php if ($b['payment_status'] === 'Pending'): ?>
+                            case 'Cancelled':
+                                $statusClass = 'status-cancelled';
+                                $statusText = 'Cancelled';
+                                break;
+
+                            case 'Expired':
+                                $statusClass = 'status-expired';
+                                $statusText = 'Expired';
+                                break;
+
+                            default:
+                                $statusText = $b['payment_status'];
+                        }
+
+                        $expireTimestamp =
+                            strtotime($b['show_date'] . ' ' . $b['show_time'])
+                            - (30 * 60);
+
+                    ?>
+                    <tr>
+                        <td>
+                            <div class="movie-title">
+
+                                <?= htmlspecialchars($b['title']) ?>
+
+                            </div>
+                        </td>
+                        <td><?= htmlspecialchars($b['branch_name']) ?></td>
+                        <td><?= date('d M Y', strtotime($b['show_date'])) ?></td>
+                        <td><?= date('h:i A', strtotime($b['show_time'])) ?></td>
+                        <td>
+                            <span class="badge <?= $statusClass ?>">
+                                <?= $statusText ?>
+                            </span>
+                            
+                            <?php if($b['payment_status'] === 'Cancelled' && !empty($b['cancel_reason'])): ?>
+
                             <br>
-                            <small class="text-danger countdown" data-expire="<?= $expireTimestamp ?>">
-                                Calculating...
+
+                            <small class="text-danger fw-semibold">
+
+                                <?= htmlspecialchars($b['cancel_reason']) ?>
+
                             </small>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= date('d M Y H:i', strtotime($b['booking_date'])) ?></td>
-                    <td>
 
-                        <!-- View Details Button -->
-                        <a href="booking_details.php?booking_id=<?= $b['id'] ?>"
-                            class="btn btn-sm btn-details mb-2">
-                            View Details
-                        </a>
+                            <?php endif; ?>
 
-                        <br>
+                            <?php if ($b['payment_status'] === 'Pending'): ?>
+                                <br>
+                                <small class="text-danger countdown" data-expire="<?= $expireTimestamp ?>">
+                                    Calculating...
+                                </small>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= date('d M Y H:i', strtotime($b['booking_date'])) ?></td>
+                        <td>
 
-                        <?php if ($b['payment_status'] === 'Pending'): ?>
+                            <!-- View Details Button -->
+                            <a href="booking_details.php?booking_id=<?= $b['id'] ?>"
+                                class="btn btn-details w-100">
+                                    View Details
+                                </a>
 
-                            <a href="cancel_booking.php?id=<?= $b['id'] ?>" 
-                                class="btn btn-sm btn-danger" 
-                                onclick="return confirm('Cancel this booking?')">Cancel</a>
-                       
-                        <?php elseif ($b['payment_status'] === 'Paid'): ?>
-                            <a href="qr_ticket.php?booking_id=<?= $b['id'] ?>" class="btn btn-sm btn-primary">View QR</a>
-                        
-                        <?php else: ?>
-                            <span class="text-muted">—</span>
-                        <?php endif; ?>
-                   
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+                            <br>
+
+                            <?php if ($b['payment_status'] === 'Pending'): ?>
+
+                                <a href="cancel_booking.php?id=<?= $b['id'] ?>"
+                                    class="btn btn-outline-danger btn-cancel w-100 mt-2"
+                                    onclick="return confirm('Cancel this booking?')">
+                                    Cancel Booking
+                                    </a>
+                                                            
+                            <?php elseif ($b['payment_status'] === 'Paid'): ?>
+                                <a href="qr_ticket.php?booking_id=<?= $b['id'] ?>"
+                                    class="btn btn-qr w-100 mt-2">
+                                    View QR Ticket
+                                    </a>
+                            
+                            <?php else: ?>
+                                <span class="text-muted">—</span>
+                            <?php endif; ?>
+                    
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
     <?php else: ?>
-        <div class="alert alert-info">No bookings yet. <a href="movies.php">Book now</a></div>
+        <div class="empty-booking">
+
+            <div class="empty-icon">
+                <i class="bi bi-ticket-perforated"></i>
+            </div>
+
+            <h4>No Booking History</h4>
+
+            <p>
+                You haven't booked any movie tickets yet.
+            </p>
+
+            <a href="movies.php"
+                class="btn btn-details px-4">
+                Browse Movies
+            </a>
+
+        </div>
     <?php endif; ?>
 
     </div>

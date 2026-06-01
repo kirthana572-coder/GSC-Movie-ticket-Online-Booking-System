@@ -57,7 +57,13 @@ $seatText = implode('<br>', $seatList);
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #fbf4e3, #ffe6bf);
+            background:
+                linear-gradient(
+                    180deg,
+                    #faf8f2,
+                    #f3ede0
+                );
+            
             min-height: 100vh;
             color: #111;
         }
@@ -71,13 +77,14 @@ $seatText = implode('<br>', $seatList);
         .success-card {
             width: 100%;
             max-width: 650px;
-            background: rgb(237, 237, 232);
+            background: rgb(255, 255, 255);
             border-radius: 28px;
             padding: 45px;
             box-shadow: 0 10px 35px rgba(0,0,0,0.35);
             text-align: center;
             animation: fadeUp 0.6s ease;
         }
+
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
@@ -124,7 +131,7 @@ $seatText = implode('<br>', $seatList);
             border: 2px solid #6a6969; color: #222; font-weight: 600;
             text-decoration: none; display: inline-block; margin: 10px;
         }
-        .btn-outline-dark:hover { background: #fff; color: #000; }
+        .btn-outline-dark:hover { background: #f8f2f2; color: #000; }
     </style>
 </head>
 <body>
@@ -178,6 +185,5 @@ $seatText = implode('<br>', $seatList);
 
 <script src="<?= BASE_URL ?>/notification.js"></script>
 
-<script>if (typeof sendAlert === 'function') { sendAlert("Booking Successful", "Please proceed to the counter for payment. Thank you!", "🧾 Please pay at the counter."); } else { alert("Booking successful! Please pay at counter."); }</script>
 </body>
 </html>

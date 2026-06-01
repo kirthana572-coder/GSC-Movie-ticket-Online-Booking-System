@@ -12,6 +12,7 @@ if (isset($_GET['mark_all'])) {
     exit(); 
 }
 
+
 $notifications = $conn->query("
     SELECT * FROM notifications 
     WHERE user_id = {$_SESSION['user_id']} 
@@ -178,7 +179,7 @@ $notifications = $conn->query("
 <body>
 
 <?php include '../includes/navbar.php'; ?>
-<div class="notification-container">、
+<div class="notification-container">
     <div class="notification-card">
         <h2 class="page-title">
             Notifications

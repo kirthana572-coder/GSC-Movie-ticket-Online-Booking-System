@@ -49,7 +49,12 @@ $prices = [
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #fbf4e3, #ffe6bf);
+            background:
+            linear-gradient(
+                180deg,
+                #faf8f2,
+                #f3ede0
+            );
             min-height: 100vh;
             color: #111;
         }
@@ -63,7 +68,7 @@ $prices = [
         .confirmation-card {
             width: 100%;
             max-width: 650px;
-            background: rgb(237, 237, 232);
+            background: rgb(255, 255, 255);
             border-radius: 28px;
             padding: 40px;
             box-shadow: 0 10px 35px rgba(0,0,0,0.35);

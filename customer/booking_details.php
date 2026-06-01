@@ -74,8 +74,9 @@ if (!$booking){
 
             background:
             linear-gradient(
-                rgba(248,242,226,0.92),
-                rgba(255,230,191,0.92)
+                180deg,
+                #faf8f2,
+                #f3ede0
             );
 
             min-height: 100vh;
@@ -95,7 +96,7 @@ if (!$booking){
             width: 100%;
             max-width: 650px;
 
-            background: #f3f1ec;
+            background:white;
 
             border-radius: 28px;
 

@@ -1,6 +1,24 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once 'config/db.php';
+
+switch ($_SESSION['role']) {
+
+    case 'customer':
+        $profileUrl = BASE_URL . '/customer/profile.php';
+        break;
+
+    case 'staff':
+        $profileUrl = BASE_URL . '/staff/profile.php';
+        break;
+
+    case 'admin':
+        $profileUrl = BASE_URL . '/admin/profile.php';
+        break;
+
+    default:
+        $profileUrl = BASE_URL . '/index.php';
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,33 +27,42 @@ require_once 'config/db.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= BASE_URL ?>/frontend/gsc-style.css">
     <style>
-         body{
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f4edd9, #f9d59f) !important;
-            min-height: 100vh;
-            animation: fadeBg 2s ease;
-        }
-        @keyframes fadeBg{
-            from{ opacity: 0; }
-            to{ opacity: 1; }
+        body{
+            margin:0;
+            font-family:'Segoe UI',sans-serif;
+
+            background:
+            linear-gradient(
+                180deg,
+                #faf8f2,
+                #f3ede0
+            );
+
+            min-height:100vh;
         }
         .main-container{
-            min-height: calc(100vh - 70px);
-            display: flex;
+            max-width:500px;
+            margin:90px auto;
+            padding:0 15px;
             justify-content: center;
             align-items: center;
         }
+        
         .change-pwd-card{
-            max-width: 430px;
-            width: 100%;
-            padding: 35px;
-            border-radius: 24px;
-            border: none;
-            background: rgba(251, 251, 248, 0.95);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            transform: scale(1.15);
+            transform-origin: center;
+            border:none;
+
+            border-radius:24px;
+
+            background:white;
+
+            padding:35px;
+
+            box-shadow:
+            0 10px 30px rgba(0,0,0,.08);
         }
+
         .card-title{
             color: #222;
             font-weight: 700;
@@ -94,28 +121,17 @@ require_once 'config/db.php';
         a:hover{
             color: #000;
         }
-        .icon-circle{
-            width: 75px;
-            height: 75px;
-            margin: auto;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f7efc7, #ffffff);
-            color: #f5c518;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 34px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            margin-bottom: 18px;
-        }
+    
     </style>
 </head>
 <body>
 <?php include 'includes/navbar.php'; ?>
 <div class="main-container">
         <div class="change-pwd-card card shadow p-4">
-            <div class="icon-circle">🔒</div>
-            <h4 class="text-center mb-2 card-title">Change Password</h4>
+            <h3 class="text-center mb-4">
+                Change Password
+            </h3>
+
             <p class="text-center card-subtitle mb-4">Update your account password securely</p>
 
             <!-- ERROR -->
@@ -146,7 +162,9 @@ require_once 'config/db.php';
                 </div>
                 <button type="submit" class="btn btn-warning w-100">Update Password</button>
                 <div class="text-center mt-3">
-                    <a href="<?= BASE_URL ?>/staff/profile.php">Back to Profile</a>
+                    <a href="<?= $profileUrl ?>">
+                        Back to Profile
+                    </a>
                 </div>
             </form>
         </div>
