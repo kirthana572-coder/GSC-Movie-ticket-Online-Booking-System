@@ -141,22 +141,32 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
 .menu-btn:hover{
 
-    background:#f5c518;
+    background:
+    rgba(245,197,24,.15);
 
-    color:#111;
+    color:#f5c518;
+
+    transform:
+    translateY(-2px);
 }
 
 .brand-text{
 
-    font-size:34px;
+    font-size:32px;
 
     font-weight:900;
 
-    color:#f5c518;
+    background:
+    linear-gradient(
+        135deg,
+        #f5c518,
+        #ffe27a
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 
     letter-spacing:1px;
-
-    transition:.3s;
 }
 
 .navbar-brand:hover .brand-text{
@@ -171,43 +181,76 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     background:
     linear-gradient(
         180deg,
-        #111827,
-        #1f2937
+        #181818,
+        #242424
     );
 
     color:white;
+
+    border-left:
+    1px solid rgba(245,197,24,.15);
+
+    box-shadow:
+    -10px 0 30px rgba(0,0,0,.35);
 }
 
 .menu-link{
 
-    background:rgba(255,255,255,.05);
+    background:
+    rgba(255,255,255,.04);
+
+    border:
+    1px solid rgba(255,255,255,.05);
 
     color:white;
 
-    border:none;
+    text-decoration:none;
 
-    border-radius:12px;
-
-    margin-bottom:10px;
-
-    padding:15px 18px;
-
-    transition:.3s;
+    color:#f5f5f5;
 
     display:flex;
 
     align-items:center;
 
-    text-decoration:none;
+    gap:12px;
+
+    border-radius:14px;
+
+    padding:15px 18px;
 
     font-weight:600;
+
+    transition:.25s;
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:
+    0 4px 10px rgba(0,0,0,.08);
+}
+
+.menu-link i{
+
+    font-size:18px;
+
+    width:22px;
+
+    text-align:center;
+
+    flex-shrink:0;
 }
 
 .menu-link:hover{
 
-    background:#f5c518;
+    background:
+    rgba(245,197,24,.12);
 
-    color:#111;
+    border-color:
+    rgba(245,197,24,.25);
+
+    color:#f5c518;
+
+    transform:
+    translateX(4px);
 }
 
 .user-card{
@@ -216,12 +259,21 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
     padding:25px;
 
-    margin-bottom:20px;
+    margin-bottom:24px;
 
     border-radius:20px;
 
     background:
-    rgba(255,255,255,.05);
+    linear-gradient(
+        135deg,
+        rgba(245,197,24,.08),
+        rgba(255,255,255,.04)
+    );
+
+    border:
+    1px solid rgba(245,197,24,.12);
+
+    backdrop-filter:blur(10px);
 }
 
 .user-avatar{
@@ -278,6 +330,23 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     background:#dc3545 !important;
 
     color:white !important;
+}
+
+.menu-footer{
+
+    position:absolute;
+
+    bottom:30px;
+
+    left:25px;
+
+    right:25px;
+
+    text-align:center;
+
+    color:rgba(255,255,255,.45);
+
+    font-size:13px;
 }
 
 </style>
@@ -372,32 +441,41 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
       <div class="list-group border-0">
 
-          <a href="<?= BASE_URL ?>/customer/movies.php"
-            class="menu-link">
-              🎬 Browse Movies
-          </a>
+          <a href="<?= BASE_URL ?>/customer/movies.php" class="menu-link">
+            <i class="bi bi-film me-2"></i>
+            Browse Movies
+        </a>
 
-          <a href="<?= BASE_URL ?>/customer/history.php"
-            class="menu-link">
-              🎟 My Bookings
-          </a>
+        <a href="<?= BASE_URL ?>/customer/history.php" class="menu-link">
+            <i class="bi bi-ticket-perforated me-2"></i>
+            My Bookings
+        </a>
 
-          <a href="<?= BASE_URL ?>/customer/profile.php"
-            class="menu-link">
-              👤 My Profile
-          </a>
+        <a href="<?= BASE_URL ?>/customer/profile.php" class="menu-link">
+            <i class="bi bi-person-circle me-2"></i>
+            My Profile
+        </a>
 
-          <a href="<?= BASE_URL ?>/change_password.php"
-            class="menu-link">
-              🔒 Change Password
-          </a>
+        <a href="<?= BASE_URL ?>/change_password.php" class="menu-link">
+            <i class="bi bi-shield-lock me-2"></i>
+            Change Password
+        </a>
 
-          <a href="<?= BASE_URL ?>/auth/logout.php"
+        <a href="<?= BASE_URL ?>/auth/logout.php"
             class="menu-link logout-link">
-              🚪 Sign Out
-          </a>
+            <i class="bi bi-box-arrow-right me-2"></i>
+            Sign Out
+        </a>
 
       </div>
+
+      <div class="menu-footer">
+
+        <small>
+            GSC Movie Ticket Booking System
+        </small>
+
+    </div>
 
   </div>
 </div>
