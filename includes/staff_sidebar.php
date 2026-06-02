@@ -31,49 +31,20 @@
     flex-direction:column;
 }
 
+.menu-group{
+    flex:1;
+}
+
 .sidebar-header{
     text-align:center;
-    margin-bottom:35px;
+    margin-bottom:30px;
 }
 
 .sidebar h2{
     color:#f5c518;
-    font-size:30px;
+    font-size:28px;
     font-weight:800;
     letter-spacing:2px;
-    margin-bottom:4px;
-}
-
-.panel-label{
-    color:#9b9b9b;
-
-    font-size:11px;
-
-    font-weight:600;
-
-    letter-spacing:3px;
-
-    text-transform:uppercase;
-
-    margin-top:6px;
-}
-
-.sidebar-divider{
-    height:1px;
-
-    margin:0 0 25px;
-
-    background:
-    linear-gradient(
-        90deg,
-        transparent,
-        rgba(245,197,24,.25),
-        transparent
-    );
-}
-
-.menu-group{
-    flex:1;
 }
 
 .sidebar a{
@@ -84,7 +55,6 @@
     border-left:4px solid transparent;
 
     text-decoration:none;
-
     color:#d6d6d6;
 
     border-radius:10px;
@@ -97,6 +67,7 @@
 }
 
 .sidebar a:hover{
+
     background:
     rgba(245,197,24,.12);
 
@@ -104,6 +75,7 @@
 }
 
 .sidebar a.active{
+
     background:
     linear-gradient(
         90deg,
@@ -114,13 +86,11 @@
     color:#f5c518;
 
     border-left:4px solid #f5c518;
-
-    box-shadow:
-    inset 0 0 10px rgba(245,197,24,.08);
 }
 
 .logout-section{
-    margin-top:20px;
+
+    margin-top:50px;
 
     padding-top:25px;
 
@@ -129,22 +99,20 @@
 }
 
 .logout-btn{
+
     text-align:center;
 
     background:
     rgba(220,53,69,.15);
 
-    margin-top:20px !important;
-
     border:
     1px solid rgba(220,53,69,.25);
 
     color:#ff8b8b !important;
-    padding:14px 20px !important;
-    border-radius:10px !important;
 }
 
 .logout-btn:hover{
+
     background:
     rgba(220,53,69,.85) !important;
 
@@ -153,168 +121,164 @@
     transform:none !important;
 }
 
+.panel-label{
+
+    color:#9b9b9b;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+}
+
+.sidebar-divider{
+
+    height:1px;
+
+    margin:0px 0 25px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(245,197,24,.25),
+        transparent
+    );
+}
+
 </style>
 
-<div class="sidebar">
+    <div class="sidebar">
 
-    <div class="sidebar-header">
+        <div class="sidebar-header">
 
-        <h2>GSC</h2>
+            <h2>GSC</h2>
 
-        <div class="panel-label">
-            ADMIN CONTROL PANEL
+            <div class="panel-label">
+                CINEMA STAFF PANEL
+            </div>
+
         </div>
 
-    </div>
+        <div class="sidebar-divider"></div>
 
-    <div class="sidebar-divider"></div>
 
     <div class="menu-group">
-
-    <a 
-            href="<?= BASE_URL ?>/admin/admin_dashboard.php"
-
-            class="<?= basename($_SERVER['PHP_SELF']) == 'admin_dashboard.php' ? 'active' : '' ?>"
+        <a
+            href="<?= BASE_URL ?>/staff/staff_dashboard.php"
+            class="<?= basename($_SERVER['PHP_SELF']) == 'staff_dashboard.php' ? 'active' : '' ?>"
         >
             Dashboard
         </a>
 
         <?php
             $currentPage = basename($_SERVER['PHP_SELF']);
-            ?>
+        ?>
 
             <a 
-                href="<?= BASE_URL ?>/admin/movies/admin_movies.php"
+                href="<?= BASE_URL ?>/staff/customer_bookings.php"
 
                 class="<?= 
                     in_array(
                         $currentPage,
                         [
-                            'admin_movies.php',
-                            'add_movie.php',
-                            'delete_movie.php',
-                            'edit_movie.php',
-                            'view_movie.php'
+                            'customer_bookings.php',
+                            'booking_details.php',
+                            'generate_ticket.php'
                         ]
                     )
                     ? 'active'
                     : ''
                 ?>"
             >
-                Movies
+                Customer Bookings
             </a>
+
 
         <?php
             $currentPage = basename($_SERVER['PHP_SELF']);
-            ?>
+        ?>
 
             <a 
-                href="<?= BASE_URL ?>/admin/showtimes/admin_showtimes.php"
+                href="<?= BASE_URL ?>/staff/walkin_bookings.php"
 
                 class="<?= 
                     in_array(
                         $currentPage,
                         [
-                            'admin_showtimes.php',
-                            'add_showtime.php',
-                            'delete_showtime.php',
-                            'edit_showtime.php',
-                            'view_showtime.php'
+                            'walkin_bookings.php',
+                            'add_walkin_booking.php',
+                            'edit_walkin_booking.php',
+                            'view_walkin_booking.php',
+                            'walkin_qr_ticket.php'
                         ]
                     )
                     ? 'active'
                     : ''
                 ?>"
             >
-                Showtimes 
+                Walk-In Booking
             </a>
 
         <?php
             $currentPage = basename($_SERVER['PHP_SELF']);
-            ?>
+        ?>
 
             <a 
-                href="<?= BASE_URL ?>/admin/seats/admin_seats.php"
+                href="<?= BASE_URL ?>/staff/update_payment.php"
 
                 class="<?= 
                     in_array(
                         $currentPage,
                         [
-                            'admin_seats.php',
-                            'manage_seats.php'
-                            
+                            'update_payment.php'
                         ]
                     )
                     ? 'active'
                     : ''
                 ?>"
             >
-                Seats 
+                Update Payment Status
             </a>
 
+        
         <?php
             $currentPage = basename($_SERVER['PHP_SELF']);
-            ?>
-
-            <a
-                href="<?= BASE_URL ?>/admin/users/users.php"
-
-                class="<?= 
-                    in_array(
-                        $currentPage,
-                        [
-                            'users.php',
-                            'view_user.php',
-                            'view_booking.php',
-                            'toggle_user.php'
-                        ]
-                    )
-                    ? 'active'
-                    : ''
-                ?>"
-            >
-                Users Management
-            </a>
-
-
-        <?php
-            $currentPage = basename($_SERVER['PHP_SELF']);
-            ?>
-
-            <a
-                href="<?= BASE_URL ?>/admin/staff/staffs.php"
-
-                class="<?= 
-                    in_array(
-                        $currentPage,
-                        [
-                            'toggle_staff.php',
-                            'view_staff.php',
-                            'add_staff.php',
-                            'edit_staff.php',
-                            'staffs.php'
-                        ]
-                    )
-                    ? 'active'
-                    : ''
-                ?>"
-            >
-                Staff Management
-            </a>
-
-
-        <?php
-            $currentPage = basename($_SERVER['PHP_SELF']);
-            ?>
+        ?>
 
             <a 
-                href="<?= BASE_URL ?>/admin/admin_profile.php"
+                href="<?= BASE_URL ?>/staff/scan_qr.php"
 
                 class="<?= 
                     in_array(
                         $currentPage,
                         [
-                            'admin_profile.php',
+                            'scan_qr.php'
+                        ]
+                    )
+                    ? 'active'
+                    : ''
+                ?>"
+            >
+                Scan QR Ticket
+            </a>
+
+
+        <?php
+            $currentPage = basename($_SERVER['PHP_SELF']);
+        ?>
+
+            <a 
+                href="<?= BASE_URL ?>/staff/profile.php"
+
+                class="<?= 
+                    in_array(
+                        $currentPage,
+                        [
+                            'profile.php',
                             'change_password.php'
                         ]
                     )
@@ -324,17 +288,19 @@
             >
                 Profile
             </a>
-        </div>
+    </div>
+
 
     <div class="logout-section">
 
-        <a
-            href="<?= BASE_URL ?>/auth/logout.php"
-            class="logout-btn"
-        >
-            Logout
-        </a>
+            <a 
+                href="<?= BASE_URL ?>/auth/logout.php"
+                class="logout-btn"
+            >
+                Logout
+            </a>
 
     </div>
+
 
 </div>

@@ -122,52 +122,83 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         body{
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(rgba(245,242,234,0.92),rgba(255,220,164,0.92));
+            background:#f6f7fb;
             min-height:100vh;
         }
 
+        /* center container */
         .page-container{
             min-height:100vh;
             display:flex;
             justify-content:center;
             align-items:center;
             padding:40px;
+            margin-left:280px;
         }
 
+        /* card - match ticket style */
         .payment-card{
             width:100%;
             max-width:620px;
-            background:rgba(255,255,255,0.78);
-            border-radius:28px;
+
+            background:#ffffff;
+
+            border-radius:22px;
+
             padding:45px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+            border:1px solid rgba(0,0,0,.05);
         }
 
+        /* title */
         .page-title{
-            font-size:38px;
-            font-weight:700;
-            color:#f5c518;
-            margin-bottom:10px;
+            font-size:28px;
+            font-weight:800;
+            color:#1f1f1f;
             text-align:center;
+            margin-bottom:12px;
         }
 
         .page-subtitle{
             text-align:center;
-            color:#757575;
-            margin-bottom:35px;
+            color:#6c757d;
+            margin-bottom:30px;
+            position:relative;
+            padding-bottom:18px;
         }
 
+        .page-subtitle::after{
+            content:"";
+            position:absolute;
+            left:50%;
+            bottom:0;
+            transform:translateX(-50%);
+
+            width:70px;
+            height:2px;
+
+            background:#dee2e6;
+            border-radius:999px;
+        }
+
+        /* label */
         .form-label{
             font-weight:600;
-            color:#333;
-            margin-bottom:10px;
+            color:#495057;
+            margin-bottom:8px;
+            font-size:13px;
         }
 
+        /* inputs */
         .form-control,
         .form-select{
-            border-radius:14px;
-            padding:14px;
-            border:1px solid rgba(0,0,0,0.1);
+            border-radius:12px;
+            padding:12px 14px;
+
+            border:1px solid #e9ecef;
+
             box-shadow:none;
         }
 
@@ -177,55 +208,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             box-shadow:0 0 0 0.15rem rgba(245,197,24,0.25);
         }
 
+        /* buttons layout */
         .button-group{
-            display:flex;
-            gap:15px;
-            margin-top:20px;
+            text-align:center;
+            margin-top:32px;
         }
 
+        /* primary button */
         .btn-update{
-            flex:1;
-            height:58px;
-            background:#ffd53b;
-            color:#111;
+            min-width:220px;
+            height:50px;
+
             border:none;
-            border-radius:14px;
-            font-size:18px;
+            border-radius:12px;
+
+            font-size:15px;
             font-weight:700;
-            transition:0.25s;
+            letter-spacing:.3px;
+
+            transition:all .2s ease;
         }
 
-        .btn-update:hover{
-            background:#ffdc5f;
-            transform:scale(1.02);
+        /* Enabled */
+        .btn-update:not(:disabled){
+            background:#f7cf5b;
+            color:#1f1f1f;
+            cursor:pointer;
+
+            box-shadow:0 4px 12px rgba(245,197,24,.25);
         }
 
-        .back-btn{
-            flex:1;
-            height:58px;
-            text-decoration:none;
-            background:#2f2f2f;
-            color:white;
-            border-radius:14px;
-            font-size:18px;
-            font-weight:700;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            transition:0.25s;
+        .btn-update:not(:disabled):hover{
+            background:#f5c518;
+            transform:translateY(-2px);
+
+            box-shadow:0 8px 18px rgba(245,197,24,.35);
         }
 
-        .back-btn:hover{
-            background:#ffdd64;
-            color:#111;
-            transform:scale(1.02);
+        .btn-update:not(:disabled):active{
+            transform:translateY(0);
         }
+
+        /* Disabled */
+        .btn-update:disabled{
+            background:#e9ecef;
+            color:#adb5bd;
+            cursor:not-allowed;
+            box-shadow:none;
+        }
+
 
     </style>
 
 </head>
 
 <body>
+
+<?php include '../includes/staff_sidebar.php'; ?>
 
 <div class="page-container">
 
@@ -249,6 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <input
                     type="text"
+                    id="bookingId"
                     name="booking_id"
                     class="form-control"
                     placeholder="Enter booking ID"
@@ -263,8 +303,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </label>
 
                 <select
+                    id="paymentStatus"
                     name="payment_status"
                     class="form-select"
+                    required
                 >
                     <option selected disabled>
                         Select Status
@@ -283,16 +325,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button
                     type="submit"
                     class="btn-update"
+                    id="updateBtn"
+                    disabled
                 >
-                    Update Status
+                    Mark as Paid
                 </button>
 
-                <a
-                    href="<?= BASE_URL ?>/staff/staff_dashboard.php"
-                    class="back-btn"
-                >
-                    Back Dashboard
-                </a>
 
             </div>
 
@@ -301,6 +339,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
 </div>
+
+<script>
+
+const bookingId =
+    document.getElementById('bookingId');
+
+const paymentStatus =
+    document.getElementById('paymentStatus');
+
+const updateBtn =
+    document.getElementById('updateBtn');
+
+function validateForm(){
+
+    const bookingFilled =
+        bookingId.value.trim() !== '';
+
+    const statusSelected =
+        paymentStatus.value === 'Paid';
+
+    updateBtn.disabled =
+        !(bookingFilled && statusSelected);
+}
+
+bookingId.addEventListener(
+    'input',
+    validateForm
+);
+
+paymentStatus.addEventListener(
+    'change',
+    validateForm
+);
+
+validateForm();
+
+</script>
 
 </body>
 </html>

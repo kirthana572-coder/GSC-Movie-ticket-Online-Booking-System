@@ -82,10 +82,9 @@ $isExpired = $remaining <= 0;
 // Generate QR code
 $qr_data = "BOOKING:" . $booking['id'];
 
-$qr_url = "
-    https://api.qrserver.com/v1/create-qr-code/
-    ?size=250x250
-    &data=" . urlencode($qr_data);
+$qr_data = "BOOKING_ID:" . intval($booking['id']);
+
+$qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($qr_data);
 
 ?>
 
@@ -104,148 +103,238 @@ $qr_url = "
 
     <style>
 
-        body{
-            background:#f5f5f5;
-            font-family:'Segoe UI',sans-serif;
+       body{
+            margin:0;
+            background:#f6f7fb;
+            font-family:'Segoe UI', sans-serif;
+            padding-left:280px; 
         }
 
+        /* container */
         .ticket-container{
-            max-width:700px;
+            max-width:760px;
             margin:40px auto;
+            padding:0 20px;
         }
 
+        /* card */
         .ticket-card{
-            background:white;
-            border-radius:25px;
+            background:#fff;
+            border-radius:22px;
             overflow:hidden;
-            box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+            border:1px solid rgba(0,0,0,.05);
         }
 
+        /* header  */
         .ticket-header{
-            background:#f5c518;
-            padding:25px;
-            text-align:center;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            padding:22px 28px;
+
+            background: linear-gradient(135deg, #1f1f1f, #2b2b2b);
+
+            border-bottom:1px solid rgba(255,255,255,.06);
+
+            color:#fff;
         }
 
         .ticket-header h1{
-            margin:0;
-            font-size:40px;
+            font-size:20px;
             font-weight:800;
+            letter-spacing:1px;
+
+            display:flex;
+            align-items:center;
+            gap:10px;
+
+            margin:0;
         }
 
+        /* small brand dot */
+        .ticket-header h1::before{
+            content:"";
+            width:10px;
+            height:10px;
+            background:#f5c518;
+            border-radius:50%;
+            display:inline-block;
+            box-shadow:0 0 12px rgba(245,197,24,.6);
+        }
+
+        /* body */
         .ticket-body{
-            padding:35px;
+            padding:28px;
         }
 
+        /* info rows  */
         .info-row{
             display:flex;
             justify-content:space-between;
-            align-items:flex-start;
-            gap:20px;
-            border-bottom:1px solid rgba(0,0,0,0.08);
+            align-items:center;
+
             padding:14px 0;
+            border-bottom:1px solid #eef1f5;
         }
 
         .label{
-            color:#666;
+            color:#5f6b76;
+            font-size:12.5px;
+            font-weight:500;
         }
 
         .value{
-            font-weight:700;
-            color:#111;
+            font-weight:600;
+            color:#212529;
             text-align:right;
-            max-width:60%;
-            word-break:break-word;
+            padding-left:20px;
         }
 
+        /* status box */
+        .ticket-status{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+
+            padding:8px 14px;
+            border-radius:999px;
+
+            font-size:12px;
+            font-weight:800;
+            letter-spacing:.6px;
+
+            text-transform:uppercase;
+
+            box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+            margin-bottom:18px;
+        }
+
+        /* VALID */
+        .ticket-status.valid{
+            background:linear-gradient(135deg,#e7f8ee,#d2f5df);
+            color:#1e7e34;
+            border:1px solid rgba(30,126,52,.15);
+        }
+
+        /* USED */
+        .ticket-status.used{
+            background:linear-gradient(135deg,#fde8e8,#f8cfcf);
+            color:#c92a2a;
+            border:1px solid rgba(201,42,42,.15);
+        }
+
+        /* EXPIRED */
+        .ticket-status.expired{
+            background:linear-gradient(135deg,#fff4db,#ffe6a6);
+            color:#8a6d00;
+            border:1px solid rgba(138,109,0,.15);
+        }
+
+        /* expiry */
+        .expiry-box{
+            background:#fff8e1;
+            color:#b08900;
+            padding:10px 16px;
+            border-radius:12px;
+            font-weight:700;
+            margin:0 auto 18px;
+            width:fit-content;
+            font-size:14px;
+        }
+
+        /* QR */
+        .qr-box{
+            text-align:center;
+            margin-top:28px;
+            padding-top:22px;
+            border-top:1px solid #eef1f5;
+        }
+        .qr-box img{
+            width:220px;
+        }
+
+        /* ticket id */
         .ticket-id{
-            margin-top:15px;
-            font-size:18px;
+            margin-top:12px;
+            font-size:14px;
             font-weight:700;
-            color:#444;
+            color:#495057;
         }
 
+        /* buttons */
         .btn-print{
-            background:#f5c518;
-            border:none;
-            color:#111;
-            font-weight:700;
-            border-radius:30px;
-            padding:14px 40px;
-            transition:0.25s;
+            background:#f7cf5b !important; 
+            border:none !important;
+            color:#1f1f1f !important;
+
+            font-weight:700 !important;
+            border-radius:10px !important;
+
+            padding:10px 22px !important;
+
+            transition:0.2s ease;
         }
 
         .btn-print:hover{
+            background:#f5c518 !important; 
             transform:scale(1.03);
-            background:#ffd53d;
         }
 
         .btn-back{
-            background:#333;
-            border:none;
-            color:white;
-            font-weight:700;
-            border-radius:30px;
-            padding:14px 40px;
+            background:#f8f9fa;
+            border:1px solid #dee2e6;
+            color:#495057;
+
+            font-weight:600;
+            border-radius:10px;
+
+            padding:10px 22px;
             text-decoration:none;
         }
 
-        @media print{
+        .btn-back:hover{
+            background:#e9ecef;
+        }
 
-            .no-print{
-                display:none;
+        /* print */
+        @media print{
+            .no-print{ display:none !important; }
+
+            .sidebar,
+            aside,
+            #sidebar,
+            .staff-sidebar{
+                display:none !important;
             }
 
             body{
-                background:white;
+                background:#fff !important;
+                padding-left:0 !important;
+            }
+
+            .ticket-container{
+                margin:0 auto !important;
+                max-width:760px;
             }
 
             .ticket-card{
-                box-shadow:none;
+                box-shadow:none !important;
+                border:1px solid #ddd !important;
             }
-        }
 
-        .ticket-status{
-            text-align:center;
-            padding:16px;
-            border-radius:18px;
-            font-size:24px;
-            font-weight:800;
-            margin-bottom:25px;
-        }
+            .expiry-box{
+                display:none !important;
+            }
 
-        .valid{
-            background:linear-gradient(
-                135deg,
-                #22b156,
-                #31d56d
-            );
-
-            color:white;
-
-            box-shadow:0 10px 25px rgba(34,197,94,0.3);
-        }
-
-        .used{
-            background:linear-gradient(
-                135deg,
-                #e34545,
-                #ef4444
-            );
-
-            color:white;
-
-            box-shadow:0 10px 25px rgba(239,68,68,0.3);
-        }
-
-        .expiry-box{
-            background:#fff3cd;
-            color:#9a6a00;
-            padding:10px 18px;
-            border-radius:14px;
-            font-weight:700;
-            margin:0 auto 20px;
-            width:fit-content;
+            .ticket-header{
+                background:#1f1f1f !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
 
     </style>
@@ -253,6 +342,8 @@ $qr_url = "
 </head>
 
 <body>
+
+<?php include '../includes/staff_sidebar.php'; ?>
 
     <div class="ticket-container">
 
@@ -262,7 +353,7 @@ $qr_url = "
             <div class="ticket-header">
 
                 <h1>
-                    🎟️ GSC E-Ticket
+                    GSC E-Ticket
                 </h1>
 
             </div>
@@ -379,14 +470,7 @@ $qr_url = "
 
 
                 <!-- QR section -->
-                <div 
-                    style="
-                        display:block;
-                        width:100%;
-                        text-align:center;
-                        margin-top:50px;
-                    "
-                >
+                <div class="qr-box">
 
                     <!-- Countdown -->
                     <?php if (!$isExpired && $booking['qr_used'] == 0): ?>

@@ -121,6 +121,10 @@ switch ($_SESSION['role']) {
         a:hover{
             color: #000;
         }
+
+        ::-ms-reveal{
+            display:none;
+        }
     
     </style>
 </head>

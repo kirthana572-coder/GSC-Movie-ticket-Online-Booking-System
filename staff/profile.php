@@ -85,12 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         body{
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(
-                rgba(245,242,234,0.92),
-                rgba(255,220,164,0.92)
-            );
+            background:#f6f7fb;
             min-height:100vh;
-            animation:fadeBg 2s ease;
+
         }
 
         @keyframes fadeBg{
@@ -105,134 +102,196 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .main-container{
-            min-height:calc(100vh - 70px);
+            min-height:100vh;
+
             display:flex;
             justify-content:center;
             align-items:center;
+
+            margin-left:280px;
+
+            padding:40px;
+            transform:translateY(-20px);
         }
 
         .profile-card{
-            max-width:500px;
             width:100%;
-            padding:40px;
-            border-radius:28px;
+            max-width:620px;
+
+            background:#fff;
+
+            border-radius:22px;
+
+            padding:45px;
+
             border:none;
-            margin-bottom:-150px;
-            background:rgba(255,255,255,0.78);
-            box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
         }
 
         .profile-avatar{
-            width:120px !important;
-            height:120px !important;
-            border-radius:50% !important;
 
-            background:linear-gradient(
-                135deg,
-                #fceaa8,
-                #ffffff
-            ) !important;
+            width:95px;
+            height:95px;
 
-            color:#000000 !important;
+            border-radius:50%;
 
-            font-size:48px !important;
+            background:
+                linear-gradient(
+                    135deg,
+                    #f7cf5b,
+                    #f5c518
+                );
 
-            font-weight:bold !important;
+            color:#1f1f1f;
 
-            display:flex !important;
+            font-size:34px;
 
-            align-items:center !important;
+            font-weight:800;
 
-            justify-content:center !important;
+            display:flex;
+            align-items:center;
+            justify-content:center;
 
-            margin:auto !important;
+            margin:auto;
 
-            border:4px solid rgb(247,235,192) !important;
+            border:none;
 
-            box-shadow:0 5px 20px rgba(0,0,0,0.35) !important;
-
-            transition:0.25s;
+            box-shadow:none;
         }
 
-        .profile-avatar:hover{
-            transform:scale(1.05);
-        }
-
-        h3{
-            font-weight:bold;
-            color:#333;
+        form{
+            margin-top:10px;
         }
 
         .form-control{
             border-radius:12px;
-            padding:12px;
-            border:1px solid #ddd;
+
+            padding:12px 14px;
+
+            border:1px solid #e9ecef;
+
+            box-shadow:none;
         }
 
         .form-control:focus{
             border-color:#f5c518;
-            box-shadow:0 0 0 0.2rem rgba(245,197,24,0.25);
+
+            box-shadow:
+            0 0 0 .15rem rgba(245,197,24,.25);
         }
 
-        .btn-warning{
-            background:#ffd53b !important;
-            border:none !important;
-            color:#111 !important;
-            border-radius:14px;
-            padding:14px;
-            font-size:17px;
-            font-weight:700;
-            transition:0.25s;
-        }
-
-        .btn-warning:hover{
-            background:#ffdc5f !important;
-            transform:scale(1.02);
-        }
-
-        .btn-outline-dark{
-            border-radius:14px;
-            padding:14px;
-            font-weight:700;
+        .page-title{
+            font-size:28px;
+            font-weight:800;
+            color:#1f1f1f;
             text-align:center;
-            text-decoration:none;
-            color:#222;
-            border:1px solid #222;
-            transition:0.3s;
-            display:block;
+            margin-bottom:10px;
         }
 
-        .btn-outline-dark:hover{
-            background:#222;
+        .page-subtitle{
+            text-align:center;
+            color:#6c757d;
+
+            margin-bottom:30px;
+
+            position:relative;
+            padding-bottom:18px;
+        }
+
+        .page-subtitle::after{
+            content:"";
+
+            position:absolute;
+
+            left:50%;
+            bottom:0;
+
+            transform:translateX(-50%);
+
+            width:70px;
+            height:2px;
+
+            background:#dee2e6;
+
+            border-radius:999px;
+        }
+
+        .btn-update,
+        .btn-password{
+
+            width:100%;
+            height:52px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:12px;
+
+            font-weight:700;
+
+            text-decoration:none;
+        }
+
+        .btn-update{
+
+            background:#f7cf5b;
+            color:#1f1f1f;
+            border:none;
+        }
+
+        .btn-update:hover{
+
+            background:#f5c518;
+            transform:translateY(-2px);
+        }
+
+        .btn-password{
+
+            background:#2f2f2f;
             color:#fff;
+
+            margin-top:12px;
+        }
+
+        .button-group{
+
+            margin-top:60px;
+        }
+
+        .btn-password:hover{
+
+            background:#1f1f1f;
+            color:#fff;
+
+            transform:translateY(-2px);
         }
 
         label{
-            font-weight:500;
-            margin-bottom:6px;
-        }
-
-        .top-bar{
-            position:absolute;
-            top:50px;
-            left:500px;
-        }
-
-        .back-btn{
-            display:inline-block;
-            text-decoration:none;
-            background:#ffd500;
-            color:#353535;
-            padding:8px 16px;
-            border-radius:12px;
+            font-size:13px;
             font-weight:600;
-            transition:0.25s;
+            color:#495057;
+            margin-bottom:8px;
         }
 
-        .back-btn:hover{
-            background:#f5c518;
-            color:#111;
-            transform:translateY(-2px);
+        .alert{
+            border:none;
+            border-radius:14px;
+            font-weight:600;
+        }
+
+        .alert-success{
+            background:#e7f8ee;
+            color:#1e7e34;
+            text-align:center;
+        }
+
+        .btn-update:disabled{
+            background:#e9ecef;
+            color:#adb5bd;
+            cursor:not-allowed;
         }
 
     </style>
@@ -241,18 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <!-- Top bar -->
-    <div class="top-bar">
-
-        <a 
-            href="staff_dashboard.php" 
-            class="back-btn"
-        >
-            ← Back Dashboard
-        </a>
-
-    </div>
-
+<?php include '../includes/staff_sidebar.php'; ?>
 
     <!-- Main content -->
     <div class="main-container">
@@ -272,11 +320,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
             <!-- Title -->
-            <h3 class="text-center mb-4">
-
+            <h1 class="page-title">
                 Staff Profile
+            </h1>
 
-            </h3>
+            <p class="page-subtitle">
+                Manage your account information and security settings
+            </p>
 
 
             <!-- Success message -->
@@ -294,6 +344,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </label>
 
                     <input 
+                        id="fullName"
                         type="text"
                         name="full_name"
                         class="form-control"
@@ -307,7 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 <!-- Email -->
-                <div class="mb-4">
+                <div class="mb-5">
 
                     <label>
                         Email
@@ -326,17 +377,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 <!-- Buttons -->
-                <div class="d-grid gap-2">
+                <div class="button-group">
 
-                    <button class="btn btn-warning">
-
+                    <button
+                        class="btn-update"
+                        id="updateBtn"
+                        disabled
+                    >
                         Update Profile
-
                     </button>
 
                     <a 
                         href="<?= BASE_URL ?>/staff/change_password.php"
-                        class="btn-outline-dark"
+                        class="btn-password"
                     >
                         Change Password
                     </a>
@@ -348,6 +401,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
     </div>
+
+    <script>
+
+    const originalName =
+        document.getElementById('fullName').value;
+
+    const fullName =
+        document.getElementById('fullName');
+
+    const updateBtn =
+        document.getElementById('updateBtn');
+
+    function validateProfile(){
+
+        updateBtn.disabled =
+            fullName.value.trim() === '' ||
+            fullName.value.trim() === originalName;
+    }
+
+    fullName.addEventListener(
+        'input',
+        validateProfile
+    );
+
+    validateProfile();
+
+    </script>
 
 
     <!-- Notification JS -->

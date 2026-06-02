@@ -86,88 +86,132 @@ if (!$booking) {
 
         body{
             margin:0;
-            font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(
-                rgba(248,242,226,0.92),
-                rgba(255,230,191,0.92)
-            );
+            font-family:'Segoe UI', sans-serif;
+            background:#f6f7fb;
             min-height:100vh;
         }
 
+        /* container */
         .details-container{
-            min-height:calc(100vh - 70px);
+            margin-left:280px;
+            width:calc(100% - 280px);
+            min-height:100vh;
             display:flex;
             justify-content:center;
-            align-items:center;
+            align-items:flex-start;
             padding:40px;
+            box-sizing:border-box;
+            transform:translateY(-10px);
         }
 
+        /* card */
         .details-card{
             width:100%;
-            max-width:650px;
-            background:#f3f1ec;
-            border-radius:28px;
-            padding:40px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.18);
+            max-width:780px;
+            background:#fff;
+
+            border-radius:22px; 
+            padding:32px;
+
+            border:1px solid rgba(0,0,0,.05);
+
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
         }
 
+        /* title */
         .page-title{
-            text-align:center;
-            font-size:38px;
-            font-weight:700;
-            color:#f5c518;
-            margin-bottom:10px;
+            font-size:30px;
+            font-weight:800;
+            color:#2f2f2f;
+            margin-bottom:6px;
         }
 
         .page-subtitle{
-            text-align:center;
-            color:#666;
-            margin-bottom:30px;
+            color:#777;
+            font-size:14px;
+            margin-bottom:25px;
         }
 
+        /* info box */
         .booking-info{
-            background:rgba(255,255,255,0.7);
-            border-radius:20px;
-            padding:25px;
+            display:flex;
+            flex-direction:column;
+            gap:0;
         }
 
+        /* row */
         .info-row{
             display:flex;
             justify-content:space-between;
-            margin-bottom:16px;
-            padding-bottom:10px;
-            border-bottom:1px solid rgba(0,0,0,0.08);
+            align-items:center;
+
+            padding:16px 0;
+            border-bottom:1px solid #eef1f5;
         }
 
+        .info-row:last-child{
+            border-bottom:none;
+        }
+
+        /* label */
         .info-label{
-            color:#666;
+            color:#868e96;
+            font-size:13px;
         }
 
+        /* value */
         .info-value{
             font-weight:600;
-            color:#222;
+            color:#212529;
+            text-align:right;
+            max-width:60%;
         }
 
+        /* status badge (professional) */
         .status-badge{
-            background:#ffd95d;
-            color:#222;
-            padding:8px 18px;
-            border-radius:30px;
+            padding:8px 14px;
+            border-radius:20px;
+            font-size:12px;
             font-weight:700;
         }
 
+        /* status colors */
+        .status-paid{
+            background:#e6f4ea;
+            color:#1e7e34;
+        }
+
+        .status-pending{
+            background:#fff8e1;
+            color:#b08900;
+        }
+
+        .status-cancelled{
+            background:#fdecea;
+            color:#c92a2a;
+        }
+
+        .status-expired{
+            background:#f1f3f5;
+            color:#495057;
+        }
+
+        /* button */
         .btn-history{
-            background:#ffcf23 !important;
+            background:#212529 !important;
             border:none !important;
-            color:#111 !important;
-            font-weight:700 !important;
-            border-radius:30px !important;
-            padding:18px 60px !important;
-            transition:0.3s !important;
+            color:#fff !important;
+
+            font-weight:600 !important;
+            border-radius:10px !important;
+
+            padding:10px 22px !important;
+
+            transition:.2s;
         }
 
         .btn-history:hover{
-            background:#ffd43b !important;
+            background:#343a40 !important;
             transform:scale(1.03);
         }
 
@@ -176,6 +220,8 @@ if (!$booking) {
 </head>
 
 <body>
+
+<?php include '../includes/staff_sidebar.php'; ?>
 
     <div class="details-container">
 
@@ -253,7 +299,19 @@ if (!$booking) {
                 <div class="info-row">
                     <span class="info-label">Payment Status</span>
 
-                    <span class="status-badge">
+                    <?php
+                    $status = strtolower($booking['payment_status']);
+
+                    $class = match($status){
+                        'paid' => 'status-badge status-paid',
+                        'pending' => 'status-badge status-pending',
+                        'cancelled' => 'status-badge status-cancelled',
+                        'expired' => 'status-badge status-expired',
+                        default => 'status-badge status-pending'
+                    };
+                    ?>
+
+                    <span class="<?= $class ?>">
                         <?= strtoupper($booking['payment_status']) ?>
                     </span>
                 </div>

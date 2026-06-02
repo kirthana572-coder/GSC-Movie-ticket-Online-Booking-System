@@ -20,6 +20,9 @@ require_once 'config/db.php';
         .btn-warning:hover{ background-color:#e0b400; transform:scale(1.03); }
         a{ text-decoration:none; color:#555; }
         a:hover{ color:#000; }
+        ::-ms-reveal{
+            display:none;
+        }
     </style>
 </head>
 <body>

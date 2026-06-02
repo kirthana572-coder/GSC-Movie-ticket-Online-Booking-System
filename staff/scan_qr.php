@@ -133,122 +133,216 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         body{
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(
-                rgba(245,242,234,0.95),
-                rgba(255,220,164,0.92)
-            );
+            background:#f6f7fb;
             min-height:100vh;
         }
 
         .container-custom{
-            max-width:700px;
-            margin:50px auto;
-            padding:20px;
+            margin-left:280px;
+
+            padding:40px;
+
+            display:flex;
+            justify-content:center;
+
+            box-sizing:border-box;
         }
 
         .card{
-            border:none;
-            border-radius:30px;
-            background:rgba(255,255,255,0.88);
-            padding:40px;
-            box-shadow:0 10px 35px rgba(0,0,0,0.15);
+            width:100%;
+            max-width:720px !important;
+
+            background:#fff;
+
+            border-radius:22px;
+
+            padding:30px !important;
+
+            border:1px solid rgba(0,0,0,.05);
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
         }
 
         .page-title{
-            text-align:center;
-            font-size:40px;
+            font-size:28px;
             font-weight:800;
-            color:#f5c518;
-            margin-bottom:8px;
+            color:#1f1f1f;
+            text-align:center;
+            margin-bottom:10px;
         }
 
         .page-subtitle{
             text-align:center;
-            color:#777;
-            margin-bottom:35px;
+            color:#6c757d;
+
+            margin-bottom:30px;
+
+            position:relative;
+            padding-bottom:18px;
         }
 
+        .page-subtitle::after{
+            content:"";
+
+            position:absolute;
+
+            left:50%;
+            bottom:0;
+
+            transform:translateX(-50%);
+
+            width:70px;
+            height:2px;
+
+            background:#dee2e6;
+
+            border-radius:999px;
+        }
+
+        /* QR Scanner */
         #reader{
-            width:100%;
+            width:100% !important;
+
+            border:1px solid #e9ecef;
+            border-radius:16px;
+
             overflow:hidden;
-            border-radius:25px;
-            border:4px solid rgba(245,197,24,0.4);
-            margin-bottom:30px;
-            box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+            padding:15px;
+
+            box-sizing:border-box;
+        }
+
+
+        #reader video{
+            width:100% !important;
+            border-radius:12px;
+        }
+
+        #reader img{
+            max-width:100% !important;
+        }
+
+        #reader__scan_region{
+            min-height:350px;
+        }
+
+        #reader__dashboard{
+            padding-top:15px;
         }
 
         .manual-box{
-            background:rgba(255,255,255,0.7);
-            border-radius:20px;
-            padding:25px;
+            background:#f8f9fa;
+
+            border:1px solid #eef1f5;
+
+            border-radius:16px;
+
+            padding:20px;
+
             margin-top:20px;
         }
 
-        .form-control{
-            border-radius:15px !important;
-            padding:14px !important;
-            border:1px solid rgba(0,0,0,0.1) !important;
+        .manual-title{
+            text-align:center;
+            font-size:16px;
+            font-weight:700;
+            color:#212529;
+            margin-bottom:6px;
+        }
+
+        .manual-subtitle{
+            text-align:center;
+            font-size:13px;
+            color:#6c757d;
+            margin-bottom:20px;
+        }
+
+        .form-control,
+        .form-select{
+            border-radius:12px !important;
+
+            padding:12px 14px !important;
+
+            border:1px solid #e9ecef !important;
+
             box-shadow:none !important;
         }
 
-        .form-control:focus{
+        .form-control:focus,
+        .form-select:focus{
             border-color:#f5c518 !important;
-            box-shadow:0 0 0 0.15rem rgba(245,197,24,0.25) !important;
+
+            box-shadow:
+            0 0 0 .15rem rgba(245,197,24,.25)
+            !important;
         }
 
         .btn-validate{
-            background:#f5c518 !important;
-            color:#111 !important;
+            background:#f7cf5b !important;
+
+            color:#1f1f1f !important;
+
             border:none !important;
-            border-radius:15px !important;
-            padding:12px 22px !important;
+
+            border-radius:12px !important;
+
             font-weight:700 !important;
-            transition:0.25s;
+
+            transition:.2s ease;
         }
 
         .btn-validate:hover{
-            background:#ffd83d !important;
-            transform:scale(1.03);
+            background:#f5c518 !important;
+
+            transform:translateY(-2px);
         }
 
         .alert{
-            border-radius:18px;
             border:none;
-            padding:18px;
+            border-radius:14px;
             font-weight:600;
         }
 
-        .alert-danger{
-            background:rgba(220,53,69,0.12);
-            color:#b02a37;
-        }
-
         .alert-success{
-            background:rgba(25,135,84,0.12);
-            color:#146c43;
+            background:#e7f8ee;
+            color:#1e7e34;
         }
 
-        .btn-back{
-            background:#2f2f2f !important;
-            color:white !important;
-            border:none !important;
-            border-radius:16px !important;
-            padding:12px 28px !important;
-            font-weight:700 !important;
-            transition:0.25s;
+        .alert-danger{
+            background:#fde8e8;
+            color:#c92a2a;
         }
 
-        .btn-back:hover{
-            background:#f5c518 !important;
-            color:#111 !important;
-            transform:scale(1.03);
+        .manual-form{
+            display:flex;
+            gap:12px;
+            align-items:center;
         }
+
+        .manual-form .form-select{
+            width:180px;
+            flex:none;
+        }
+
+        .manual-form .form-control{
+            flex:1;
+        }
+
+        .btn-validate{
+            min-width:120px;
+            height:48px;
+        }
+
 
     </style>
 
 </head>
 
 <body>
+
+<?php include '../includes/staff_sidebar.php'; ?>
 
 <div class="container-custom">
 
@@ -270,13 +364,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Manual Validation -->
         <div class="manual-box">
 
-            <p class="text-center fw-bold mb-4">
-                Or Enter Booking ID Manually
+            <p class="manual-title">
+                Manual Ticket Validation
+            </p>
+
+            <p class="manual-subtitle">
+                Validate customer tickets using Booking ID or Booking Code.
             </p>
 
             <form method="POST">
 
-                <div class="input-group mb-3">
+                <div class="manual-form">
 
                     <select name="type" class="form-select">
 
@@ -324,19 +422,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
         <?php endif; ?>
-
-
-        <!-- Back Button -->
-        <div class="text-center mt-3">
-
-            <a 
-                href="<?= BASE_URL ?>/staff/staff_dashboard.php" 
-                class="btn btn-back"
-            >
-                Back
-            </a>
-
-        </div>
 
     </div>
 
@@ -411,8 +496,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     const config = {
         fps:10,
         qrbox:{
-            width:250,
-            height:250
+            width:300,
+            height:300
         }
     };
 

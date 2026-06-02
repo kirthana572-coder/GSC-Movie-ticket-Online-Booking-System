@@ -43,13 +43,7 @@ $confirmedTickets = $conn->query("
         body{
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:
-                linear-gradient(
-                    rgba(245,242,234,0.9),
-                    rgba(255,230,191,0.81)
-                ),
-                url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1974&auto=format&fit=crop')
-                center/cover no-repeat fixed;
+            background:#f6f7fb;
 
             min-height:100vh;
         }
@@ -59,59 +53,103 @@ $confirmedTickets = $conn->query("
             min-height:100vh;
         }
 
-        /* Sidebar */
-        .sidebar{
-            width:270px;
-            background:rgba(255,255,255,0.6);
-            backdrop-filter:blur(10px);
-            padding:30px 20px;
-            border-right:1px solid rgba(255,255,255,0.08);
-        }
-
-        .sidebar h2{
-            color:#f2c112;
-            font-weight:400;
-            margin-bottom:40px;
-            text-align:center;
-        }
-
-        .sidebar a{
-            display:block;
-            text-decoration:none;
-            color:#222;
-            padding:14px 18px;
-            border-radius:14px;
-            margin-bottom:12px;
-            transition:0.25s;
-            font-weight:500;
-        }
-
-        .sidebar a:hover{
-            background:#ffe896;
-            color:#111;
-            transform:translateX(4px);
-        }
-
-        .sidebar .active{
-            background:#ffde65;
-            color:#111;
-        }
 
         /* Main Content */
         .main-content{
-            flex:1;
-            padding:40px;
+
+            margin-left:280px;
+
+            width:calc(100% - 280px);
+
+            min-height:100vh;
+
+            padding:50px;
         }
 
-        .welcome-box h1{
-            font-size:42px;
+
+        /* Quick Actions */
+        .quick-actions{
+            margin-top:50px;
+        }
+
+        .quick-actions h3{
+
+            font-size:24px;
+
             font-weight:700;
-            color:#ffc800;
+
+            color:#2f2f2f;
+
+            margin-bottom:25px;
         }
 
-        .welcome-box p{
-            color:#878787;
-            font-size:18px;
+        .quick-grid{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(220px,1fr));
+
+            gap:20px;
+
+            margin-top:25px;
+        }
+
+        .quick-card{
+
+            background:#fff;
+
+            padding:28px;
+
+            border-radius:20px;
+
+            border:1px solid rgba(0,0,0,.05);
+
+            text-decoration:none;
+
+            color:#333;
+
+            font-weight:700;
+
+            box-shadow:
+            0 8px 20px rgba(0,0,0,.08);
+
+            transition:.25s;
+        }
+
+        .quick-card:hover{
+
+            transform:translateY(-4px);
+
+            color:#f5c518;
+
+            box-shadow:
+            0 14px 28px rgba(0,0,0,.12);
+        }
+
+
+        .dashboard-header{
+
+            margin-bottom:30px;
+
+            padding-bottom:25px;
+
+        }
+
+        .dashboard-header h1{
+
+            color:#2f2f2f;
+
+            font-size:42px;
+
+            font-weight:800;
+        }
+
+        .dashboard-header p{
+
+            color:#777;
+
+            font-size:16px;
         }
 
         /* Statistics */
@@ -122,201 +160,96 @@ $confirmedTickets = $conn->query("
         }
 
         .stats-card{
-            background:rgba(255,255,255,0.72);
-            border:1px solid rgba(0,0,0,0.06);
-            border-radius:24px;
-            padding:30px;
-            backdrop-filter:blur(10px);
-            transition:0.3s;
-            box-shadow:0 8px 24px rgba(0,0,0,0.25);
+
+            background:#fff;
+
+            border-radius:22px;
+
+            padding:32px;
+
+            border:1px solid rgba(0,0,0,.05);
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
+
+            transition:.25s;
+
+            position:relative;
+
+            overflow:hidden;
+        }
+
+        .stats-card::before{
+
+            content:'';
+
+            position:absolute;
+
+            top:0;
+            left:0;
+
+            width:100%;
+            height:4px;
+
+            background:#f5c518;
         }
 
         .stats-card:hover{
-            transform:translateY(-6px);
-            box-shadow:0 14px 32px rgba(0,0,0,0.35);
-        }
 
-        .stats-icon{
-            font-size:42px;
-            margin-bottom:18px;
+            transform:translateY(-5px);
+
+            box-shadow:
+            0 16px 35px rgba(0,0,0,.12);
         }
 
         .stats-title{
-            font-size:18px;
-            color:#666;
-            margin-bottom:10px;
+
+            color:#777;
+
+            font-size:15px;
+
+            text-transform:uppercase;
+
+            letter-spacing:1px;
         }
 
         .stats-number{
-            font-size:40px;
-            font-weight:700;
-            color:#f5c518;
-        }
 
-        /* Quick Actions */
-        .quick-actions{
-            margin-top:50px;
-        }
+            margin-top:12px;
 
-        .quick-actions h3{
-            margin-bottom:20px;
-            color:#212120;
-        }
+            font-size:52px;
 
-        .action-buttons{
-            display:flex;
-            gap:18px;
-            flex-wrap:wrap;
-        }
+            font-weight:800;
 
-        .action-buttons a{
-            text-decoration:none;
-            background:#ffd53d;
-            color:#373737;
-            padding:14px 24px;
-            border-radius:30px;
-            font-weight:700;
-            transition:0.25s;
-        }
-
-        .action-buttons a:hover{
-            background:#ffedaa;
-            transform:scale(1.04);
-        }
-
-        /* Top Menu */
-        .menu-wrapper{
-            position:relative;
-        }
-
-        .menu-btn{
-            border:none;
-            background:rgba(255,255,255,0.8);
-            width:52px;
-            height:52px;
-            border-radius:14px;
-            font-size:28px;
-            cursor:pointer;
-            transition:0.25s;
-            box-shadow:0 6px 16px rgba(0,0,0,0.1);
-        }
-
-        .menu-btn:hover{
-            background:#f5c518;
-            transform:scale(1.05);
-        }
-
-        .dropdown-menu-custom{
-            position:absolute;
-            right:0;
-            top:65px;
-            width:220px;
-            background:rgba(255,255,255,0.92);
-            border-radius:18px;
-            overflow:hidden;
-            box-shadow:0 10px 24px rgba(0,0,0,0.15);
-            display:none;
-            z-index:999;
-        }
-
-        .dropdown-menu-custom a{
-            display:block;
-            padding:16px 20px;
-            text-decoration:none;
             color:#222;
-            font-weight:600;
-            transition:0.2s;
         }
-
-        .dropdown-menu-custom a:hover{
-            background:#f5c518;
-        }
-
-        .top-bar{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:35px;
-        }
-
     </style>
 
 </head>
 
 <body>
 
+
 <div class="dashboard-container">
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-
-        <br>
-        <br>
-
-        <h2>Staff Panel</h2>
-
-        <a 
-            href="<?= BASE_URL ?>/staff/staff_dashboard.php" 
-            class="active"
-        >
-            Dashboard
-        </a>
-
-        <a href="<?= BASE_URL ?>/staff/customer_bookings.php">
-            View Customer Bookings
-        </a>
-
-        <a href="<?= BASE_URL ?>/staff/update_payment.php">
-            Update Payment Status
-        </a>
-
-        <a href="<?= BASE_URL ?>/staff/scan_qr.php">
-            Scan QR Ticket
-        </a>
-
-        <a href="<?= BASE_URL ?>/staff/walkin_bookings.php">
-            Walk-in Bookings
-        </a>
-
-    </div>
-
+    <?php include '../includes/staff_sidebar.php'; ?>
 
     <!-- Main Content -->
     <div class="main-content">
 
         <!-- Top Bar -->
-        <div class="top-bar">
 
-            <div class="welcome-box">
+        <div class="dashboard-header">
 
-                <h1>Welcome, Staff 👋</h1>
+            <div>
+
+                <h1>
+                    Staff Dashboard
+                </h1>
 
                 <p>
-                    Manage cinema bookings, payments, tickets, 
-                    and walk-in customers.
+                    Monitor bookings, payments, tickets and walk-in customers.
                 </p>
-
-            </div>
-
-
-            <!-- Dropdown Menu -->
-            <div class="menu-wrapper">
-
-                <button class="menu-btn" onclick="toggleMenu()">
-                    ☰
-                </button>
-
-                <div class="dropdown-menu-custom" id="dropdownMenu">
-
-                    <a href="<?= BASE_URL ?>/staff/profile.php">
-                        My Profile
-                    </a>
-
-                    <a href="<?= BASE_URL ?>/auth/logout.php">
-                        Sign Out
-                    </a>
-
-                </div>
 
             </div>
 
@@ -328,8 +261,6 @@ $confirmedTickets = $conn->query("
 
             <!-- Total Bookings -->
             <div class="stats-card">
-
-                <div class="stats-icon">🎟️</div>
 
                 <div class="stats-title">
                     Total Bookings
@@ -345,8 +276,6 @@ $confirmedTickets = $conn->query("
             <!-- Pending Payments -->
             <div class="stats-card">
 
-                <div class="stats-icon">⏳</div>
-
                 <div class="stats-title">
                     Pending Payments
                 </div>
@@ -360,8 +289,6 @@ $confirmedTickets = $conn->query("
 
             <!-- Confirmed Tickets -->
             <div class="stats-card">
-
-                <div class="stats-icon">✅</div>
 
                 <div class="stats-title">
                     Confirmed Tickets
@@ -381,14 +308,34 @@ $confirmedTickets = $conn->query("
 
             <h3>Quick Actions</h3>
 
-            <div class="action-buttons">
+            <div class="quick-grid">
 
-                <a href="<?= BASE_URL ?>/staff/customer_bookings.php">
-                    View Customer Bookings
+                <a
+                    href="<?= BASE_URL ?>/staff/customer_bookings.php"
+                    class="quick-card"
+                >
+                    Customer Bookings
                 </a>
 
-                <a href="<?= BASE_URL ?>/staff/scan_qr.php">
-                    Scan QR
+                <a
+                    href="<?= BASE_URL ?>/staff/scan_qr.php"
+                    class="quick-card"
+                >
+                    Scan QR Ticket
+                </a>
+
+                <a
+                    href="<?= BASE_URL ?>/staff/walkin_bookings.php"
+                    class="quick-card"
+                >
+                    Walk-In Booking
+                </a>
+
+                <a
+                    href="<?= BASE_URL ?>/staff/update_payment.php"
+                    class="quick-card"
+                >
+                    Payment Status
                 </a>
 
             </div>
@@ -398,37 +345,6 @@ $confirmedTickets = $conn->query("
     </div>
 
 </div>
-
-
-<script>
-
-    // Toggle dropdown menu
-    function toggleMenu(){
-
-        const menu = document.getElementById("dropdownMenu");
-
-        menu.style.display =
-            menu.style.display === "block"
-            ? "none"
-            : "block";
-    }
-
-
-    // Close dropdown when clicking outside
-    window.onclick = function(event){
-
-        if(!event.target.matches('.menu-btn')){
-
-            const menu = document.getElementById("dropdownMenu");
-
-            if(menu.style.display === "block"){
-
-                menu.style.display = "none";
-            }
-        }
-    }
-
-</script>
 
 </body>
 </html>

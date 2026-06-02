@@ -4,6 +4,51 @@
 require_once '../includes/staff_auth.php';
 require_once '../config/db.php';
 
+if(isset($_GET['term'])){
+
+    $term = trim($_GET['term']);
+
+    $data = [];
+
+    $stmt = $conn->prepare("
+        SELECT 
+            u.id AS user_id,
+            u.full_name,
+            MIN(b.id) AS booking_id
+        FROM users u
+        JOIN bookings b ON b.user_id = u.id
+        WHERE
+            CAST(b.id AS CHAR) LIKE ?
+            OR u.full_name LIKE ?
+        GROUP BY u.id, u.full_name
+        ORDER BY u.full_name ASC
+        LIMIT 8
+    ");
+
+$searchTerm = '%' . $term . '%';
+
+$stmt->bind_param(
+    "ss",
+    $searchTerm,
+    $searchTerm
+);
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+
+        $data[] = [
+            'id' => $row['booking_id'],
+            'name' => $row['full_name']
+        ];
+    }
+
+    echo json_encode($data);
+    exit();
+}
+
 // Update payment status
 if(isset($_POST['update_status'])){
 
@@ -177,14 +222,30 @@ $sql = "
 ";
 
 
-// Search by booking ID
+// Search by booking ID And Name
+$params = [];
+$types = '';
+
 if (!empty($search)) {
 
-    $search = $conn->real_escape_string($search);
+    if (ctype_digit($search)) {
 
-    $sql .= "
-        WHERE b.id = '$search'
-    ";
+        $sql .= "
+            WHERE b.id = ?
+        ";
+
+        $params[] = $search;
+        $types .= "i";
+
+    } else {
+
+        $sql .= "
+            WHERE u.full_name LIKE ?
+        ";
+
+        $params[] = "%{$search}%";
+        $types .= "s";
+    }
 }
 
 
@@ -195,7 +256,19 @@ $sql .= "
 
 
 // Execute query
-$bookings = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+
+if (!empty($params)) {
+
+    $stmt->bind_param(
+        $types,
+        ...$params
+    );
+}
+
+$stmt->execute();
+
+$bookings = $stmt->get_result();
 
 ?>
 
@@ -217,65 +290,200 @@ $bookings = $conn->query($sql);
         body{
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(
-                rgba(245,242,234,0.92),
-                rgba(255,220,164,0.92)
-            );
+            background:#f6f7fb;
             min-height:100vh;
         }
 
         .container-box{
-            padding:40px;
+            margin-left:280px;
+            padding:50px;
         }
 
-        .page-title{
-            margin-top:40px !important;
-            margin-bottom:50px !important;
-            position:absolute;
-            left:50%;
-            top:30px;
-            transform:translateX(-50%);
-            font-size:55px;
-            font-weight:700;
-            color:#f5c518;
+        .page-header{
+            margin-bottom:35px;
+        }
+
+        .page-header h1{
+            font-size:40px;
+            font-weight:800;
+            color:#2f2f2f;
+            margin-bottom:8px;
+        }
+
+        .page-header p{
+            color:#777;
             margin:0;
         }
 
-        .search-bar{
+        .page-header-row{
             display:flex;
-            justify-content:center;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .mini-search{
+            flex: 0 0 320px;
+            max-width: 520px !important;
+            transform: translateX(-40px);
+        }
+
+        .search-wrapper{
+            display:flex;
             align-items:center;
             gap:12px;
-            margin-top:80px;
-            margin-bottom:50px;
+            width:100%;
+        }
+
+        .mini-search .input-group{
+            width:100%;
+            display:flex;
+            overflow:hidden;
+            border-radius:14px;
+            box-shadow:0 4px 15px rgba(0,0,0,.08);
+        }
+
+        .mini-search .form-control{
+            flex:1;
+            min-width:0;
+            height:48px;
+            border:none;
+            box-shadow:none;
+        }
+
+        #bookingSearch:focus{
+            box-shadow:none;
+            border:none;
+        }
+
+        .btn-search:focus{
+            box-shadow:none;
+        }
+
+
+        .btn-reset{
+            height:48px;
+            padding:0 18px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:14px;
+            border:1px solid #dee2e6;
+
+            background:#fff;
+            color:#495057;
+
+            text-decoration:none;
+            font-weight:600;
+
+            transition:.2s;
+        }
+
+        .btn-reset:hover{
+            background:#f8f9fa;
+            color:#212529;
         }
 
         .search-bar input{
-            max-width:450px !important;
-            height:46px;
+
+            max-width:350px;
+
+            height:48px;
+
+            border-radius:12px;
         }
 
-        .table{
-            background:rgba(255,255,255,0.77) !important;
-            border-radius:20px;
+        .search-wrapper{
+            position:relative;
+            transform:translateY(15px);
+        }
+
+        .search-box{
+            position:relative;
+            width:100%;
+        }
+
+        .search-suggestions{
+            position:absolute;
+            top:100%;
+            left:0;
+            width:100%;
+
+            background:#fff;
+            border-radius:12px;
+            box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+            z-index:9999;
+            display:none;
             overflow:hidden;
+
+            margin-top:6px;
+        }
+
+        .search-item{
+            padding:12px 15px;
+            cursor:pointer;
+            transition:.2s;
+
+            white-space: nowrap;        
+            overflow: hidden;           
+            text-overflow: ellipsis;
+        }
+
+        .search-item:hover{
+            background:#f5f5f5;
+        }
+
+        .table-card{
+
+            background:#fff;
+
+            border-radius:22px;
+
+            overflow:hidden;
+
+            border:1px solid rgba(0,0,0,.05);
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.08);
         }
 
         .table thead th{
-            background:#ffd748 !important;
-            color:#111;
+
+            background:#f8f9fb;
+
+            color:#444;
+
+            font-size:14px;
+
+            font-weight:700;
+
             border:none;
+
             padding:18px;
         }
 
         .table tbody td{
-            background:rgba(255,255,255,0.72) !important;
-            border-color:rgba(0,0,0,0.08);
+
+            vertical-align:middle;
+
             padding:18px;
+
+            border-color:#eef1f5;
         }
 
-        .table tbody tr:hover td{
-            background:rgba(245,197,24,0.15) !important;
+        .table tbody tr:hover{
+
+            background:#fafbfc;
+        }
+
+        .form-select-sm{
+
+            border-radius:10px;
+
+            font-size:14px;
         }
 
         .badge{
@@ -284,11 +492,16 @@ $bookings = $conn->query($sql);
         }
 
         .btn-details{
-            background:#ffdc5f !important;
-            border-radius:4px !important;
-            padding:7px 15px !important;
-            font-weight:500 !important;
-            transition:0.25s;
+
+            background:#f5c518 !important;
+
+            color:#111 !important;
+
+            border:none !important;
+
+            font-weight:700 !important;
+
+            border-radius:10px !important;
         }
 
         .btn-details:hover{
@@ -296,39 +509,114 @@ $bookings = $conn->query($sql);
             transform:scale(1.05);
         }
 
-        .top-bar{
-            margin-bottom:28px;
-        }
 
-        .back-btn{
-            display:inline-block;
-            text-decoration:none;
-            background:#323232;
+        .btn-search{
+
+            background:#212529;
             color:white;
-            padding:8px 18px;
-            border-radius:10px;
-            font-weight:400;
-            transition:0.25s;
+
+            border:none;
+
+            border-radius:12px;
+
+            font-weight:700;
         }
 
-        .back-btn:hover{
-            background:#f5c518;
-            transform:translateY(-2px);
+        .btn-search:hover{
+            background:#343a40 !important;
+
+            color:white !important;
+            transform:scale(1.05);
         }
 
         .btn-ticket{
-            background:#95db84 !important;
-            color:#111 !important;
+
+            background:#212529 !important;
+
+            color:#fff !important;
+
             border:none !important;
-            padding:7px 15px !important;
-            font-weight:600 !important;
-            transition:0.25s;
+
+            border-radius:10px !important;
         }
 
         .btn-ticket:hover{
-            background:#27b220 !important;
+            background:#343a40 !important;
+
+            color:white !important;
             transform:scale(1.05);
         }
+
+        .btn-update{
+
+            background:linear-gradient(
+                135deg,
+                #212529,
+                #343a40
+            );
+
+            color:#fff;
+
+            border:none;
+
+            border-radius:10px;
+
+            font-weight:700;
+
+            height:38px;
+
+            transition:.25s;
+        }
+
+        .btn-update:hover{
+
+            background:linear-gradient(
+                135deg,
+                #343a40,
+                #495057
+            );
+
+            transform:translateY(-2px);
+        }
+
+        .btn-update:disabled{
+
+            background:#dee2e6;
+
+            color:#868e96;
+
+            cursor:not-allowed;
+
+            transform:none;
+        }
+
+        .status-cell{
+            min-width:240px;
+        }
+
+        .status-cell .form-select,
+        .status-cell .form-control,
+        .status-cell .btn{
+            width:100%;
+        }
+
+        .action-cell{
+            width:170px;
+            min-width:170px;
+        }
+
+        .action-cell .btn{
+            width:120px;
+            text-align:center;
+            font-weight:600;
+            border-radius:10px;
+        }
+
+        .action-cell .btn + .btn{
+            margin-top:8px;
+        }
+
+        
 
     </style>
 
@@ -336,67 +624,83 @@ $bookings = $conn->query($sql);
 
 <body>
 
+<?php include '../includes/staff_sidebar.php'; ?>
+
     <div class="container-box">
 
-        <!-- Back button -->
-        <div class="top-bar">
+        <div class="page-header-row">
 
-            <a 
-                href="<?= BASE_URL ?>/staff/staff_dashboard.php" 
-                class="back-btn"
+            <div>
+
+                <h1>Booking Management</h1>
+
+                <p>
+                    Monitor and manage customer bookings, payments and ticket issuance.
+                </p>
+
+            </div>
+
+
+            <!-- Search form -->
+            <form 
+                method="GET" 
+                class="mini-search"
             >
-                ← Back Dashboard
-            </a>
+
+                <div class="search-wrapper">
+
+                    <div class="search-box">
+        
+                        <div class="input-group">
+                            
+                            <input
+                                type="text"
+                                id="bookingSearch"
+                                name="search"
+                                class="form-control"
+                                placeholder="Search Booking ID or Customer Name..."
+                                autocomplete="off"
+                                value="<?= htmlspecialchars($search) ?>"
+                            >
+
+                            <button 
+                                type="submit"
+                                class="btn btn-search"
+                            >
+                                Search
+                            </button>
+                        </div>
+
+                        <div
+                            id="searchSuggestions"
+                            class="search-suggestions"
+                        ></div>
+
+                    </div>
+    
+                    <!-- Reset button -->
+                    <?php if ($search != ''): ?>
+
+                        <a 
+                            href="<?= BASE_URL ?>/staff/customer_bookings.php"
+                            class="btn-reset"
+                        >
+                            Reset
+                        </a>
+
+                    <?php endif; ?>
+
+                </div>
+
+            </form>
 
         </div>
 
 
-        <!-- Page title -->
-        <h1 class="page-title">
-            Customer Bookings
-        </h1>
-
-
-        <!-- Search form -->
-        <form 
-            method="GET" 
-            class="search-bar"
-        >
-
-            <input 
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Search Booking ID"
-                value="<?= htmlspecialchars($search) ?>"
-                style="max-width:300px; height:46px;"
-            >
-
-            <button 
-                type="submit"
-                class="btn btn-warning fw-bold px-4"
-            >
-                Search
-            </button>
-
-
-            <!-- Reset button -->
-            <?php if ($search != ''): ?>
-
-                <a 
-                    href="<?= BASE_URL ?>/staff/customer_bookings.php"
-                    class="btn btn-sm btn-primary fw-bold"
-                >
-                    Reset
-                </a>
-
-            <?php endif; ?>
-
-        </form>
-
 
         <!-- Booking table -->
-        <table class="table table-bordered">
+        <div class="table-card">
+        <table class="table mb-0">
 
             <thead>
 
@@ -440,7 +744,9 @@ $bookings = $conn->query($sql);
                     <tr>
 
                         <td>
-                            #<?= $b['id'] ?>
+                            <span class="fw-bold text-dark">
+                                #<?= $b['id'] ?>
+                            </span>
                         </td>
 
                         <td>
@@ -463,8 +769,7 @@ $bookings = $conn->query($sql);
                             <?= date('h:i A', strtotime($b['show_time'])) ?>
                         </td>
 
-                        <td>
-
+                        <td class="status-cell">
                             <form method="POST" class="d-flex flex-column gap-2">
 
                                 <input 
@@ -533,7 +838,7 @@ $bookings = $conn->query($sql);
                                 <button 
                                     type="submit"
                                     name="update_status"
-                                    class="btn btn-sm btn-dark fw-bold"
+                                    class="btn btn-sm btn-update"
 
                                     <?= (
                                         $b['payment_status'] !== 'Pending'
@@ -555,29 +860,22 @@ $bookings = $conn->query($sql);
 
                         </td>
 
-                        </td>
+                        <td class="action-cell">
 
-                        <td>
-
-                            <!-- View details button -->
-                            <a 
+                            <a
                                 href="<?= BASE_URL ?>/staff/booking_details.php?booking_id=<?= $b['id'] ?>"
                                 class="btn btn-details"
                             >
-                                View Details
+                                Details
                             </a>
 
-
-                            <!-- QR button -->
                             <?php if ($b['payment_status'] == 'Paid'): ?>
 
-                                <br>
-
-                                <a 
+                                <a
                                     href="<?= BASE_URL ?>/staff/generate_ticket.php?booking_id=<?= $b['id'] ?>"
-                                    class="btn btn-ticket mt-1"
+                                    class="btn btn-ticket"
                                 >
-                                    View QR
+                                    QR Ticket
                                 </a>
 
                             <?php endif; ?>
@@ -591,10 +889,99 @@ $bookings = $conn->query($sql);
             </tbody>
 
         </table>
+        </div>
 
     </div>
 
 <script>
+
+const searchInput = document.getElementById('bookingSearch');
+const suggestions = document.getElementById('searchSuggestions');
+
+searchInput.addEventListener('keyup', () => {
+
+    const keyword = searchInput.value.trim();
+
+    if(keyword.length < 2){
+
+        suggestions.style.display = 'none';
+        return;
+    }
+
+    fetch(
+        `<?= basename($_SERVER['PHP_SELF']) ?>?term=${encodeURIComponent(keyword)}`
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        console.log(data);
+
+        if(data.length === 0){
+
+            suggestions.style.display = 'none';
+            return;
+        }
+
+        suggestions.innerHTML = '';
+
+        data.forEach(row => {
+
+            const item = document.createElement('div');
+
+            item.classList.add('search-item');
+
+            if(isNaN(keyword)){
+
+                item.textContent = row.name;
+
+            }else{
+
+                item.textContent =
+                    '#' + row.id + ' - ' + row.name;
+
+            }
+
+            item.addEventListener('click', () => {
+
+                if(isNaN(keyword)){
+
+                    searchInput.value = row.name;
+
+                }else{
+
+                    searchInput.value = row.id;
+
+                }
+
+                suggestions.style.display = 'none';
+
+            });
+
+            suggestions.appendChild(item);
+
+        });
+
+        suggestions.style.display = 'block';
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+});
+});
+
+document.addEventListener('click',(e)=>{
+
+    if(!e.target.closest('.search-wrapper')){
+        suggestions.style.display='none';
+    }
+
+});
+
 
 document.querySelectorAll('select[name="payment_status"]').forEach(select => {
 
