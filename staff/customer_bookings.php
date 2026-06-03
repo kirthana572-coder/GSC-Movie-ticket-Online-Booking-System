@@ -307,7 +307,7 @@ $bookings = $stmt->get_result();
             font-size:40px;
             font-weight:800;
             color:#2f2f2f;
-            margin-bottom:8px;
+
         }
 
         .page-header p{
@@ -323,7 +323,7 @@ $bookings = $stmt->get_result();
         }
 
         .mini-search{
-            flex: 0 0 320px;
+            flex: 0 0 450px;
             max-width: 520px !important;
             transform: translateX(-40px);
         }

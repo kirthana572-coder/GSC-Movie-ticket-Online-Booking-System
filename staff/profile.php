@@ -111,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-left:280px;
 
             padding:40px;
-            transform:translateY(-20px);
         }
 
         .profile-card{

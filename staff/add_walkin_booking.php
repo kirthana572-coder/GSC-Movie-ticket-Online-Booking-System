@@ -296,23 +296,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             customer_name,
             showtime_id,
             total_price,
+
+            adult_qty,
+            senior_qty,
+            student_qty,
+            children_qty,
+
             payment_status,
             created_at
         )
 
         VALUES
         (
-            ?, ?, ?, ?, 'Paid', NOW()
+            ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            'Paid',
+            NOW()
         )
 
     ");
 
     $stmt->bind_param(
-        "ssid",
+        "ssidiiii",
         $booking_code,
         $customer_name,
         $showtime_id,
-        $totalPrice
+        $totalPrice,
+
+        $adult_qty,
+        $senior_qty,
+        $student_qty,
+        $children_qty
     );
 
     $stmt->execute();
@@ -403,60 +417,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
 
         body{
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-
-            background:
-            linear-gradient(
-                rgba(245,242,234,0.92),
-                rgba(255,220,164,0.92)
-            );
-
-            min-height: 100vh;
+            margin:0;
+            font-family:'Segoe UI',sans-serif;
+            background:#f6f7fb;
+            min-height:100vh;
         }
 
         .page-container{
-            min-height: 100vh;
+            margin-left:280px;
+            width:calc(100% - 280px);
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            min-height:100vh;
 
-            padding: 40px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:40px;
+            box-sizing:border-box;
         }
 
         .booking-card{
-            width: 100%;
-            max-width: 700px;
+            width:100%;
+            max-width:850px;
 
-            background: rgba(255,255,255,0.82);
+            background:#fff;
 
-            border-radius: 28px;
+            border-radius:18px;
 
-            padding: 45px;
+            padding:32px;
+
+            border:1px solid #eef0f3;
 
             box-shadow:
-            0 10px 30px rgba(0,0,0,0.15);
+            0 8px 24px rgba(0,0,0,.08);
         }
 
         .page-title{
-            text-align: center;
+            font-size:30px;
+            font-weight:800;
+            color:#212529;
 
-            font-size: 38px;
+            letter-spacing:-0.5px;
 
-            font-weight: 700;
-
-            color: #f5c518;
-
-           margin-bottom: 10px;
+            margin-bottom:6px;
         }
 
         .page-subtitle{
-            text-align: center;
-
-            color: #777;
-
-            margin-bottom: 35px;
+            color:#6c757d;
+            font-size:14px;
+            margin-bottom:28px;
         }
 
         .form-label{
@@ -469,101 +479,198 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .form-control,
         .form-select{
-            border-radius: 14px;
 
-            padding: 14px;
+            height:48px;
 
-            border: 1px solid rgba(0,0,0,0.1);
+            border-radius:10px;
 
-            box-shadow: none !important;
+            border:1px solid #dee2e6;
+
+            font-size:14px;
+
+            box-shadow:none;
         }
 
         .form-control:focus,
         .form-select:focus{
-            border-color: #f5c518;
+
+            border-color:#f5c518;
 
             box-shadow:
-            0 0 0 0.15rem rgba(245,197,24,0.25) !important;
+            0 0 0 3px rgba(245,197,24,.15);
         }
 
         .ticket-box{
-            background: rgba(255,255,255,0.7);
 
-            border-radius: 18px;
+            background:#fff;
 
-            padding: 20px;
+            border:1px solid rgba(0,0,0,.06);
 
-            margin-bottom: 20px;
-        }
+            border-radius:16px;
 
-        .ticket-title{
-            font-size: 18px;
+            padding:24px;
 
-            font-weight: 700;
+            margin-top:30px;
 
-            margin-bottom: 15px;
-
-            color: #444;
+            box-shadow:
+            0 4px 12px rgba(0,0,0,.04);
         }
 
         .price-tag{
-            color: #f5c518;
 
-            font-weight: 700;
+            color:#6c757d;
+
+            font-size:13px;
         }
 
         .total-box{
-            background: rgba(245,197,24,0.15);
 
-            border-radius: 18px;
+            margin-top:24px;
+            margin-bottom:24px;
 
-            padding: 18px;
+            padding:32px;
 
-            text-align: center;
+            border-radius:18px;
 
-            margin-top: 25px;
+            background:
+            linear-gradient(
+                135deg,
+                #1f1f1f,
+                #343a40
+            );
         }
 
         .total-title{
-            font-size: 18px;
-
-            color: #555;
+            color:rgba(255,255,255,.7);
+            font-weight:600;
         }
 
         .total-price{
-            font-size: 32px;
+            color:#f5c518;
+            font-size:42px;
+            font-weight:800;
+            margin-top:8px;
+        }
 
-            font-weight: 700;
+        .checkout-box{
 
-            color: #f5c518;
+            margin-top:30px;
+
+            padding:32px;
+
+            border-radius:20px;
+
+            background:
+            linear-gradient(
+                135deg,
+                #1f1f1f,
+                #343a40
+            );
+
+            text-align:center;
+
+            box-shadow:
+            0 12px 30px rgba(0,0,0,.18);
         }
 
         .btn-book{
-            width: 100%;
 
-            background: #ffd53b;
+            display:inline-flex;
 
-            color: #111;
+            align-items:center;
+            justify-content:center;
 
-            border: none;
+            min-width:240px;
 
-            border-radius: 16px;
+            height:56px;
 
-            padding: 15px;
+            margin-top:28px;
 
-            font-size: 18px;
+            padding:0 36px;
 
-            font-weight: 700;
+            border:none;
 
-            margin-top: 25px;
+            border-radius:14px;
 
-            transition: 0.25s;
+            background:
+            linear-gradient(
+                135deg,
+                #f8d45a,
+                #f5c518
+            );
+
+            color:#1f1f1f;
+
+            font-size:16px;
+            font-weight:700;
+
+            letter-spacing:.4px;
+
+            box-shadow:
+            0 8px 18px rgba(245,197,24,.35);
+
+            transition:.25s ease;
         }
 
         .btn-book:hover{
-            background: #ffdc5f;
 
-            transform: scale(1.02);
+            transform:translateY(-3px);
+
+            box-shadow:
+            0 14px 28px rgba(245,197,24,.45);
+        }
+
+        .btn-book:active{
+
+            transform:translateY(0);
+        }
+
+        .seat-card{
+
+            background:#fff;
+
+            border-radius:16px;
+
+            border:1px solid #eef0f3;
+
+            padding:20px;
+
+            box-shadow:
+            0 4px 12px rgba(0,0,0,.04);
+        }
+
+        .section-header{
+
+            font-size:16px;
+
+            font-weight:700;
+
+            color:#212529;
+
+            margin-bottom:16px;
+        }
+
+        .header-top{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            margin-bottom:30px;
+        }
+
+        .btn-back{
+            background:#fff;
+            border:1px solid #dee2e6;
+            border-radius:10px;
+            padding:10px 18px;
+            color:#495057;
+            text-decoration:none;
+            font-weight:600;
+            transition:.2s;
+        }
+
+        .btn-back:hover{
+            background:#f8f9fa;
+            color:#212529;
         }
 
     </style>
@@ -571,17 +678,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
+<?php include '../includes/staff_sidebar.php'; ?>
+
+
 <div class="page-container">
 
     <div class="booking-card">
 
-        <h1 class="page-title">
-            Walk-in Booking
-        </h1>
+        <div class="header-top">
 
-        <p class="page-subtitle">
-            Create a new walk-in customer booking
-        </p>
+            <div>
+                <h1 class="page-title">
+                    Add Walk-In Booking
+                </h1>
+
+                <p class="page-subtitle">
+                    Create a new customer booking and assign seats.
+                </p>
+            </div>
+
+        </div>
 
         <form method="POST">
 
@@ -600,6 +716,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <!-- Movie -->
+             
             <div class="mb-4">
 
                 <label class="form-label">
@@ -660,8 +777,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     Select Seats
                 </label>
 
-                <div id="seatContainer"
-                    class="d-flex flex-wrap gap-2">
+                <div class="seat-card">
+
+                    <div class="section-header">
+                        🎟 Seat Selection
+                    </div>
+
+                    <div id="seatContainer"></div>
+
                 </div>
 
             </div>
@@ -669,10 +792,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="ticket-box">
 
-                <div class="ticket-title">
-                    Ticket Selection
+                <div class="section-header">
+                    🎟 Ticket Selection
                 </div>
-
                 <div class="row">
 
                 <div class="col-md-6 mb-3">
@@ -755,7 +877,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             </div>
 
-            <div class="total-box">
+            <div class="checkout-box">
 
                 <div class="total-title">
                     Total Price
@@ -765,11 +887,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     RM 0.00
                 </div>
 
-            </div>
 
-            <button type="submit" class="btn-book">
-                Add Booking
-            </button>
+                <button type="submit" class="btn-book">
+                    Confirm & Create Booking
+                </button>
+
+            </div>
 
         </form>
 

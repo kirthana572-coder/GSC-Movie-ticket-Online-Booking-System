@@ -1,13 +1,34 @@
 <?php 
 require_once 'config/db.php';
 
-$hotMovies = $conn->query("
+// Now Showing（有showtime）
+$nowShowing = $conn->query("
+    SELECT DISTINCT
+        m.id,
+        m.title,
+        m.genre,
+        m.poster_image
+    FROM movies m
+    INNER JOIN showtimes s
+        ON m.id = s.movie_id
+    ORDER BY m.id DESC
+    LIMIT 6
+");
+
+// Upcoming（没有showtime）
+$upcomingMovies = $conn->query("
     SELECT
-        id,
-        title,
-        genre,
-        poster_image
-    FROM movies
+        m.id,
+        m.title,
+        m.genre,
+        m.poster_image
+    FROM movies m
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM showtimes s
+        WHERE s.movie_id = m.id
+    )
+    ORDER BY m.id DESC
     LIMIT 6
 ");
 ?>
@@ -38,7 +59,8 @@ $hotMovies = $conn->query("
 
             overflow-x:hidden;
             overflow-y:auto;
-            animation:zoomBg 20s infinite alternate;
+            animation:none;
+            background-size:cover;
         }
 
         .overlay {
@@ -366,9 +388,10 @@ $hotMovies = $conn->query("
             border:none;
             border-radius:20px;
             overflow:hidden;
-            transition:0.3s;
-            box-shadow:0 8px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,.08);
+            transition: transform .25s ease, box-shadow .25s ease;
             height:100%;
+            will-change: transform;
         }
 
         .movie-card:hover {
@@ -441,13 +464,11 @@ $hotMovies = $conn->query("
             transition:opacity 0.3s, transform 0.3s;
         }
 
-        .movie-poster{
-
+        .movie-poster {
             height:420px;
-
             object-fit:cover;
-
-            transition:.4s;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
         .movie-card:hover .movie-poster{
@@ -466,6 +487,47 @@ $hotMovies = $conn->query("
             font-size:32px;
             font-weight:800;
             color:#222;
+        }
+
+        .coming-soon-btn {
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+            border-radius: 30px;
+            transition: 0.3s;
+            color: #666;
+        }
+
+        /* 默认 hover 卡片时动画 */
+        .movie-card:hover .coming-soon-btn {
+            border-color: #f5c518;
+            color: #000;
+        }
+
+        /* hover 时覆盖效果 */
+        .coming-soon-btn::after {
+            content: "Coming Soon";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            background: #f5c518;
+            color: #000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transform: translateY(100%);
+            transition: 0.3s ease;
+
+            font-weight: 800;
+        }
+
+        .movie-card:hover .coming-soon-btn::after {
+            transform: translateY(0);
         }
 
 
@@ -650,7 +712,7 @@ $hotMovies = $conn->query("
 
             </div>
 
-            <br><br>
+            <br><br><br>
             <!-- Movie Section -->
 
             <div class="section-header">
@@ -662,9 +724,9 @@ $hotMovies = $conn->query("
 
             <div class="row mb-4">
 
-                <?php if ($hotMovies && $hotMovies->num_rows > 0): ?>
+                <?php if ($nowShowing && $nowShowing->num_rows > 0): ?>
 
-                    <?php while($movie = $hotMovies->fetch_assoc()): ?>
+                    <?php while($movie = $nowShowing->fetch_assoc()): ?>
 
                         <div class="col-md-4 mb-4">
 
@@ -672,6 +734,9 @@ $hotMovies = $conn->query("
 
                                 <img src="<?= BASE_URL ?>/uploads/posters/<?= $movie['poster_image'] ?>"
                                     class="movie-poster"
+                                    loading="lazy"
+                                    decoding="async"
+                                    fetchpriority="low"
                                     alt="<?= htmlspecialchars($movie['title']) ?>">
 
                                 <div class="card-body">
@@ -703,6 +768,60 @@ $hotMovies = $conn->query("
 
                     <p class="text-muted">
                         No movies available yet.
+                    </p>
+
+                <?php endif; ?>
+
+            </div>
+
+            <br><br>
+
+            <div class="section-header">
+
+                <h2>Upcoming Movies</h2>
+
+            </div>
+
+            <div class="row mb-4">
+
+                <?php if ($upcomingMovies && $upcomingMovies->num_rows > 0): ?>
+
+                    <?php while($movie = $upcomingMovies->fetch_assoc()): ?>
+
+                        <div class="col-md-4 mb-4">
+
+                            <div class="card movie-card">
+
+                                <img src="<?= BASE_URL ?>/uploads/posters/<?= $movie['poster_image'] ?>"
+                                    class="movie-poster"
+                                    alt="<?= htmlspecialchars($movie['title']) ?>">
+
+                                <div class="card-body">
+
+                                    <h5 class="card-title">
+                                        <?= htmlspecialchars($movie['title']) ?>
+                                    </h5>
+
+                                    <p class="text-muted">
+                                        <?= htmlspecialchars($movie['genre']) ?>
+                                    </p>
+
+                                    <button class="btn btn-outline-secondary w-100 coming-soon-btn" disabled>
+                                        Coming Soon
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    <?php endwhile; ?>
+
+                <?php else: ?>
+
+                    <p class="text-muted">
+                        No upcoming movies.
                     </p>
 
                 <?php endif; ?>

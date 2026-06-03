@@ -223,35 +223,42 @@ $confirmedTickets = $conn->query("
 
             color:#222;
         }
+
+        .dashboard-header {
+            margin-bottom: 25px;
+        }
+
+        .stats-grid {
+            margin-top: 10px;
+        }
+
     </style>
 
 </head>
 
 <body>
 
+<?php include '../includes/staff_sidebar.php'; ?>
 
 <div class="dashboard-container">
-
-    <?php include '../includes/staff_sidebar.php'; ?>
 
     <!-- Main Content -->
     <div class="main-content">
 
-        <!-- Top Bar -->
-
         <div class="dashboard-header">
 
-            <div>
-
-                <h1>
-                    Staff Dashboard
-                </h1>
-
-                <p>
-                    Monitor bookings, payments, tickets and walk-in customers.
-                </p>
-
-            </div>
+        <div>
+            <h1>Staff Dashboard</h1>
+            <p>
+                Monitor bookings, payments, tickets and walk-in customers.
+                
+                <div class="d-flex align-items-center">
+                <span class="ms-auto text-muted">
+                    • Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>
+                </span>
+                </div>
+            </p>
+        </div>
 
         </div>
 

@@ -73,100 +73,208 @@ while ($seat = $seatResult->fetch_assoc()) {
         body{
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(rgba(245,242,234,0.92),rgba(255,220,164,0.92));
+            background:#f6f7fb;
             min-height:100vh;
         }
 
         .page-container{
+            margin-left:280px;
+            width:calc(100% - 280px);
+
             min-height:100vh;
+
             display:flex;
             justify-content:center;
             align-items:center;
+
             padding:40px;
+            box-sizing:border-box;
         }
 
         .details-card{
             width:100%;
-            max-width:700px;
-            background:rgba(254,255,246,0.91);
-            border-radius:28px;
-            padding:45px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.15);
+            max-width:760px;
+
+            background:#fff;
+
+            border-radius:16px;
+
+            padding:32px;
+
+            border:1px solid #eef0f3;
+
+            box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
         }
 
         .page-title{
-            text-align:center;
-            font-size:38px;
+            text-align:left;
+            font-size:28px;
             font-weight:700;
-            color:#f5c518;
-            margin-bottom:10px;
+            color:#212529;
+            margin-bottom:6px;
         }
 
         .page-subtitle{
-            text-align:center;
-            color:#8f8f8f;
-            margin-bottom:35px;
+            text-align:left;
+            color:#6c757d;
+            font-size:14px;
+            margin-bottom:24px;
         }
 
-        .detail-box{
-            background:rgba(239,239,239,0.57);
-            border-radius:18px;
-            padding:20px;
-            margin-bottom:18px;
+        .booking-info{
+            background:#fff;
+
+            border:1px solid #eef0f3;
+
+            border-radius:12px;
+
+            padding:0 18px;
         }
 
-        .detail-label{
-            font-size:12px;
-            font-weight:700;
-            color:#777;
-            margin-bottom:6px;
-            text-transform:uppercase;
+        .info-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:14px 0;
+
+            border-bottom:1px solid #eef0f3;
         }
 
-        .detail-value{
-            font-size:18px;
+        .info-row:last-child{
+            border-bottom:none;
+        }
+
+        .info-label{
+            color:#868e96;
+            font-size:13px;
+        }
+
+        .info-value{
             font-weight:600;
-            color:#222;
+            color:#212529;
+            text-align:right;
         }
 
         .price-box{
-            background:rgba(245,197,24,0.15);
-            border-radius:18px;
-            padding:25px;
+
+            margin-top:24px;
+
+            background:
+            linear-gradient(
+                135deg,
+                #1f2328,
+                #343a40
+            );
+
+            border-radius:14px;
+
+            padding:30px;
+
             text-align:center;
-            margin-top:25px;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.15);
         }
 
         .price-title{
-            font-size:18px;
-            color:#666;
+
+            color:rgba(255,255,255,.75);
+
+            font-size:14px;
+
+            letter-spacing:1px;
+
+            text-transform:uppercase;
         }
 
         .price-value{
-            font-size:38px;
-            font-weight:600;
+
             color:#f5c518;
+
+            font-size:38px;
+
+            font-weight:800;
+
+            margin-top:6px;
+        }
+
+        .price-value{
+            color:#fff;
+            font-size:34px;
+            font-weight:700;
         }
 
         .back-btn{
-            width:100%;
-            display:block;
-            text-align:center;
-            text-decoration:none;
-            background:#2f2f2f;
-            color:white;
-            border-radius:16px;
-            padding:15px;
-            font-size:18px;
+
+            background:#f7cf5b;
+
+            color:#1f1f1f;
+
+            border:none;
+
+            border-radius:12px;
+
+            padding:12px 24px;
+
             font-weight:700;
-            margin-top:30px;
-            transition:0.25s;
+
+            text-decoration:none;
+
+            display:inline-block;
+
+            min-width:220px;
+
+            margin-top:28px;
+
+            transition:.2s;
         }
 
         .back-btn:hover{
-            background:#f5c518;
-            color:#111;
-            transform:scale(1.02);
+
+            background:#f5c518 !important;
+
+            transform:translateY(-2px);
+        }
+
+        .status-badge{
+            display:inline-block;
+            padding:5px 10px;
+            border-radius:6px;
+            font-size:12px;
+            font-weight:700;
+            letter-spacing:.3px;
+        }
+
+        .status-paid{
+            background:#e6f4ea;
+            color:#1e7e34;
+        }
+
+        .status-pending{
+            background:#fff8e1;
+            color:#b08900;
+        }
+
+        .status-cancelled{
+            background:#fdecea;
+            color:#c92a2a;
+        }
+
+        .status-expired{
+            background:#f1f3f5;
+            color:#495057;
+        }
+
+        .section-title{
+            margin-top:28px;
+            margin-bottom:14px;
+
+            font-size:16px;
+            font-weight:700;
+
+            color:#212529;
         }
 
     </style>
@@ -174,6 +282,8 @@ while ($seat = $seatResult->fetch_assoc()) {
 </head>
 
 <body>
+
+<?php include '../includes/staff_sidebar.php'; ?>
 
 <div class="page-container">
 
@@ -188,124 +298,116 @@ while ($seat = $seatResult->fetch_assoc()) {
         </p>
 
 
-        <!-- Booking Code -->
-        <div class="detail-box">
-
-            <div class="detail-label">
-                Booking Code
-            </div>
-
-            <div class="detail-value">
-                <?= $booking['booking_code'] ?? 'N/A' ?>
-            </div>
-
-        </div>
-
-
-        <!-- Customer Name -->
-        <div class="detail-box">
-
-            <div class="detail-label">
-                Customer Name
-            </div>
-
-            <div class="detail-value">
-                <?= $booking['customer_name'] ?>
-            </div>
-
-        </div>
-
-
         <!-- Movie Name -->
-        <div class="detail-box">
+        <div class="booking-info">
 
-            <div class="detail-label">
-                Movie Name
+            <div class="info-row">
+                <span class="info-label">Booking Code</span>
+                <span class="info-value">
+                    <?= $booking['booking_code'] ?? 'N/A' ?>
+                </span>
             </div>
 
-            <div class="detail-value">
-                <?= $booking['title'] ?>
+            <div class="info-row">
+                <span class="info-label">Customer Name</span>
+                <span class="info-value">
+                    <?= $booking['customer_name'] ?>
+                </span>
             </div>
 
-        </div>
-
-
-        <!-- Show Date -->
-        <div class="detail-box">
-
-            <div class="detail-label">
-                Show Date
+            <div class="info-row">
+                <span class="info-label">Movie</span>
+                <span class="info-value">
+                    <?= $booking['title'] ?>
+                </span>
             </div>
 
-            <div class="detail-value">
-                <?= !empty($booking['show_date']) ? date('d M Y', strtotime($booking['show_date'])) : '-' ?>
+            <div class="info-row">
+                <span class="info-label">Show Date</span>
+                <span class="info-value">
+                    <?= date('d M Y', strtotime($booking['show_date'])) ?>
+                </span>
             </div>
 
-        </div>
-
-
-        <!-- Show Time -->
-        <div class="detail-box">
-
-            <div class="detail-label">
-                Show Time
+            <div class="info-row">
+                <span class="info-label">Show Time</span>
+                <span class="info-value">
+                    <?= date('h:i A', strtotime($booking['show_time'])) ?>
+                </span>
             </div>
 
-            <div class="detail-value">
-                <?= !empty($booking['show_time']) ? date('h:i A', strtotime($booking['show_time'])) : '-' ?>
+            <div class="info-row">
+                <span class="info-label">Seats</span>
+                <span class="info-value">
+                    <?= implode(', ', $seatNumbers) ?>
+                </span>
             </div>
 
-        </div>
+            <div class="info-row">
+                <span class="info-label">Payment Status</span>
 
+                <?php
 
-        <!-- Selected Seats -->
-        <div class="detail-box">
+                $status = strtolower($booking['payment_status']);
 
-            <div class="detail-label">
-                Selected Seats
-            </div>
+                $class = match($status){
+                    'paid'      => 'status-badge status-paid',
+                    'pending'   => 'status-badge status-pending',
+                    'cancelled' => 'status-badge status-cancelled',
+                    'expired'   => 'status-badge status-expired',
+                    default     => 'status-badge status-pending'
+                };
 
-            <div class="detail-value">
-                <?= !empty($seatNumbers) ? implode(', ', $seatNumbers) : 'No seats selected' ?>
-            </div>
+                ?>
 
-        </div>
-
-
-        <!-- Ticket Selection -->
-        <div class="detail-box">
-
-            <div class="detail-label">
-                Ticket Selection
-            </div>
-
-            <div
-                class="detail-value"
-                style="line-height:2;"
-            >
-                🧑 Adult (RM12.00): <?= $booking['adult_qty'] ?><br>
-
-                👴 Senior (RM8.00): <?= $booking['senior_qty'] ?><br>
-
-                🎓 Student (RM10.00): <?= $booking['student_qty'] ?><br>
-
-                👶 Children (RM6.00): <?= $booking['children_qty'] ?>
-
+                <span class="<?= $class ?>">
+                    <?= strtoupper($booking['payment_status']) ?>
+                </span>
             </div>
 
         </div>
 
+        <h3 class="section-title">
+            Ticket Summary
+        </h3>
 
-        <!-- Payment Status -->
-        <div class="detail-box">
+        <div class="booking-info mt-3">
 
-            <div class="detail-label">
-                Payment Status
-            </div>
+            <?php if($booking['adult_qty'] > 0): ?>
+                <div class="info-row">
+                    <span class="info-label">Adult Ticket</span>
+                    <span class="info-value">
+                        <?= $booking['adult_qty'] ?> × RM12
+                    </span>
+                </div>
+                <?php endif; ?>
 
-            <div class="detail-value">
-                <?= $booking['payment_status'] ?>
-            </div>
+                <?php if($booking['senior_qty'] > 0): ?>
+                <div class="info-row">
+                    <span class="info-label">Senior Ticket</span>
+                    <span class="info-value">
+                        <?= $booking['senior_qty'] ?> × RM8
+                    </span>
+                </div>
+                <?php endif; ?>
+
+                <?php if($booking['student_qty'] > 0): ?>
+                <div class="info-row">
+                    <span class="info-label">Student Ticket</span>
+                    <span class="info-value">
+                        <?= $booking['student_qty'] ?> × RM10
+                    </span>
+                </div>
+                <?php endif; ?>
+
+                <?php if($booking['children_qty'] > 0): ?>
+                <div class="info-row">
+                    <span class="info-label">Children Ticket</span>
+                    <span class="info-value">
+                        <?= $booking['children_qty'] ?> × RM6
+                    </span>
+                </div>
+                <?php endif; ?>
 
         </div>
 
@@ -325,12 +427,16 @@ while ($seat = $seatResult->fetch_assoc()) {
 
 
         <!-- Back Button -->
-        <a
-            href="<?= BASE_URL ?>/staff/walkin_bookings.php"
-            class="back-btn"
-        >
-            Back
-        </a>
+        <div class="text-center mt-4">
+
+            <a
+                href="<?= BASE_URL ?>/staff/walkin_bookings.php"
+                class="back-btn"
+            >
+                Back to Walk-In Bookings
+            </a>
+
+        </div>
 
     </div>
 
