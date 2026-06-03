@@ -26,7 +26,7 @@ $stmt = $conn->prepare("
     FROM users
 
     WHERE id = ?
-    AND role = 'staff'
+    AND role IN ('staff', 'admin')
 
 ");
 
@@ -265,7 +265,7 @@ $staff = $result->fetch_assoc();
 
             <div class="toast-body">
 
-                Staff updated successfully.
+                Updated successfully.
 
             </div>
 
@@ -279,7 +279,7 @@ $staff = $result->fetch_assoc();
 
         <div class="page-title">
 
-            Staff Details
+            <?= ucfirst($staff['role']) ?> Details
 
         </div>
 

@@ -16,11 +16,21 @@ if (!$user_id) {
     exit();
 }
 
+if ($_SESSION['user_id'] == $user_id) {
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'You cannot change your own status.'
+    ]);
+
+    exit();
+}
+
 $stmt = $conn->prepare("
-    SELECT status
+    SELECT status, role
     FROM users
     WHERE id = ?
-    AND role = 'staff'
+    AND role IN ('staff', 'admin')
 ");
 
 $stmt->bind_param("i", $user_id);

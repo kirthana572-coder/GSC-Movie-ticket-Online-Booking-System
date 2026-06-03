@@ -273,7 +273,7 @@
                     : ''
                 ?>"
             >
-                Users Management
+                Customer Management
             </a>
 
 

@@ -26,7 +26,7 @@ if(isset($_GET['term'])){
                 OR
                 email LIKE CONCAT('%', ?, '%')
             )
-            AND role = 'staff'
+            AND role IN ('admin', 'staff')
            
         LIMIT 10
 
@@ -66,10 +66,10 @@ if(isset($_GET['term'])){
 /* SEARCH */
 
 $search = trim($_GET['search'] ?? '');
+$role = $_GET['role'] ?? '';
 
 
 $sql = "
-
     SELECT
         id,
         full_name,
@@ -77,33 +77,37 @@ $sql = "
         role,
         status,
         created_at
-
     FROM users
-    WHERE role = 'staff'
-
+    WHERE role IN ('admin','staff')
 ";
 
-if($search != ''){
+/* ROLE FILTER */
+if($role != ''){
+    $sql .= " AND role = '$role' ";
+}
 
+/* SEARCH FILTER */
+if($search != ''){
     $search = $conn->real_escape_string($search);
 
     $sql .= "
-
-        AND
-        (
+        AND (
             full_name LIKE '%$search%'
-            OR
-            email LIKE '%$search%'
+            OR email LIKE '%$search%'
         )
-
     ";
 }
 
+
 $sql .= "
-
-    ORDER BY id DESC
-
+    ORDER BY 
+        CASE 
+            WHEN role = 'admin' THEN 1
+            WHEN role = 'staff' THEN 2
+        END,
+        id DESC
 ";
+
 
 $users = $conn->query($sql);
 
@@ -367,11 +371,11 @@ $users = $conn->query($sql);
         class="toast align-items-center text-bg-success border-0 position-fixed top-0 end-0 m-4 show"
         style="z-index:9999;"
     >
-        <div class="d-flex">
+        <div class="d-flex">S
 
             <div class="toast-body">
 
-                Staff updated successfully.
+                Updated successfully.
 
             </div>
 
@@ -390,7 +394,7 @@ $users = $conn->query($sql);
 
         <a href="add_staff.php"
             class="add-btn">
-                + Add Staff
+                + Add Users
             </a>
 
     </div>
@@ -398,6 +402,12 @@ $users = $conn->query($sql);
     <div class="search-card position-relative">
 
         <form method="GET" class="d-flex gap-3">
+
+            <select name="role" class="form-select w-auto">
+                <option value="">All</option>
+                <option value="admin" <?= ($role ?? '') == 'admin' ? 'selected' : '' ?>>Admin</option>
+                <option value="staff" <?= ($role ?? '') == 'staff' ? 'selected' : '' ?>>Staff</option>
+            </select>
 
             <div class="position-relative flex-grow-1">
 
@@ -732,9 +742,6 @@ document.querySelectorAll('.toggle-btn').forEach(btn => {
         document.getElementById('modalText').innerHTML =
             `Are you sure you want to <b>${action}</b> <b>"${userName}"</b>?`;
 
-        document.getElementById('modalText').innerHTML =
-            `Are you sure you want to <b>${action}</b> <b>"${userName}"</b>?`;
-
         const modal = new bootstrap.Modal(
             document.getElementById('confirmModal')
         );
@@ -795,31 +802,53 @@ console.log('CONFIRM CLICKED');
     .then(res => res.json())
     .then(data => {
 
-        if (data.success) {
+        if (!data.success) {
 
-            const row = selectedBtn.closest('tr');
-            const badge = row.querySelector('.status-badge');
+            document.getElementById('modalText').innerHTML =
+                `<div class="alert alert-danger mb-0">
+                    ${data.message}
+                </div>`;
 
-            if (data.new_status === 'active') {
+            return;
+        }
 
-                selectedBtn.textContent = 'Deactivate';
-                selectedBtn.classList.replace('btn-success', 'btn-danger');
+        const row = selectedBtn.closest('tr');
+        const badge = row.querySelector('.status-badge');
 
-                badge.className = 'status-badge badge bg-success';
-                badge.textContent = 'Active';
+        if (data.new_status === 'active') {
 
-            } else {
+            selectedBtn.textContent = 'Deactivate';
+            selectedBtn.classList.replace(
+                'btn-success',
+                'btn-danger'
+            );
 
-                selectedBtn.textContent = 'Activate';
-                selectedBtn.classList.replace('btn-danger', 'btn-success');
+            badge.className =
+                'status-badge badge bg-success';
 
-                badge.className = 'status-badge badge bg-secondary';
-                badge.textContent = 'Inactive';
-            }
+            badge.textContent =
+                'Active';
 
-            bootstrap.Modal.getInstance(
-                document.getElementById('confirmModal')
-            ).hide();
+        } else {
+
+            selectedBtn.textContent =
+                'Activate';
+
+            selectedBtn.classList.replace(
+                'btn-danger',
+                'btn-success'
+            );
+
+            badge.className =
+                'status-badge badge bg-secondary';
+
+            badge.textContent =
+                'Inactive';
+        }
+
+        bootstrap.Modal.getInstance(
+            document.getElementById('confirmModal')
+        ).hide();
 
             const toast = document.createElement('div');
 
@@ -831,7 +860,7 @@ console.log('CONFIRM CLICKED');
             toast.innerHTML = `
             <div class="d-flex">
                 <div class="toast-body">
-                    Staff status updated successfully.
+                    Updated successfully.
                 </div>
             </div>
             `;
@@ -841,7 +870,6 @@ console.log('CONFIRM CLICKED');
             setTimeout(() => {
                 toast.remove();
             }, 3000);
-        }
 
     })
     .finally(() => {

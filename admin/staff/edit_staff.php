@@ -26,12 +26,13 @@ $stmt = $conn->prepare("
         id,
         full_name,
         email,
+        role,
         status
 
     FROM users
 
-    WHERE id = ?
-    AND role = 'staff'
+    WHERE id = ? 
+    AND role IN ('staff', 'admin')
 
 ");
 
@@ -58,23 +59,30 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $email     = trim($_POST['email']);
     $password  = trim($_POST['password']);
     $status    = $_POST['status'];
+    $role      = $_POST['role'];
 
-    if(
+    if (
+        $_SESSION['user_id'] == $staff_id &&
+        $role !== $staff['role']
+    ) {
+
+        $error = "You cannot change your own role.";
+
+    }
+    elseif (
         empty($full_name) ||
         empty($email)
-    ){
+    ) {
 
         $error = "Full name and email are required.";
-    }
 
-    else{
+    }
+    else {
 
         $check = $conn->prepare("
 
             SELECT id
-
             FROM users
-
             WHERE email = ?
             AND id != ?
 
@@ -91,8 +99,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if($check->get_result()->num_rows > 0){
 
             $error = "Email already exists.";
-        }
 
+        }
         else{
 
             if($password != ''){
@@ -111,6 +119,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         full_name = ?,
                         email = ?,
                         password_hash = ?,
+                        role = ?,
                         status = ?
 
                     WHERE id = ?
@@ -118,10 +127,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 ");
 
                 $update->bind_param(
-                    "ssssi",
+                    "sssssi",
                     $full_name,
                     $email,
                     $password_hash,
+                    $role,
                     $status,
                     $staff_id
                 );
@@ -135,6 +145,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     SET
                         full_name = ?,
                         email = ?,
+                        role = ?,
                         status = ?
 
                     WHERE id = ?
@@ -142,9 +153,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 ");
 
                 $update->bind_param(
-                    "sssi",
+                    "ssssi",
                     $full_name,
                     $email,
+                    $role,
                     $status,
                     $staff_id
                 );
@@ -377,7 +389,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         <div class="page-title">
 
-            Edit Staff
+            Edit <?= ucfirst($staff['role']) ?> 
 
         </div>
 
@@ -454,6 +466,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <div class="form-section">
 
                 <label class="form-label">
+                    Role
+                </label>
+
+                <select name="role" class="form-select">
+
+                    <option value="staff" <?= $staff['role'] == 'staff' ? 'selected' : '' ?>>
+                        Staff
+                    </option>
+
+                    <option value="admin" <?= $staff['role'] == 'admin' ? 'selected' : '' ?>>
+                        Admin
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-section">
+
+                <label class="form-label">
 
                     Status
 
@@ -489,7 +521,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     id="updateBtn"
                     disabled
                 >
-                    Update Staff
+                    Update <?= ucfirst($staff['role']) ?>
                 </button>
 
 

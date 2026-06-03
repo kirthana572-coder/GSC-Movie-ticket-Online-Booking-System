@@ -13,6 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
     $status = $_POST['status'] ?? 'active';
+    $role = $_POST['role'] ?? 'staff';
+
+    if (!in_array($role, ['staff', 'admin'])) {
+        $role = 'staff';
+    }
 
     if (
         empty($full_name) ||
@@ -79,17 +84,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ?,
                     ?,
                     ?,
-                    'staff',
+                    ?,
                     ?
                 )
 
             ");
 
             $stmt->bind_param(
-                "ssss",
+                "sssss",
                 $full_name,
                 $email,
                 $password_hash,
+                $role,
                 $status
             );
 
@@ -264,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="page-title">
 
-            Add Staff
+            Add Staff/Admin
 
         </div>
 
@@ -345,6 +351,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     class="form-control"
                     required
                 >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Role
+                </label>
+
+                <select name="role" class="form-select" required>
+
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+
+                </select>
 
             </div>
 
