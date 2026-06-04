@@ -111,13 +111,13 @@ require_once 'config/db.php';
             box-shadow:none;
         }
 
-        .login-link{
+        .auth-link{
             color:#6c757d;
             text-decoration:none;
             font-weight:500;
         }
 
-        .login-link:hover{
+        .auth-link:hover{
             color:#212529;
         }
 
@@ -226,7 +226,7 @@ require_once 'config/db.php';
 
             <a
                 href="<?= BASE_URL ?>/login.php"
-                class="login-link"
+                class="auth-link"
             >
                 Already have an account? Sign In
             </a>

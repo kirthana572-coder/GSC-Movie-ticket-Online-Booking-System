@@ -1,16 +1,3 @@
-/* =========================
-   TABLET
-========================= */
-
-@media (max-width:992px){
-
-    .section-header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-
-}
 
 /* =========================
    MOBILE
@@ -39,7 +26,7 @@
     .overlay{
         min-height:auto !important;
         justify-content:flex-start !important;
-        padding:15px 15px 30px !important;
+        padding:60px 15px 40px !important;
     }
 
     .hero-content{
@@ -73,28 +60,36 @@
     }
 
     .hero-box h1{
-        font-size:33px !important;
-        line-height:1.15 !important;
-        margin-bottom:15px !important;
+        font-size:30px !important;
+        line-height:1.2 !important;
+        margin-bottom:12px !important;
     }
 
     .hero-box p{
-        font-size:13px !important;
-        line-height:1.7 !important;
+        font-size:14px !important;
+        line-height:1.8 !important;
+        max-width:340px;
+
+        margin-left:auto;
+        margin-right:auto;
     }
 
     .hero-actions{
         flex-direction:column;
         align-items:center;
         gap:12px !important;
-        margin-top:30px !important;
+        margin-top:42px !important;
     }
 
     .hero-actions .btn{
         width:100%;
-        max-width:280px;
-        min-width:auto !important;
-        height:52px !important;
+        max-width:320px;
+
+        height:50px !important;
+
+        border-radius:12px;
+        font-weight:700;
+        
     }
 
     .navbar-brand{
@@ -111,10 +106,6 @@
         flex-shrink:0;
     }
 
-    .brand-text{
-        font-size:24px !important;
-    }
-
     .navbar .btn{
         padding:5px 10px !important;
         font-size:12px !important;
@@ -122,7 +113,7 @@
     }
 
     .feature-section{
-        margin-top:50px !important;
+        margin-top:35px !important;
     }
 
     .feature-section .col-md-3{
@@ -131,7 +122,20 @@
     }
 
     .feature-card{
-        padding:25px 20px !important;
+        padding:24px 18px !important;
+        border-radius:20px !important;
+    }
+
+    .feature-card h5{
+        font-size:18px;
+    }
+
+    .feature-card p{
+        font-size:13px;
+    }
+
+    .feature-section .row{
+        gap:10px;
     }
 
     .feature-icon{
@@ -139,11 +143,108 @@
     }
 
     .preview-card{
-        height:350px !important;
+        height:300px !important;
+        border-radius:18px !important;
+    }
+
+    .preview-overlay h5{
+        font-size:20px !important;
     }
 
     .movie-poster{
         height:310px !important;
+    }
+
+    .footer{
+        padding:35px 15px !important;
+    }
+
+    .footer p{
+        font-size:14px;
+    }
+
+    .footer small{
+        font-size:12px;
+    }
+
+    /* =========================
+    MOBILE INTERACTION
+    ========================= */
+
+    .hero-actions .btn,
+    .preview-btn,
+    .feature-card,
+    .preview-card{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease,
+            opacity .18s ease;
+    }
+
+    /* Touch Feedback */
+
+    .hero-actions .btn:active,
+    .preview-btn:active{
+        transform:scale(.97);
+    }
+
+    /* Card Touch Effect */
+
+    .feature-card:active{
+        transform:scale(.985);
+    }
+
+    .preview-card:active{
+        transform:scale(.985);
+    }
+
+    /* Better Button Shadow */
+
+    .hero-actions .btn{
+        box-shadow:
+            0 6px 18px rgba(0,0,0,.15);
+    }
+
+    /* Premium Movie Card */
+
+    .preview-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.12) !important;
+    }
+
+    /* Feature Card Premium */
+
+    .feature-card{
+        box-shadow:
+            0 6px 18px rgba(0,0,0,.12) !important;
+    }
+
+    /* Logo Smoother */
+
+    .hero-brand img{
+        filter:
+            drop-shadow(0 0 12px rgba(245,197,24,.45))
+            drop-shadow(0 0 24px rgba(245,197,24,.15));
+
+    }
+
+
+    /* Preview Overlay */
+
+    .preview-overlay{
+        padding:20px !important;
+    }
+
+    /* Button Animation */
+
+    .preview-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .preview-btn:active{
+        transform:scale(.96);
     }
 
    /* =========================
@@ -152,32 +253,112 @@
 
     .auth-page .main-container{
         align-items:flex-start;
-        padding:70px 15px 30px;
+        padding:65px 16px 30px;
     }
 
     .auth-page .auth-card{
         width:100%;
         max-width:none;
-        padding:18px !important;
-        border-radius:14px !important;
-        box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+        padding:20px 18px;
+        border-radius:16px;
+
+        background:#fff;
+
+        border:1px solid rgba(0,0,0,.06);
+
+        box-shadow:
+            0 6px 18px rgba(0,0,0,.08),
+            0 1px 2px rgba(0,0,0,.04);
+
         transition:none;
     }
 
+    /* TITLE */
     .auth-page .auth-card h3{
-        font-size:22px !important;
+        font-size:24px !important;
+        font-weight:700;
+        letter-spacing:-0.3px;
         margin-bottom:6px;
     }
 
+    /* SUBTITLE */
     .auth-page .auth-card .page-subtitle{
         font-size:13px;
+        color:#6c757d;
         line-height:1.5;
     }
 
+    /* LABEL */
+    .auth-page .auth-card .form-label{
+        font-size:13px;
+        font-weight:600;
+        color:#374151;
+    }
+
+    /* INPUT */
     .auth-page .auth-card .form-control{
         height:46px !important;
-        font-size:15px;
         border-radius:10px;
+
+        font-size:15px;
+
+        border:1px solid #e5e7eb;
+        background:#fff;
+
+        transition:.2s ease;
+    }
+
+    .auth-page .auth-card .form-control:focus{
+        border-color:#f5c518;
+        box-shadow:0 0 0 0.18rem rgba(245,197,24,0.22);
+    }
+
+    /* LABEL */
+    .auth-page .auth-card .form-label{
+        font-size:13px;
+        font-weight:600;
+        color:#374151;
+    }
+
+    /* INPUT GROUP ICON */
+    .auth-page .auth-card .input-group-text,
+    .auth-page .auth-card .toggle-btn{
+        width:46px !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:0 !important;
+
+        background:#fff;
+        border:1px solid #e5e7eb;
+    }
+
+    /* BUTTON */
+    .auth-page .auth-btn{
+        height:48px !important;
+        font-size:15px !important;
+        font-weight:700;
+
+        border-radius:10px;
+
+        background:#f5c518;
+        color:#111;
+
+        box-shadow:0 6px 14px rgba(245,197,24,0.25);
+    }
+
+    .auth-page .auth-btn:active{
+        transform:scale(0.98);
+    }
+
+    /* LINK */
+    .auth-page .auth-link,
+    .auth-page .login-link{
+        font-size:13px;
+        color:#6b7280;
+        text-decoration: none;
+        font-weight: 500
     }
 
     .auth-page .auth-card .input-group-text,
@@ -189,71 +370,11 @@
         padding:0 !important;
     }
 
-    .auth-page .auth-card .auth-btn{
-        height:48px !important;
-        font-size:15px !important;
-        border-radius:10px;
-    }
+    /* spacing fix for register (important) */
+        .auth-page .auth-card .mb-3,
+        .auth-page .auth-card .mb-4{
+            margin-bottom:12px !important;
+        }
 }
 
 
-/* =========================
-   SMALL MOBILE
-========================= */
-
-@media (max-width:576px){
-
-    /* Index Page */
-    .hero-box{
-        margin-bottom:30px;
-    }
-
-    .hero-box h1{
-        font-size:clamp(28px,8vw,40px) !important;
-        line-height:1.2;
-    }
-
-    .hero-content h1{
-        font-size:30px !important;
-    }
-
-    .section-title h2{
-        font-size:32px !important;
-    }
-
-    .movie-poster{
-        height:300px !important;
-    }
-
-    .preview-card{
-        height:320px !important;
-    }
-
-    .hero-actions .btn{
-        max-width:100%;
-    }
-
-    /* =========================
-       AUTH SYSTEM (LOGIN / REGISTER)
-    ========================= */
-
-    .auth-page .auth-card{
-        padding:14px !important;
-        border-radius:12px !important;
-    }
-
-    .auth-page .auth-card h3{
-        font-size:20px !important;
-    }
-
-    .auth-page .auth-card .page-subtitle{
-        font-size:12px;
-        line-height:1.5;
-    }
-
-    .auth-page .auth-btn{
-        height:48px !important;
-        font-size:15px !important;
-    }
-
-}

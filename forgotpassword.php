@@ -5,43 +5,162 @@ require_once 'config/db.php';
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Forgot Password - GSC</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
     <style>
-        body{ margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#f4edd9,#f9d59f); min-height:100vh; }
-        .main-container{ min-height:calc(100vh - 90px); display:flex; justify-content:center; align-items:center; padding:30px; }
-        .forgot-card{ width:100%; max-width:420px; background:rgba(255,255,255,0.95); border-radius:22px; padding:35px; box-shadow:0 10px 30px rgba(0,0,0,0.12); backdrop-filter:blur(10px); }
-        .page-title{ text-align:center; font-size:32px; font-weight:700; color:#333; margin-bottom:10px; }
-        .page-subtitle{ text-align:center; color:#777; margin-bottom:30px; font-size:15px; }
-        .form-label{ font-weight:600; color:#444; margin-bottom:8px; }
-        .form-control{ border-radius:12px; padding:12px; border:1px solid #ddd; }
-        .form-control:focus{ border-color:#f5c518; box-shadow:0 0 0 0.2rem rgba(245,197,24,0.25); }
-        .btn-warning{ background-color:#f5c518; border:none; border-radius:30px; padding:12px; font-size:17px; font-weight:600; transition:0.3s; }
-        .btn-warning:hover{ background-color:#e0b400; transform:scale(1.03); }
-        .back-link{ text-align:center; margin-top:18px; }
-        .back-link a{ text-decoration:none; color:#666; transition:0.3s; }
-        .back-link a:hover{ color:#000; }
-        .alert{ border-radius:12px; }
+        body{
+            margin:0;
+            font-family:'Segoe UI',sans-serif;
+            background:#f6f7fb;
+            min-height:100vh;
+            animation:fadeBg 1.5s ease;
+        }
+
+        @keyframes fadeBg{
+            from{opacity:0;}
+            to{opacity:1;}
+        }
+
+        .main-container{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:flex-start;
+            padding-top:120px;
+            padding-bottom:60px;
+        }
+
+        /* UNIFIED CARD (same as login) */
+        .auth-card{
+            max-width:520px;
+            width:100%;
+            padding:48px;
+            border-radius:22px;
+            background:#fff;
+            border:1px solid rgba(0,0,0,.05);
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+            transition:.25s;
+        }
+
+        .auth-card:hover{
+            transform:translateY(-2px);
+            box-shadow:0 14px 35px rgba(0,0,0,.10);
+        }
+
+        h3{
+            font-size:32px;
+            font-weight:700;
+            color:#212529;
+            margin-bottom:8px;
+        }
+
+        .page-subtitle{
+            color:#6c757d;
+            font-size:15px;
+            margin:0;
+        }
+
+        .form-control{
+            height:50px;
+            border-radius:12px;
+            border:1px solid #dee2e6;
+            padding:0 15px;
+            font-size:15px;
+        }
+
+        .form-control:focus{
+            border-color:#f5c518;
+            box-shadow:0 0 0 0.2rem rgba(245,197,24,0.25);
+        }
+
+        .form-label{
+            color:#495057;
+            font-size:14px;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+
+        .auth-btn{
+            background:#f5c518;
+            color:#111;
+            border:none;
+            border-radius:12px;
+            height:50px;
+            font-size:16px;
+            font-weight:700;
+            transition:.25s;
+        }
+
+        .auth-btn:hover{
+            background:#ffd028;
+            transform:translateY(-2px);
+        }
+
+        .auth-link{
+            color:#6c757d;
+            text-decoration:none;
+            font-weight:500;
+        }
+
+        .auth-link:hover{
+            color:#212529;
+        }
     </style>
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+
 </head>
-<body>
+
+<body class="auth-page">
+
 <?php include 'includes/navbar.php'; ?>
+
 <div class="main-container">
-    <div class="forgot-card">
-        <h2 class="page-title">Forgot Password</h2>
-        <div class="page-subtitle">Enter your email to receive a reset link</div>
+    <div class="auth-card">
+
+        <div class="text-center mb-4">
+            <h3>Forgot Password</h3>
+            <p class="page-subtitle">
+                Enter your email to receive a reset link.
+            </p>
+        </div>
+
         <?php if(isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+            <div class="alert alert-danger">
+                <?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+            </div>
         <?php endif; ?>
+
         <?php if(isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+            <div class="alert alert-success">
+                <?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
+            </div>
         <?php endif; ?>
+
         <form action="<?= BASE_URL ?>/auth/forgot_password.php" method="POST">
-            <div class="mb-3"><label class="form-label">Email Address</label><input type="email" name="email" class="form-control" placeholder="Enter your email" required></div>
-            <button type="submit" class="btn btn-warning w-100">Send Reset Link</button>
+
+            <div class="mb-4">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <button type="submit" class="btn auth-btn w-100">
+                Send Reset Link
+            </button>
         </form>
-        <div class="back-link"><a href="<?= BASE_URL ?>/login.php">Back to Sign In</a></div>
+
+        <div class="text-center mt-4">
+            <a href="<?= BASE_URL ?>/login.php" class="auth-link">
+                Back to Sign In
+            </a>
+        </div>
+
     </div>
 </div>
+
 </body>
 </html>
