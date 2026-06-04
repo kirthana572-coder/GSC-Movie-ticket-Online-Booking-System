@@ -326,6 +326,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
                 border:1px solid #ddd !important;
             }
 
+            .ticket-status,
             .expiry-box{
                 display:none !important;
             }
@@ -370,7 +371,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 
                 <?php elseif ($isExpired): ?>
 
-                    <div class="ticket-status used">
+                    <div class="ticket-status expired">
                         ⌛ QR CODE EXPIRED
                     </div>
 

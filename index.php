@@ -37,11 +37,14 @@ $upcomingMovies = $conn->query("
 <html>
 
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GSC Movie Ticket Booking System</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
 
     <style>
 
@@ -50,14 +53,11 @@ $upcomingMovies = $conn->query("
         ========================= */
 
         body {
-            margin:0;
-            font-family:'Segoe UI',sans-serif;
             background:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba') 
             no-repeat center center/cover fixed;
 
             min-height:85vh;
 
-            overflow-x:hidden;
             overflow-y:auto;
             animation:none;
             background-size:cover;
@@ -663,30 +663,9 @@ $upcomingMovies = $conn->query("
             }
         }
 
-        @media(max-width:768px){
-
-            .hero-actions{
-                flex-direction:column;
-                align-items:center;
-            }
-
-            .hero-actions .btn{
-                width:100%;
-                max-width:280px;
-            }
-        }
-
         /* =========================
            User dashbroad HERO SECTION
         ========================= */
-
-        .hero-logo img {
-            width:600px;
-            margin-bottom:35px;
-            margin-top:-300px;
-            filter:drop-shadow(0 0 30px rgba(245,197,24,0.45));
-            animation:floatLogo 3s infinite alternate;
-        }
 
         .hero-banner{
 
@@ -1017,9 +996,6 @@ $upcomingMovies = $conn->query("
         }
 
         .section-header{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
             margin-bottom:25px;
         }
 
@@ -1072,6 +1048,8 @@ $upcomingMovies = $conn->query("
 
 
     </style>
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 </head>
 
 <body>

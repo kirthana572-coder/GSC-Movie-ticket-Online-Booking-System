@@ -1,0 +1,145 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    overflow-x:hidden;
+    font-family:'Segoe UI',sans-serif;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+    display:block;
+}
+
+/* =========================
+   COMMON SECTION
+========================= */
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.section-header h2{
+    margin:0;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    border-radius:20px;
+}
+
+.custom-card{
+    border-radius:20px;
+    overflow:hidden;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn{
+    transition:.3s ease;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-control,
+.form-select{
+    min-height:45px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+/* =========================
+   COMMON SPACING
+========================= */
+
+.page-section{
+    padding:40px 0;
+}
+
+
+/* =========================
+   AUTH SYSTEM (LOGIN / REGISTER)
+========================= */
+.auth-page{
+    background:#f6f7fb;
+    min-height:100vh;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.auth-page .main-container{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:120px;
+    padding-bottom:60px;
+}
+
+.auth-card{
+    max-width:520px;
+    width:100%;
+    padding:48px;
+    border-radius:22px;
+    background:#fff;
+    border:1px solid rgba(0,0,0,.05);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.25s;
+}
+
+.auth-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 35px rgba(0,0,0,.10);
+}
+
+.auth-title{
+    font-size:32px;
+    font-weight:700;
+    color:#212529;
+    margin-bottom:8px;
+}
+
+.auth-subtitle{
+    color:#6c757d;
+    font-size:15px;
+}
+
+.auth-input{
+    height:50px;
+    border-radius:12px;
+    font-size:15px;
+}
+
+.auth-button{
+    height:50px;
+    border-radius:12px;
+    background:#f5c518;
+    font-weight:700;
+}

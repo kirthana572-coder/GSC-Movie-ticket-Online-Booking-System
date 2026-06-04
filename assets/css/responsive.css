@@ -1,0 +1,259 @@
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width:992px){
+
+    .section-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:768px){
+
+    /* Index Page */
+
+    .custom-navbar .container-fluid{
+        padding-left:15px !important;
+        padding-right:15px !important;
+
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        flex-wrap:nowrap;
+    }
+
+    .container{
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+    .overlay{
+        min-height:auto !important;
+        justify-content:flex-start !important;
+        padding:15px 15px 30px !important;
+    }
+
+    .hero-content{
+        text-align:center;
+    }
+
+    .hero-box{
+        margin-top:0 !important;
+        margin-bottom:20px !important;
+        width:100%;
+    }
+
+    .hero-brand{
+        width:180px !important;
+        height:auto !important;
+        margin-bottom:-30px !important;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .hero-brand img{
+        width:100% !important;
+    }
+
+    .hero-tagline{
+        margin-top:0 !important;
+        margin-bottom:-5px !important;
+
+        font-size:10px !important;
+        letter-spacing:1.5px !important;
+    }
+
+    .hero-box h1{
+        font-size:33px !important;
+        line-height:1.15 !important;
+        margin-bottom:15px !important;
+    }
+
+    .hero-box p{
+        font-size:13px !important;
+        line-height:1.7 !important;
+    }
+
+    .hero-actions{
+        flex-direction:column;
+        align-items:center;
+        gap:12px !important;
+        margin-top:30px !important;
+    }
+
+    .hero-actions .btn{
+        width:100%;
+        max-width:280px;
+        min-width:auto !important;
+        height:52px !important;
+    }
+
+    .navbar-brand{
+        margin-left:0 !important;
+        flex-shrink:1;
+    }
+
+    .brand-text{
+        font-size:20px !important;
+        white-space:nowrap;
+    }
+
+    .navbar .d-flex{
+        flex-shrink:0;
+    }
+
+    .brand-text{
+        font-size:24px !important;
+    }
+
+    .navbar .btn{
+        padding:5px 10px !important;
+        font-size:12px !important;
+        white-space:nowrap;
+    }
+
+    .feature-section{
+        margin-top:50px !important;
+    }
+
+    .feature-section .col-md-3{
+        flex:0 0 100%;
+        max-width:100%;
+    }
+
+    .feature-card{
+        padding:25px 20px !important;
+    }
+
+    .feature-icon{
+        font-size:38px !important;
+    }
+
+    .preview-card{
+        height:350px !important;
+    }
+
+    .movie-poster{
+        height:310px !important;
+    }
+
+   /* =========================
+       AUTH SYSTEM (LOGIN / REGISTER)
+    ========================= */
+
+    .auth-page .main-container{
+        align-items:flex-start;
+        padding:70px 15px 30px;
+    }
+
+    .auth-page .auth-card{
+        width:100%;
+        max-width:none;
+        padding:18px !important;
+        border-radius:14px !important;
+        box-shadow:0 6px 18px rgba(0,0,0,.08);
+        transition:none;
+    }
+
+    .auth-page .auth-card h3{
+        font-size:22px !important;
+        margin-bottom:6px;
+    }
+
+    .auth-page .auth-card .page-subtitle{
+        font-size:13px;
+        line-height:1.5;
+    }
+
+    .auth-page .auth-card .form-control{
+        height:46px !important;
+        font-size:15px;
+        border-radius:10px;
+    }
+
+    .auth-page .auth-card .input-group-text,
+    .auth-page .auth-card .toggle-btn{
+        width:46px !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:0 !important;
+    }
+
+    .auth-page .auth-card .auth-btn{
+        height:48px !important;
+        font-size:15px !important;
+        border-radius:10px;
+    }
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width:576px){
+
+    /* Index Page */
+    .hero-box{
+        margin-bottom:30px;
+    }
+
+    .hero-box h1{
+        font-size:clamp(28px,8vw,40px) !important;
+        line-height:1.2;
+    }
+
+    .hero-content h1{
+        font-size:30px !important;
+    }
+
+    .section-title h2{
+        font-size:32px !important;
+    }
+
+    .movie-poster{
+        height:300px !important;
+    }
+
+    .preview-card{
+        height:320px !important;
+    }
+
+    .hero-actions .btn{
+        max-width:100%;
+    }
+
+    /* =========================
+       AUTH SYSTEM (LOGIN / REGISTER)
+    ========================= */
+
+    .auth-page .auth-card{
+        padding:14px !important;
+        border-radius:12px !important;
+    }
+
+    .auth-page .auth-card h3{
+        font-size:20px !important;
+    }
+
+    .auth-page .auth-card .page-subtitle{
+        font-size:12px;
+        line-height:1.5;
+    }
+
+    .auth-page .auth-btn{
+        height:48px !important;
+        font-size:15px !important;
+    }
+
+}
