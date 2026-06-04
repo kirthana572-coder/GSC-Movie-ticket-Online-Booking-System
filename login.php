@@ -8,18 +8,128 @@ require_once 'config/db.php';
     <title>Sign In - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body{ margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#f4edd9,#f9d59f); min-height:100vh; animation:fadeBg 1.5s ease; }
+        body{
+            margin:0;
+            font-family:'Segoe UI',sans-serif;
+            background:#f6f7fb;
+            min-height:100vh;
+            animation:fadeBg 1.5s ease;
+        }
         @keyframes fadeBg{ from{opacity:0;} to{opacity:1;} }
-        .main-container{ min-height:calc(100vh - 70px); display:flex; justify-content:center; align-items:center; }
-        .login-card{ max-width:420px; width:100%; padding:32px; border-radius:20px; border:none; background:rgba(255,255,255,0.95); box-shadow:0 10px 30px rgba(0,0,0,0.1); backdrop-filter:blur(10px); }
-        h3{ font-weight:bold; color:#333; }
-        .form-control{ border-radius:10px; padding:12px; border:1px solid #ddd; }
+
+        .main-container{
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:flex-start;
+
+            padding-top:120px;
+            padding-bottom:60px;
+        }
+
+        .login-card{
+            max-width:520px;
+            width:100%;
+
+            padding:48px;
+
+            border-radius:22px;
+
+            background:#fff;
+
+            border:1px solid rgba(0,0,0,.05);
+
+            box-shadow:
+                0 10px 25px rgba(0,0,0,.08);
+
+            transition:.25s;
+        }
+
+        .login-card:hover{
+            transform:translateY(-2px);
+
+            box-shadow:
+                0 14px 35px rgba(0,0,0,.10);
+        }
+
+        .page-subtitle{
+            color:#6c757d;
+            font-size:15px;
+            margin:0;
+        }
+
+        h3{
+            font-size:32px;
+            font-weight:700;
+            color:#212529;
+            letter-spacing:-0.5px;
+            margin-bottom:8px;
+        }
+
+        .form-control{
+            height:50px;
+
+            border-radius:12px;
+
+            border:1px solid #dee2e6;
+
+            padding:0 15px;
+
+            font-size:15px;
+        }
+        
         .form-control:focus{ border-color:#f5c518; box-shadow:0 0 0 0.2rem rgba(245,197,24,0.25); }
-        .toggle-btn{ cursor:pointer; background:#fff; border-radius:0 10px 10px 0; }
-        .btn-warning{ background-color:#f5c518; border:none; border-radius:30px; padding:12px; font-size:18px; transition:0.3s; }
-        .btn-warning:hover{ background-color:#e0b400; transform:scale(1.03); }
-        a{ text-decoration:none; color:#555; }
-        a:hover{ color:#000; }
+        
+        .form-label{
+            color:#495057;
+            font-size:14px;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+
+        .toggle-btn{
+            cursor:pointer;
+            background:#fff;
+
+            border-left:none;
+
+            border-radius:0 10px 10px 0;
+
+            user-select:none;
+        }
+        
+        .auth-btn{
+            background:#f5c518;
+            color:#111;
+
+            border:none;
+            border-radius:12px;
+
+            height:50px;
+
+            font-size:16px;
+            font-weight:700;
+
+            transition:.25s;
+        }
+
+        .auth-btn:hover{
+            background:#ffd028;
+            color:#111;
+
+            transform:translateY(-2px);
+        }
+        .auth-link{
+            color:#6c757d;
+            text-decoration:none;
+            font-weight:500;
+        }
+
+        .auth-link:hover{
+            color:#212529;
+        }
+
         ::-ms-reveal{
             display:none;
         }
@@ -28,8 +138,17 @@ require_once 'config/db.php';
 <body>
 <?php include 'includes/navbar.php'; ?>
 <div class="main-container">
-    <div class="card login-card">
-        <h3 class="text-center mb-3">Sign In</h3>
+    <div class="login-card">
+        <div class="text-center mb-4">
+
+            <h3>Welcome Back</h3>
+
+            <p class="page-subtitle">
+                Sign in to continue managing your bookings and tickets.
+            </p>
+
+        </div>
+
         <?php if(isset($_SESSION['error'])): ?>
             <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
         <?php endif; ?>
@@ -37,18 +156,30 @@ require_once 'config/db.php';
             <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
         <?php endif; ?>
         <form action="<?= BASE_URL ?>/auth/login.php" method="POST">
-            <div class="mb-3"><label class="form-label">Email</label><input type="email" name="email" class="form-control" required></div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
+            <div class="mb-4"><label class="form-label fw-semibold">Email</label><input type="email" name="email" class="form-control" required></div>
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Password</label>
                 <div class="input-group">
                     <input type="password" name="password" id="password" class="form-control" required>
                     <span class="input-group-text toggle-btn" onclick="togglePassword()">👁️</span>
                 </div>
             </div>
-            <div class="text-end mb-3"><a href="<?= BASE_URL ?>/forgotpassword.php">Forgot password?</a></div>
-            <button type="submit" class="btn btn-warning w-100">Sign In</button>
+
+            <div class="text-end mb-5">
+                <a href="<?= BASE_URL ?>/forgotpassword.php" class="auth-link">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <button type="submit" class="btn auth-btn w-100">Sign In</button>
         </form>
-        <div class="text-center mt-3"><a href="<?= BASE_URL ?>/register.php">Don't have an account? Register</a></div>
+
+        <div class="text-center mt-4">
+            <a href="<?= BASE_URL ?>/register.php" class="auth-link">
+            Don't have an account? Register
+            </a>
+        </div>
+
     </div>
 </div>
 <script>function togglePassword(){ var field=document.getElementById('password'); field.type=field.type==="password"?"text":"password"; }</script>

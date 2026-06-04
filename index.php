@@ -52,10 +52,10 @@ $upcomingMovies = $conn->query("
         body {
             margin:0;
             font-family:'Segoe UI',sans-serif;
-            background:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') 
+            background:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba') 
             no-repeat center center/cover fixed;
 
-            min-height:100vh;
+            min-height:85vh;
 
             overflow-x:hidden;
             overflow-y:auto;
@@ -63,34 +63,198 @@ $upcomingMovies = $conn->query("
             background-size:cover;
         }
 
-        .overlay {
-            position:relative;
-            height:100vh;
-            width:100%;
+
+        .overlay::before{
+
+            content:'';
+
+            position:absolute;
+
+            top:-200px;
+            left:50%;
+
+            width:800px;
+            height:800px;
+
+            transform:translateX(-50%);
+
+            background:
+            radial-gradient(
+                circle,
+                rgba(245,197,24,.12),
+                transparent 70%
+            );
+
+            pointer-events:none;
+
+            opacity:.4;
+
+            mix-blend-mode:screen;
+        }
+
+        .overlay{
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            justify-content:center;
+            align-items:center;
+
             background:
                 linear-gradient(
-                    rgba(0,0,0,0.5),
-                    rgba(0, 0, 0, 0.64)
+                    180deg,
+                    rgba(0,0,0,.42) 0%,
+                    rgba(0,0,0,.68) 100%
                 ),
                 radial-gradient(
-                    circle at top,
-                    rgba(238,226,184,0.8),
-                    rgba(255,140,0,0.2),
-                    transparent 65%
+                    circle at center top,
+                    rgba(245,197,24,.18),
+                    transparent 55%
                 );
+
+            padding:40px 40px 80px;
+
+            position:relative;
+
+            overflow:hidden;
+        }
+
+        .overlay::after{
+
+            content:'';
+
+            position:absolute;
+
+            left:0;
+            right:0;
+            bottom:0;
+
+            height:250px;
+
+            background:
+            linear-gradient(
+                to bottom,
+                transparent,
+                rgba(0,0,0,.45)
+            );
 
             pointer-events:none;
         }
 
-        .hero-box {
+        .hero-box{
+
+            max-width:1000px;
+
+            text-align:center;
+
+            color:#fff;
+
+            margin-bottom:50px;
+
             position:relative;
             z-index:2;
-            color:white;
-            text-align:center;
-            padding:50px;
-            border-radius:15px;
+        }
+
+        .hero-badge{
+
+            display:inline-block;
+
+            background:#f5c518;
+
+            color:#111;
+
+            font-weight:700;
+
+            padding:8px 18px;
+
+            border-radius:999px;
+
+            margin-bottom:25px;
+        }
+
+        .hero-box h1{
+
+            font-size:clamp(52px,6vw,82px);
+
+            font-weight:900;
+
+            letter-spacing:-2px;
+
+            line-height:1.05;
+
+            margin-bottom:25px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    #f5f5f5,
+                    #d9d9d9
+                );
+
+                -webkit-background-clip:text;
+                -webkit-text-fill-color:transparent;
+        }
+
+        .hero-box p{
+
+            font-size:20px;
+
+            line-height:1.8;
+
+            color:rgba(255,255,255,.85);
+
+            max-width:750px;
+
+            margin:auto;
+        }
+
+        .hero-actions{
+
+            margin-top:35px;
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:15px;
+        }
+
+        .hero-actions .btn{
+
+            min-width:180px;
+
+            height:56px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            font-weight:700;
+        }
+
+        .hero-actions .btn-warning{
+
+            min-width:220px;
+
+            box-shadow:
+                0 10px 25px rgba(245,197,24,.35);
+        }
+
+        .hero-actions .btn-outline-light{
+
+            min-width:180px;
+
+            border:2px solid rgba(255,255,255,.6);
+
             backdrop-filter:blur(10px);
-            pointer-events:auto;
+        }
+
+        .hero-actions .btn-outline-light:hover{
+
+            background:white;
+            color:#111;
         }
 
         .dashboard-body {
@@ -105,6 +269,361 @@ $upcomingMovies = $conn->query("
         .dashboard-container {
             padding-top:90px;
             padding-bottom:50px;
+        }
+
+        .feature-section{
+
+            width:100%;
+
+            max-width:1200px;
+
+            position:relative;
+
+            z-index:2;
+
+            margin-top:40px;
+        }
+
+        .feature-card{
+
+            background:
+            rgba(255,255,255,.08);
+
+            backdrop-filter:blur(14px);
+
+            border:
+            1px solid rgba(255,255,255,.15);
+
+            color:white;
+
+            border-radius:28px;
+
+            padding:40px 30px;
+
+            text-align:center;
+
+            height:100%;
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,.15);
+
+            transition:.3s;
+        }
+
+        .feature-card:hover{
+
+            transform:
+            translateY(-10px);
+
+            box-shadow:
+                0 20px 40px rgba(0,0,0,.25),
+                0 0 30px rgba(245,197,24,.15);
+        }
+
+        .feature-card h5{
+
+            color:#fff;
+
+            margin-top:15px;
+
+            font-weight:700;
+        }
+
+        .feature-card p{
+
+            color:rgba(255,255,255,.75);
+
+            margin-bottom:0;
+        }
+
+        .feature-icon{
+
+            font-size:48px;
+
+            color:#f5c518;
+
+            display:block;
+
+            margin-bottom:18px;
+        }
+
+        .hero-brand{
+            width:420px;
+            height:100px;
+
+            overflow:hidden;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            margin:0 auto 20px;
+        }
+
+        .hero-brand img{
+
+            width:380px;
+
+            filter:
+                drop-shadow(0 0 15px rgba(245,197,24,.55))
+                drop-shadow(0 0 50px rgba(245,197,24,.18));
+
+            animation:
+                floatLogo 3s ease-in-out infinite alternate;
+        }
+
+        .hero-tagline{
+
+            color:rgba(255,255,255,.75);
+
+            font-size:14px;
+
+            letter-spacing:2px;
+
+            text-transform:uppercase;
+
+            margin-top:-10px;
+
+            margin-bottom:30px;
+        }
+
+        .btn-warning{
+
+            position:relative;
+            overflow:hidden;
+        }
+
+        .btn-warning::before{
+
+            content:'';
+
+            position:absolute;
+
+            top:0;
+            left:-120%;
+
+            width:60%;
+            height:100%;
+
+            background:
+            linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,.4),
+                transparent
+            );
+
+            transition:.7s;
+        }
+
+        .btn-warning:hover::before{
+
+            left:140%;
+        }
+
+        .preview-section{
+
+            position:relative;
+
+            width:100%;
+
+            padding:60px 0 80px;
+
+            background:
+            linear-gradient(
+                180deg,
+                #f5f3ee,
+                #faf8f4
+            );
+        }
+
+        .preview-section::before{
+
+            content:'';
+
+            position:absolute;
+
+            top:0;
+            left:0;
+            right:0;
+
+            height:80px;
+
+            background:
+            linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.30),
+                transparent
+            );
+        }
+
+        .section-title{
+
+            text-align:center;
+
+            margin-bottom:50px;
+        }
+
+        .section-title h2{
+
+            color:#212529;
+
+            font-size:54px;
+
+            font-weight:900;
+        }
+
+        .section-title p{
+
+            font-size:17px;
+
+            color:#6c757d;
+        }
+
+        .preview-card{
+
+            position:relative;
+
+            overflow:hidden;
+
+            border-radius:24px;
+
+            height:500px;
+
+            cursor:pointer;
+
+            background:#fff;
+
+            box-shadow:
+            0 12px 30px rgba(0,0,0,.12);
+
+            transition:.35s;
+        }
+
+        .preview-card:hover{
+            transform:translateY(-10px);
+        }
+
+        .preview-card img{
+
+            width:100%;
+            height:100%;
+
+            object-fit:cover;
+
+            transition:.5s;
+        }
+
+        .preview-card:hover img{
+
+            transform:scale(1.08);
+        }
+
+        .preview-overlay{
+
+            position:absolute;
+
+            inset:0;
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:flex-end;
+
+            padding:30px;
+
+            background:
+            linear-gradient(
+                transparent,
+                rgba(0,0,0,.9)
+            );
+        }
+
+        .preview-overlay h5{
+
+            color:white;
+
+            font-size:24px;
+
+            font-weight:700;
+
+            margin-bottom:15px;
+        }
+
+        .preview-overlay .btn{
+            width:fit-content;
+        }
+
+        .preview-btn{
+
+            background:#f5c518;
+
+            color:#111;
+
+            border:none;
+
+            border-radius:12px;
+
+            padding:10px 18px;
+
+            font-size:13px;
+
+            font-weight:700;
+
+            letter-spacing:.3px;
+
+            box-shadow:
+                0 6px 16px rgba(245,197,24,.25);
+
+            transition:.25s ease;
+        }
+
+        .preview-btn:hover{
+
+            background:#ffd84d;
+
+            color:#111;
+
+            transform:translateY(-2px);
+
+            box-shadow:
+                0 10px 22px rgba(245,197,24,.35);
+        }
+
+        .footer{
+            width:100%;
+
+            text-align:center;
+
+            padding:55px 20px;
+
+            background:
+            linear-gradient(
+                180deg,
+                #2b2b2b,
+                #1f1f1f
+            );
+
+            border-top:
+            1px solid rgba(245,197,24,.15);
+
+            backdrop-filter:blur(12px);
+        }
+
+        .footer p{
+
+            color:white;
+
+            margin-bottom:5px;
+
+            font-weight:600;
+        }
+
+        .footer small{
+
+            color:
+                rgba(255,255,255,.6);
         }
 
         /* =========================
@@ -143,8 +662,21 @@ $upcomingMovies = $conn->query("
             }
         }
 
+        @media(max-width:768px){
+
+            .hero-actions{
+                flex-direction:column;
+                align-items:center;
+            }
+
+            .hero-actions .btn{
+                width:100%;
+                max-width:280px;
+            }
+        }
+
         /* =========================
-           HERO SECTION
+           User dashbroad HERO SECTION
         ========================= */
 
         .hero-logo img {
@@ -206,6 +738,7 @@ $upcomingMovies = $conn->query("
             font-size:18px;
             opacity:.9;
         }
+
 
         .badge-now-showing{
 
@@ -293,7 +826,13 @@ $upcomingMovies = $conn->query("
 
         .btn-warning:hover {
             background-color:#e0b400;
-            transform:scale(1.05);
+            transform:
+                translateY(-2px)
+                scale(1.03);
+
+            box-shadow:
+                0 0 20px rgba(245,197,24,.5),
+                0 10px 30px rgba(245,197,24,.35);
         }
 
         .quick-actions .btn {
@@ -545,43 +1084,176 @@ $upcomingMovies = $conn->query("
          GUEST SECTION
     ========================= -->
 
-    <div class="overlay d-flex justify-content-center align-items-center">
+    <div class="overlay">
 
-        <div class="hero-box text-center">
+        <div class="hero-box">
 
-            <div class="hero-logo">
-                <img src="<?= BASE_URL ?>/assets/logo.png" alt="GSC Logo">
+            <div class="hero-content">
+
+                <div class="hero-brand">
+
+                    <img src="<?= BASE_URL ?>/assets/logo.png"
+                        alt="GSC Logo">
+
+                </div>
+
+                <div class="hero-tagline">
+
+                    Malaysia's Leading Cinema Experience
+
+                </div>
+
+                <br><br>
+                <h1>
+                    Experience Movies Like Never Before
+                </h1>
+
+                <p>
+                    Discover the latest blockbusters, choose your seats,
+                    and enjoy a seamless cinema experience with GSC.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="<?= BASE_URL ?>/register.php"
+                        class="btn btn-warning btn-lg">
+                        Create Account
+                    </a>
+
+                    <a href="<?= BASE_URL ?>/login.php"
+                        class="btn btn-outline-light btn-lg">
+                        Sign In
+                    </a>
+
+                </div>
+
             </div>
 
-            <h1 class="display-4 fw-bold hero-title">
-                Welcome to GSC Booking
-            </h1>
+        </div>
 
-            <p class="lead mt-3">
-                Book your favorite movies anytime, anywhere.
-            </p>
+        <div class="container feature-section">
 
-            <p>
-                Discover latest movies, choose your seats, and enjoy the show!
-            </p>
+            <div class="row g-4">
 
-            <div class="mt-4">
+                <div class="col-md-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-ticket-perforated-fill feature-icon"></i>
+                        </div>
 
-                <a href="<?= BASE_URL ?>/register.php"
-                   class="btn btn-warning btn-lg btn-custom me-3">
-                    Register
-                </a>
+                        <h5>Easy Booking</h5>
+                        <p>Book tickets in seconds.</p>
+                    </div>
+                </div>
 
-                <a href="<?= BASE_URL ?>/login.php"
-                   class="btn btn-outline-light btn-lg btn-custom">
-                    Sign In
-                </a>
+                <div class="col-md-3">
+                    <div class="feature-card">
+                            <i class="bi bi-grid-3x3-gap-fill feature-icon"></i>
+                        <h5>Seat Selection</h5>
+                        <p>Choose your favourite seats.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="feature-card">
+                            <i class="bi bi-phone-fill feature-icon"></i>
+
+                        <h5>E-Tickets</h5>
+                        <p>Access tickets anytime.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="feature-card">
+                            <i class="bi bi-film feature-icon"></i>
+
+                        <h5>Latest Movies</h5>
+                        <p>Discover new releases.</p>
+                    </div>
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
+    <section class="preview-section">
+
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Now Showing</h2>
+                <p>Experience the latest blockbusters in cinemas.</p>
+            </div>
+
+            <div class="row g-4">
+
+                <?php
+                $previewMovies = $conn->query("
+                    SELECT
+                        id,
+                        title,
+                        poster_image
+                    FROM movies
+                    ORDER BY created_at DESC
+                    LIMIT 3
+                ");
+
+                while($movie = $previewMovies->fetch_assoc()):
+                ?>
+
+                <div class="col-md-4">
+
+                    <div class="preview-card">
+
+                        <img
+                            src="<?= BASE_URL ?>/uploads/posters/<?= htmlspecialchars($movie['poster_image']) ?>"
+                            alt="<?= htmlspecialchars($movie['title']) ?>"
+                        >
+
+                        <div class="preview-overlay">
+
+                            <h5>
+                                <?= htmlspecialchars($movie['title']) ?>
+                            </h5>
+
+                            <a
+                                href="<?= BASE_URL ?>/login.php?id=<?= $movie['id'] ?>"
+                                class="btn preview-btn"
+                            >
+                                View Details
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <?php endwhile; ?>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <p>
+                © <?= date('Y') ?> GSC Movie Ticket Booking System
+            </p>
+
+            <small>
+                Book Movies • Select Seats • Enjoy The Show
+            </small>
+
+        </div>
+
+    </footer>
 
 <?php else: ?>
 

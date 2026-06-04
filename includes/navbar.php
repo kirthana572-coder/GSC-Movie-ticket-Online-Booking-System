@@ -5,11 +5,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 .custom-navbar{
 
     background:
-    linear-gradient(
-        90deg,
-        rgba(15,15,15,.96),
-        rgba(30,30,30,.96)
-    );
+    rgba(15, 15, 15, 0.88);
+
+    backdrop-filter:
+    blur(12px);
+
+    border-bottom:
+    1px solid rgba(255,255,255,.08);
 
     padding:15px 0;
 
@@ -37,8 +39,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 .navbar-brand:hover{ transform:scale(1.03); color:#ffd84d !important; }
 .btn-outline-light{ border-radius:12px; padding:7px 18px; border:1px solid rgba(255,255,255,0.5); transition:0.3s; }
 .btn-outline-light:hover{ background:white; color:black !important; transform:translateY(-1px); }
-.btn-warning{ background-color:#f5c518; border:none; border-radius:30px; padding:8px 22px; font-weight:600; transition:0.3s; }
-.btn-warning:hover{ background-color:#e0b400; transform:scale(1.05); }
+.nav-register-btn{ background-color:#f5c518; border:none; border-radius:30px; padding:8px 22px; font-weight:600; transition:0.3s; }
+.nav-register-btn:hover{ background-color:#e0b400; transform:scale(1.05); }
 
 .profile-avatar{
 
@@ -405,7 +407,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
           <?php else: ?>
             <a href="<?= BASE_URL ?>/login.php" class="btn btn-sm btn-outline-light me-2">Sign In</a>
-            <a href="<?= BASE_URL ?>/register.php" class="btn btn-sm btn-warning">Register</a>
+            <a href="<?= BASE_URL ?>/register.php" class="btn nav-register-btn">Register</a>
         <?php endif; ?>
     </div>
   </div>
