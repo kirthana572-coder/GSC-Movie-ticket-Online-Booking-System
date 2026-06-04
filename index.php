@@ -588,7 +588,8 @@ $upcomingMovies = $conn->query("
             transform:translateY(-2px);
 
             box-shadow:
-                0 10px 22px rgba(245,197,24,.35);
+                0 0 20px rgba(245,197,24,.5),
+                0 10px 30px rgba(245,197,24,.35);
         }
 
         .footer{
