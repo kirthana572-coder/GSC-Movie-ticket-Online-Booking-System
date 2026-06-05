@@ -30,6 +30,7 @@ $confirmedTickets = $conn->query("
 
 <head>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Dashboard - GSC</title>
 
     <!-- Bootstrap -->
@@ -37,6 +38,8 @@ $confirmedTickets = $conn->query("
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
         rel="stylesheet"
     >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
 
     <style>
 
@@ -143,6 +146,10 @@ $confirmedTickets = $conn->query("
             font-size:42px;
 
             font-weight:800;
+
+            margin-bottom:15px;
+
+            text-align:center;
         }
 
         .dashboard-header p{
@@ -150,6 +157,17 @@ $confirmedTickets = $conn->query("
             color:#777;
 
             font-size:16px;
+
+            text-align:center;
+        }
+
+        .welcome-text{
+            margin-top:40px;
+            margin-bottom:-20px;
+
+            display:flex;
+            justify-content:flex-end;
+            padding-right:4px;
         }
 
         /* Statistics */
@@ -236,7 +254,7 @@ $confirmedTickets = $conn->query("
 
 </head>
 
-<body>
+<body class="staff-page staff-dashboard-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
 
@@ -247,18 +265,19 @@ $confirmedTickets = $conn->query("
 
         <div class="dashboard-header">
 
-        <div>
             <h1>Staff Dashboard</h1>
+
             <p>
                 Monitor bookings, payments, tickets and walk-in customers.
                 
-                <div class="d-flex align-items-center">
-                <span class="ms-auto text-muted">
+            </p>
+            
+            <div class="welcome-text">
+                <span class="text-muted">
                     • Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>
                 </span>
-                </div>
-            </p>
-        </div>
+
+            </div>
 
         </div>
 

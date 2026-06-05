@@ -1,155 +1,177 @@
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
+<head>
 
-    width:280px;
-    height:100vh;
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
 
-    box-sizing:border-box;
+    <style>
 
-    overflow-y:hidden;
+    .sidebar{
+        position:fixed;
+        left:0;
+        top:0;
 
-    background:
-    linear-gradient(
-        180deg,
-        #252525,
-        #313131
-    );
+        width:280px;
+        height:100vh;
 
-    padding:40px 24px;
+        box-sizing:border-box;
 
-    border-right:
-    1px solid rgba(255,255,255,.05);
+        overflow-y:hidden;
 
-    box-shadow:
-    4px 0 25px rgba(0,0,0,.25);
+        background:
+        linear-gradient(
+            180deg,
+            #252525,
+            #313131
+        );
 
-    display:flex;
-    flex-direction:column;
-}
+        padding:40px 24px;
 
-.menu-group{
-    flex:1;
-}
+        border-right:
+        1px solid rgba(255,255,255,.05);
 
-.sidebar-header{
-    text-align:center;
-    margin-bottom:30px;
-}
+        box-shadow:
+        4px 0 25px rgba(0,0,0,.25);
 
-.sidebar h2{
-    color:#f5c518;
-    font-size:28px;
-    font-weight:800;
-    letter-spacing:2px;
-}
+        display:flex;
+        flex-direction:column;
+    }
 
-.sidebar a{
-    display:block;
+    .menu-group{
+        flex:1;
+    }
 
-    padding:14px 20px;
+    .sidebar-header{
+        text-align:center;
+        margin-bottom:30px;
+    }
 
-    border-left:4px solid transparent;
+    .sidebar h2{
+        color:#f5c518;
+        font-size:28px;
+        font-weight:800;
+        letter-spacing:2px;
+    }
 
-    text-decoration:none;
-    color:#d6d6d6;
+    .sidebar a{
+        display:block;
 
-    border-radius:10px;
+        padding:14px 20px;
 
-    margin-bottom:8px;
+        border-left:4px solid transparent;
 
-    font-weight:600;
+        text-decoration:none;
+        color:#d6d6d6;
 
-    transition:.25s;
-}
+        border-radius:10px;
 
-.sidebar a:hover{
+        margin-bottom:8px;
 
-    background:
-    rgba(245,197,24,.12);
+        font-weight:600;
 
-    color:#f5c518;
-}
+        transition:.25s;
+    }
 
-.sidebar a.active{
+    .sidebar a:hover{
 
-    background:
-    linear-gradient(
-        90deg,
-        rgba(245,197,24,.22),
-        rgba(245,197,24,.06)
-    );
+        background:
+        rgba(245,197,24,.12);
 
-    color:#f5c518;
+        color:#f5c518;
+    }
 
-    border-left:4px solid #f5c518;
-}
+    .sidebar a.active{
 
-.logout-section{
+        background:
+        linear-gradient(
+            90deg,
+            rgba(245,197,24,.22),
+            rgba(245,197,24,.06)
+        );
 
-    margin-top:50px;
+        color:#f5c518;
 
-    padding-top:25px;
+        border-left:4px solid #f5c518;
+    }
 
-    border-top:
-    1px solid rgba(255,255,255,.08);
-}
+    .logout-section{
 
-.logout-btn{
+        margin-top:50px;
 
-    text-align:center;
+        padding-top:25px;
 
-    background:
-    rgba(220,53,69,.15);
+        border-top:
+        1px solid rgba(255,255,255,.08);
+    }
 
-    border:
-    1px solid rgba(220,53,69,.25);
+    .logout-btn{
 
-    color:#ff8b8b !important;
-}
+        text-align:center;
 
-.logout-btn:hover{
+        background:
+        rgba(220,53,69,.15);
 
-    background:
-    rgba(220,53,69,.85) !important;
+        border:
+        1px solid rgba(220,53,69,.25);
 
-    color:white !important;
+        color:#ff8b8b !important;
+    }
 
-    transform:none !important;
-}
+    .logout-btn:hover{
 
-.panel-label{
+        background:
+        rgba(220,53,69,.85) !important;
 
-    color:#9b9b9b;
+        color:white !important;
 
-    font-size:11px;
+        transform:none !important;
+    }
 
-    font-weight:600;
+    .panel-label{
 
-    letter-spacing:3px;
+        color:#9b9b9b;
 
-    text-transform:uppercase;
-}
+        font-size:11px;
 
-.sidebar-divider{
+        font-weight:600;
 
-    height:1px;
+        letter-spacing:3px;
 
-    margin:0px 0 25px;
+        text-transform:uppercase;
+    }
 
-    background:
-    linear-gradient(
-        90deg,
-        transparent,
-        rgba(245,197,24,.25),
-        transparent
-    );
-}
+    .sidebar-divider{
 
-</style>
+        height:1px;
+
+        margin:0px 0 25px;
+
+        background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(245,197,24,.25),
+            transparent
+        );
+    }
+
+    </style>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+<head>
+
+
+    <button
+        class="staff-sidebar-toggle"
+        id="sidebarToggle"
+    >
+        ☰
+    </button>
+
+    <div
+        class="staff-sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
 
     <div class="sidebar">
 
@@ -304,3 +326,30 @@
 
 
 </div>
+
+<script>
+
+const sidebarToggle =
+document.getElementById('sidebarToggle');
+
+const sidebar =
+document.querySelector('.sidebar');
+
+const sidebarOverlay =
+document.getElementById('sidebarOverlay');
+
+sidebarToggle?.addEventListener('click', () => {
+
+    sidebar.classList.toggle('show');
+    sidebarOverlay.classList.toggle('show');
+
+});
+
+sidebarOverlay?.addEventListener('click', () => {
+
+    sidebar.classList.remove('show');
+    sidebarOverlay.classList.remove('show');
+
+});
+
+</script>
