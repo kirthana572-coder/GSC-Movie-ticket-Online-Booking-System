@@ -18,10 +18,7 @@
         flex-wrap:nowrap;
     }
 
-    .container{
-        padding-left:15px;
-        padding-right:15px;
-    }
+    .container{ padding-left:15px; padding-right:15px; }
 
     .overlay{
         min-height:auto !important;
@@ -29,15 +26,9 @@
         padding:60px 15px 40px !important;
     }
 
-    .hero-content{
-        text-align:center;
-    }
+    .hero-content{text-align:center;}
 
-    .hero-box{
-        margin-top:0 !important;
-        margin-bottom:20px !important;
-        width:100%;
-    }
+    .hero-box{ margin-top:0 !important; margin-bottom:20px !important; width:100%;}
 
     .hero-brand{
         width:180px !important;
@@ -47,9 +38,7 @@
         margin-right:auto;
     }
 
-    .hero-brand img{
-        width:100% !important;
-    }
+    .hero-brand img{ width:100% !important;}
 
     .hero-tagline{
         margin-top:0 !important;
@@ -92,19 +81,11 @@
         
     }
 
-    .navbar-brand{
-        margin-left:0 !important;
-        flex-shrink:1;
-    }
+    .navbar-brand{ margin-left:0 !important; flex-shrink:1; }
 
-    .brand-text{
-        font-size:20px !important;
-        white-space:nowrap;
-    }
+    .brand-text{ font-size:20px !important; white-space:nowrap; }
 
-    .navbar .d-flex{
-        flex-shrink:0;
-    }
+    .navbar .d-flex{ flex-shrink:0; }
 
     .navbar .btn{
         padding:5px 10px !important;
@@ -112,60 +93,37 @@
         white-space:nowrap;
     }
 
-    .feature-section{
-        margin-top:35px !important;
-    }
+    .feature-section{ margin-top:35px !important; }
 
-    .feature-section .col-md-3{
-        flex:0 0 100%;
-        max-width:100%;
-    }
+    .feature-section .col-md-3{ flex:0 0 100%; max-width:100%; }
 
     .feature-card{
         padding:24px 18px !important;
         border-radius:20px !important;
     }
 
-    .feature-card h5{
-        font-size:18px;
-    }
+    .feature-card h5{ font-size:18px; }
 
-    .feature-card p{
-        font-size:13px;
-    }
+    .feature-card p{ font-size:13px; }
 
-    .feature-section .row{
-        gap:10px;
-    }
+    .feature-section .row{ gap:10px; }
 
-    .feature-icon{
-        font-size:38px !important;
-    }
+    .feature-icon{ font-size:38px !important; }
 
     .preview-card{
         height:300px !important;
         border-radius:18px !important;
     }
 
-    .preview-overlay h5{
-        font-size:20px !important;
-    }
+    .preview-overlay h5{ font-size:20px !important; }
 
-    .movie-poster{
-        height:310px !important;
-    }
+    .movie-poster{ height:310px !important; }
 
-    .footer{
-        padding:35px 15px !important;
-    }
+    .footer{ padding:35px 15px !important; }
 
-    .footer p{
-        font-size:14px;
-    }
+    .footer p{ font-size:14px; }
 
-    .footer small{
-        font-size:12px;
-    }
+    .footer small{ font-size:12px;}
 
     /* =========================
     MOBILE INTERACTION
@@ -184,19 +142,13 @@
     /* Touch Feedback */
 
     .hero-actions .btn:active,
-    .preview-btn:active{
-        transform:scale(.97);
-    }
+    .preview-btn:active{transform:scale(.97); }
 
     /* Card Touch Effect */
 
-    .feature-card:active{
-        transform:scale(.985);
-    }
+    .feature-card:active{ transform:scale(.985); }
 
-    .preview-card:active{
-        transform:scale(.985);
-    }
+    .preview-card:active{ transform:scale(.985); }
 
     /* Better Button Shadow */
 
@@ -228,12 +180,9 @@
 
     }
 
-
     /* Preview Overlay */
 
-    .preview-overlay{
-        padding:20px !important;
-    }
+    .preview-overlay{ padding:20px !important; }
 
     /* Button Animation */
 
@@ -243,9 +192,7 @@
             box-shadow .18s ease;
     }
 
-    .preview-btn:active{
-        transform:scale(.96);
-    }
+    .preview-btn:active{ transform:scale(.96); }
 
    /* =========================
        AUTH SYSTEM (LOGIN / REGISTER)
@@ -259,18 +206,13 @@
     .auth-page .auth-card{
         width:100%;
         max-width:none;
-
         padding:20px 18px;
         border-radius:16px;
-
         background:#fff;
-
         border:1px solid rgba(0,0,0,.06);
-
         box-shadow:
             0 6px 18px rgba(0,0,0,.08),
             0 1px 2px rgba(0,0,0,.04);
-
         transition:none;
     }
 
@@ -300,12 +242,9 @@
     .auth-page .auth-card .form-control{
         height:46px !important;
         border-radius:10px;
-
         font-size:15px;
-
         border:1px solid #e5e7eb;
         background:#fff;
-
         transition:.2s ease;
     }
 
@@ -329,7 +268,6 @@
         align-items:center;
         justify-content:center;
         padding:0 !important;
-
         background:#fff;
         border:1px solid #e5e7eb;
     }
@@ -339,18 +277,15 @@
         height:48px !important;
         font-size:15px !important;
         font-weight:700;
-
         border-radius:10px;
-
         background:#f5c518;
         color:#111;
-
         box-shadow:0 6px 14px rgba(245,197,24,0.25);
     }
 
-    .auth-page .auth-btn:active{
-        transform:scale(0.98);
-    }
+    .auth-page .auth-btn:active{ transform:scale(0.98); }
+
+    .register-btn{  margin-top:40px;  }
 
     /* LINK */
     .auth-page .auth-link,
@@ -358,7 +293,8 @@
         font-size:13px;
         color:#6b7280;
         text-decoration: none;
-        font-weight: 500
+        font-weight: 500;
+
     }
 
     .auth-page .auth-card .input-group-text,
@@ -375,6 +311,1435 @@
         .auth-page .auth-card .mb-4{
             margin-bottom:12px !important;
         }
-}
 
+
+
+    /* =========================
+    USER DASHBOARD
+    ========================= */
+
+    .dashboard-container{
+        padding-top:40px !important;
+        padding-bottom:30px !important;
+    }
+
+    /* Hero */
+
+    .hero-banner{
+        min-height:200px !important;
+        margin-top:0 !important;
+
+        border-radius:20px !important;
+
+        padding:25px !important;
+    }
+
+    .hero-content h3{ font-size:16px !important; }
+
+    .hero-content h1{
+        font-size:25px !important;
+        line-height:1.2 !important;
+        margin-top:10px !important;
+    }
+
+    .hero-content p{
+        font-size:12px !important;
+        margin-bottom:0 !important;
+        line-height:1 !important;
+
+    }
+
+    /* Search */
+
+    .search-bar{ margin:20px auto 0 !important; }
+
+    .search-input{
+        height:45px !important;
+        font-size:14px !important;
+        padding:0 60px 0 18px !important;
+    }
+
+    .search-btn{
+        width:39px !important;
+        height:39px !important;
+        top:3px !important;
+        right:6px !important;
+    }
+
+    /* Quick Actions */
+
+    .quick-actions .row{ display:flex; flex-wrap:nowrap; gap:-10px; }
+
+    .quick-actions .col-md-4{
+        flex:1;
+        width:auto !important;
+        max-width:none !important;
+        margin-bottom:0 !important;
+    }
+
+    .action-card{
+        height:110px !important;
+        padding:30px 25px !important;
+        border-radius:16px !important;
+    }
+
+    .action-card i{ font-size:24px !important; }
+
+    .action-card h5{ font-size:13px !important;  margin-top:auto !important; }
+
+    /* Section */
+
+    .section-header{ margin-bottom:15px !important; }
+
+    .section-header h2{ font-size:24px !important; margin-top:-25px !important; }
+
+    /* Movie */
+
+    .movie-poster{ height:180px !important; }
+
+    .movie-card{ border-radius:16px !important; }
+
+    .movie-card .card-body{
+        padding:12px !important;
+        display:flex;
+        flex-direction:column;
+    }
+
+    .movie-card .card-title{
+        font-size:13px !important;
+        line-height:1.3;
+        min-height:25px;
+    }
+
+    .movie-card .text-muted{
+        font-size:11px !important;
+        min-height:18px;
+    }
+
+    .movie-card .btn{
+        height:42px !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:14px !important;
+        border-radius:10px !important;
+        margin-top:auto !important;
+        
+    }
+
+    /* =========================
+    MOBILE PREMIUM EFFECT
+    ========================= */
+
+    /* Quick Action */
+
+    .action-card{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .action-card:active{ transform:scale(.97); }
+
+    /* Movie Card */
+
+    .movie-card{
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .movie-card:active{
+        transform:scale(.985);
+    }
+
+    /* Movie Poster */
+
+    .movie-poster{ transition:transform .25s ease; }
+
+    .movie-card:active .movie-poster{ transform:scale(1.03); }
+
+    /* Book Button */
+
+    .movie-card .btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .movie-card .btn:active{ transform:scale(.96); }
+
+    /* Search Bar */
+
+    .search-input{
+        transition:
+            box-shadow .2s ease,
+            border-color .2s ease;
+    }
+
+    .search-input:focus{
+        box-shadow:
+            0 6px 18px rgba(245,197,24,.25) !important;
+    }
+
+    /* Hero Card */
+
+    .hero-banner{
+        box-shadow:
+            0 8px 25px rgba(0,0,0,.12) !important;
+    }
+
+    /* Quick Action Premium */
+
+    .action-card{
+        box-shadow:
+            0 6px 18px rgba(0,0,0,.08) !important;
+    }
+
+    /* Movie Card Premium */
+
+    .movie-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    /* Book Button Premium */
+
+    .movie-card .btn-warning{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+    }
+
+
+    /* =========================
+    PROFILE PAGE
+    ========================= */
+
+    .profile-page .main-container{ align-items:center; padding:0 14px !important; }
+
+    .profile-page .profile-card{
+        padding:22px 18px !important;
+        border-radius:18px !important;
+    }
+
+    .profile-page .profile-avatar-large{
+        width:80px !important;
+        height:80px !important;
+        font-size:30px !important;
+    }
+
+    .profile-page h3{
+        font-size:24px !important;
+        margin-bottom:25px !important;
+        margin-top:-10px !important;
+    }
+
+    .profile-page label{
+        font-size:13px !important;
+        font-weight:600 !important;
+    }
+
+    .profile-page .form-control{
+        height:46px !important;
+        border-radius:10px !important;
+        font-size:14px !important;
+    }
+
+    .profile-page .btn-warning,
+    .profile-page .btn-outline-dark{
+        height:46px !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:14px !important;
+        border-radius:12px !important;
+    }
+
+
+    .profile-page .profile-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .profile-page .btn-warning,
+    .profile-page .btn-outline-dark{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .profile-page .btn-warning:active,
+    .profile-page .btn-outline-dark:active{
+        transform:scale(.97);
+    }
+
+    .profile-page .profile-avatar-large{
+        transition:transform .2s ease;
+    }
+
+    .profile-page .profile-avatar-large:active{ transform:scale(.96); }
+
+    
+    /* =========================
+    CHANGE PASSWORD
+    ========================= */
+
+    .change-password-page .main-container{
+        max-width:100%;
+        padding:0 16px !important;
+        align-items:center;
+        
+    }
+
+    .change-password-page .change-pwd-card{
+        transform:none !important;
+        padding:22px !important;
+        border-radius:18px !important;
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .change-password-page h3{
+        font-size:24px !important;
+        margin-bottom:10px !important;
+    }
+
+    .change-password-page .card-subtitle{
+        font-size:13px !important;
+        margin-bottom:20px !important;
+    }
+
+    .change-password-page .form-control{
+        height:46px !important;
+        font-size:15px !important;
+    }
+
+    .change-password-page .input-group-text{
+        width:46px !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .change-password-page .btn-warning{
+        height:48px !important;
+        border-radius:10px !important;
+        font-size:15px !important;
+        font-weight:700 !important;
+    }
+
+    .change-password-page .btn-outline-dark,
+    .change-password-page a{
+        font-size:13px !important;
+    }
+
+    /* Premium Mobile Effect */
+
+    .change-password-page .change-pwd-card{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .change-password-page .change-pwd-card:active{ transform:scale(.99); }
+
+    .change-password-page .btn-warning{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .change-password-page .btn-warning:active{ transform:scale(.97); }
+
+    .change-password-page .form-control:focus{
+        box-shadow:
+            0 6px 18px rgba(245,197,24,.25) !important;
+    }
+
+    /* =========================
+    BOOKING HISTORY
+    ========================= */
+
+    .history-page .history-hero{
+        padding:5px !important;
+        border-radius:18px !important;
+    }
+
+    .history-page .history-hero h1{ font-size:24px !important; margin-top:10px !important; }
+
+    .history-page .history-hero p{font-size:12px !important; max-width:260px;}
+
+    .history-page .back-home-btn{
+        padding:6px 10px !important;
+        font-size:10px !important;
+        margin-top:-20px !important;
+
+    }
+
+    .history-page .history-card{ padding-bottom:20px !important; }
+
+    .history-page .container.py-5{
+        padding-top:25px !important;
+        padding-bottom:25px !important;
+    }
+
+    /* Table */
+    .history-page .booking-card{
+        padding:12px !important;
+        border-radius:18px !important;
+    }
+
+    .history-page .table-responsive{
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .history-page .booking-table{ min-width:620px; }
+
+    .history-page .booking-table td{ vertical-align:middle; }
+
+    .history-page .booking-table th:nth-child(2),
+    .history-page .booking-table td:nth-child(2){
+        max-width:90px;
+        white-space:normal;
+        line-height:1.2;
+    }
+
+    .history-page .booking-table th:nth-child(6),
+    .history-page .booking-table td:nth-child(6){ max-width:100px; }
+
+    .history-page .booking-table th:nth-child(7),
+    .history-page .booking-table td:nth-child(7){ width:90px;  }
+
+    .history-page .booking-table thead th{
+        font-size:11px !important;
+        padding:10px 6px !important;
+        white-space:nowrap;
+    }
+
+    .history-page .booking-table tbody td{
+        font-size:11px !important;
+        padding:10px 6px !important;
+        white-space:nowrap;
+    }
+
+    /* Movie */
+    .history-page .movie-title{
+        font-size:11px !important;
+        font-weight:700;
+        min-width:80px;
+        max-width:120px;
+        white-space:normal;
+        line-height:1.25;
+        word-break:break-word;
+    }
+
+    /* Badge */
+    .history-page .badge{
+        font-size:9px !important;
+        padding:5px 8px !important;
+    }
+
+    /* Countdown */
+    .history-page .countdown{  font-size:9px !important;  }
+
+    /* Cancel Reason */
+    .history-page .booking-table small{
+        font-size:9px !important;
+        display:block;
+        white-space:normal !important;
+        line-height:1.3;
+        max-width:80px;
+        margin-top:5px !important;
+    }
+
+    .history-page .btn-details,
+    .history-page .btn-cancel,
+    .history-page .btn-qr{
+        min-height:28px !important;
+        font-size:9px !important;
+        padding:4px 8px !important;
+        border-radius:8px !important;
+        white-space:nowrap;
+    }
+
+    /* Premium Mobile Effect */
+
+    .history-page .history-hero{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .history-page .booking-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .history-page .btn-details,
+    .history-page .btn-cancel,
+    .history-page .btn-qr{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .history-page .btn-details:active,
+    .history-page .btn-cancel:active,
+    .history-page .btn-qr:active{
+        transform:scale(.96);
+    }
+
+    /* =========================
+    BOOKING DETAILS
+    ========================= */
+    .details-container{
+        padding:20px 12px !important;
+        align-items:flex-start !important;
+    }
+    .details-card{
+        padding:20px !important;
+        border-radius:18px !important;
+        max-width:none !important;
+    }
+
+    .page-title{
+        font-size:26px !important;
+        margin-bottom:6px !important;
+    }
+
+    .page-subtitle{
+        font-size:13px !important;
+        margin-bottom:20px !important;
+    }
+
+    .booking-info{
+        padding:16px !important;
+        border-radius:16px !important;
+    }
+
+    .info-row{
+        gap:8px;
+        padding-bottom:10px !important;
+        margin-bottom:10px !important;
+    }
+
+    .info-label{
+        font-size:12px !important;
+        flex:0 0 90px;
+    }
+
+    .info-value{
+        font-size:12px !important;
+        text-align:right;
+        max-width:60%;
+        word-break:break-word;
+        white-space:normal;
+    }
+
+    .status-badge{
+        font-size:10px !important;
+        padding:5px 10px !important;
+    }
+
+    .btn-history{
+        width:100%;
+        min-height:44px !important;
+        padding:10px !important;
+        font-size:13px !important;
+        border-radius:12px !important;
+    }
+
+    .details-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .btn-history{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+    }
+
+    .btn-history:active{ transform:scale(.97); }
+
+    .details-card{
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .info-value{ overflow-wrap:anywhere; }
+
+    /* =========================
+    QR TICKET
+    ========================= */
+
+    .qr-ticket-page .ticket-container{
+        margin:20px auto !important;
+        padding:0 12px !important;
+    }
+
+    .qr-ticket-page .ticket-card{
+        border-radius:18px !important;
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .qr-ticket-page .ticket-header{ padding:16px 18px !important; }
+
+    .qr-ticket-page .ticket-header h1{ font-size:16px !important; }
+
+    .qr-ticket-page .ticket-body{ padding:18px !important; }
+
+    .qr-ticket-page .movie-title{
+        font-size:22px !important;
+        line-height:1.25;
+        text-align:center;
+        word-break:break-word;
+    }
+
+    .qr-ticket-page .info-row{  padding:8px 0 !important; }
+
+    .qr-ticket-page .label{ font-size:11px !important;  }
+
+    .qr-ticket-page .value{
+        font-size:12px !important;
+        max-width:60%;
+        text-align:right;
+    }
+
+    .qr-ticket-page .ticket-status{
+        font-size:10px !important;
+        padding:6px 10px !important;
+    }
+
+    .qr-ticket-page .expiry-box{
+        font-size:10px !important;
+        padding:8px 12px !important;
+    }
+
+    .qr-ticket-page .qr-box img{ width:150px !important;  }
+
+    .qr-ticket-page .scan-text{
+        margin-top:10px !important;
+        font-size:12px !important;
+        line-height:1.4;
+        color:#6b7280;
+        max-width:210px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .qr-ticket-page .btn-print,
+    .qr-ticket-page .btn-back{
+        min-height:42px !important;
+        font-size:13px !important;
+        border-radius:10px !important;
+    }
+
+
+    /* =========================
+    MOVIE DETAILS PAGE
+    ========================= */
+
+    .movie-details-page .container.py-5{
+        padding-top:20px !important;
+        padding-bottom:25px !important;
+    }
+
+    .movie-details-page .movie-hero{
+        padding:18px !important;
+        border-radius:20px !important;
+    }
+
+    .movie-details-page .row.align-items-center{ text-align:center; }
+
+    .movie-details-page .hero-poster{
+        height:280px !important;
+        max-width:220px;
+        margin:0 auto 18px;
+        display:block;
+        border-radius:16px !important;
+    }
+
+    .movie-details-page .movie-title{
+        font-size:28px !important;
+        line-height:1.2;
+        margin-bottom:14px !important;
+    }
+
+    .movie-details-page .movie-meta{
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:10px !important;
+        margin-bottom:18px !important;
+    }
+
+    .movie-details-page .meta-pill{
+        font-size:12px !important;
+        padding:8px 14px !important;
+    }
+
+    .movie-details-page .movie-description{
+        font-size:14px !important;
+        line-height:1.7;
+        text-align:center;
+        margin-top:15px;
+    }
+
+    .movie-details-page .section-title{ margin-bottom:15px !important; }
+
+    .movie-details-page .section-title h2{
+        font-size:22px !important;
+        margin-bottom:20px !important;
+    }
+
+    .movie-details-page .showtime-card{
+        padding:16px !important;
+        border-radius:16px !important;
+        margin-bottom:-5px !important;
+        align-items:center;
+    }
+
+    .movie-details-page .showtime-date{ font-size:16px !important; }
+
+    .movie-details-page .showtime-time{ font-size:13px !important; }
+
+    .movie-details-page .showtime-branch{ font-size:12px !important; }
+
+    .movie-details-page .btn-book{
+        padding:10px 14px !important;
+        font-size:12px !important;
+        border-radius:10px !important;
+        white-space:nowrap;
+    }
+
+    .movie-details-page .empty-showtime{
+        padding:35px 20px !important;
+        border-radius:20px !important;
+    }
+
+    .movie-details-page .empty-icon{ font-size:50px !important; }
+
+    .movie-details-page .empty-showtime h4{ font-size:22px !important; }
+
+    .movie-details-page .empty-showtime p{ font-size:13px !important; }
+
+    .movie-details-page .btn-outline-dark{
+        width:100%;
+        min-height:44px !important;
+
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+
+        line-height:1 !important;
+
+        padding:0 !important;
+
+        border-radius:12px !important;
+
+        font-size:13px !important;
+        font-weight:600;
+    }
+
+    /* =========================
+    MOVIE DETAILS PREMIUM
+    ========================= */
+
+    .movie-details-page .movie-hero{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .movie-details-page .showtime-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .movie-details-page .showtime-card:active{ transform:scale(.985); }
+
+    .movie-details-page .btn-book{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .movie-details-page .btn-book:active{ transform:scale(.96); }
+
+    .movie-details-page .hero-poster{ transition:transform .25s ease; }
+
+    .movie-details-page .hero-poster:active{ transform:scale(1.02); }
+
+    /* =========================
+    BROWSE MOVIES PAGE
+    ========================= */
+
+    .browse-movies-page .movies-container{
+        padding-top:30px !important;
+        padding-bottom:25px !important;
+    }
+
+    .browse-movies-page .page-header{ margin-bottom:20px !important; }
+
+    .browse-movies-page .page-header h1{
+        font-size:30px !important;
+        line-height:1.2;
+    }
+
+    .browse-movies-page .page-header p{
+        font-size:13px !important;
+        max-width:280px;
+        margin:0 auto;
+    }
+
+    .browse-movies-page .filter-box{
+        padding:5px !important;
+        border-radius:18px !important;
+        padding-bottom:0px !important;
+        margin-bottom:10px !important;
+    }
+
+    .browse-movies-page .filter-box .col-md-3{
+        width:50%;
+        flex:0 0 50%;
+        max-width:50%;
+    }
+
+    .browse-movies-page .filter-box .col-md-2{
+        width:100%;
+        flex:0 0 100%;
+        max-width:100%;
+        margin-bottom:20px !important;
+
+    }
+
+    .browse-movies-page .form-control,
+    .browse-movies-page .form-select{
+        height:46px !important;
+        font-size:13px !important;
+        border-radius:10px !important;
+    }
+
+    .browse-movies-page .btn-warning{
+        height:40px !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:14px !important;
+        border-radius:12px !important;
+    }
+
+    .browse-movies-page .form-control,
+    .browse-movies-page .form-select{
+        height:0px !important;
+        font-size:11px !important;
+        border-radius:10px !important;
+        min-height: 40px !important;
+    }
+
+
+    .browse-movies-page .movie-card .card-body{
+        padding:14px !important;
+        display:flex;
+        flex-direction:column;
+    }
+
+    .browse-movies-page .card-body p{
+        font-size:12px !important;
+        margin-bottom:3px !important;
+    }
+
+    .browse-movies-page .card-body p:nth-of-type(2){  margin-top:5px !important; }
+
+    .browse-movies-page .card-body small{ font-size:11px !important; }
+
+    .browse-movies-page .card-body .btn-warning{  margin-top:20px !important; }
+
+    .browse-movies-page .row.movies-grid{
+        --bs-gutter-x:12px;
+        --bs-gutter-y:12px;
+    }
+
+    .browse-movies-page .movie-col{
+        width:50%;
+        flex:0 0 50%;
+        max-width:50%;
+        margin-bottom:12px !important;
+    }
+
+    .browse-movies-page .movie-card{
+        height:100%;
+        display:flex;
+        flex-direction:column;
+    }
+
+    .browse-movies-page .movie-poster{ height:180px !important; }
+
+    .browse-movies-page .card-body{
+        padding:12px !important;
+        display:flex;
+        flex-direction:column;
+    }
+
+    .browse-movies-page .movie-title{
+        font-size:13px !important;
+        line-height:1.3;
+        min-height:34px;
+    }
+
+    .browse-movies-page .movie-info{
+        font-size:11px !important;
+        line-height:1.4;
+    }
+
+    .browse-movies-page .empty-state{
+        padding:35px 20px !important;
+        border-radius:20px !important;
+    }
+
+    .browse-movies-page .empty-icon{ font-size:50px !important; }
+
+    .browse-movies-page .empty-state h3{ font-size:22px !important; }
+
+    .browse-movies-page .empty-state p{ font-size:13px !important; }
+
+    /* =========================
+    BROWSE MOVIES PREMIUM
+    ========================= */
+
+    .browse-movies-page .filter-box{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .browse-movies-page .movie-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .browse-movies-page .movie-card:active{ transform:scale(.985); }
+
+    .browse-movies-page .movie-poster{ transition:transform .25s ease; }
+
+    .browse-movies-page .movie-card:active .movie-poster{ transform:scale(1.03); }
+
+    .browse-movies-page .btn-warning{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .browse-movies-page .btn-warning:active{ transform:scale(.96); }
+
+    .browse-movies-page .form-control:focus,
+    .browse-movies-page .form-select:focus{
+        box-shadow:
+            0 6px 18px rgba(245,197,24,.25) !important;
+    }
+
+
+    /* =========================
+    SELECT SEAT PAGE
+    ========================= */
+
+    .select-seat-page .seat-container{
+        padding:30px 12px !important;
+    }
+
+    .select-seat-page .breadcrumb-nav{
+        font-size:13px !important;
+        gap:6px;
+        margin-bottom:18px !important;
+    }
+
+    .select-seat-page .booking-card{
+        padding:20px !important;
+        border-radius:20px !important;
+    }
+
+    .select-seat-page .movie-title{
+        font-size:24px !important;
+        line-height:1.25;
+        margin-bottom:10px !important;
+    }
+
+    .select-seat-page .movie-info{
+        font-size:13px !important;
+        margin-bottom:20px !important;
+    }
+
+    .select-seat-page .screen{
+        width:95% !important;
+        height:50px !important;
+        line-height:50px !important;
+        font-size:12px !important;
+        letter-spacing:3px !important;
+        margin-bottom:35px !important;
+    }
+
+    /* Seat Layout */
+
+    .select-seat-page .mobile-break{
+        display:block;
+        flex-basis:100%;
+        height:0;
+    }
+
+    .select-seat-page .row-break{
+        flex-basis:100%;
+        height:15px;
+    }
+
+    .select-seat-page .aisle{
+        display:none !important;
+    }
+
+    .select-seat-page .cinema-layout{
+        gap:8px !important;
+    }
+
+    .select-seat-page .seat-btn{
+        width:45px !important;
+        height:45px !important;
+
+        border-radius:12px !important;
+
+        font-size:12px !important;
+        font-weight:700;
+    }
+
+    /* Legend */
+
+    .select-seat-page .legend{
+        gap:14px;
+        flex-wrap:wrap;
+    }
+
+    .select-seat-page .legend-item{
+        font-size:11px;
+    }
+
+    .select-seat-page .legend-box{
+        width:16px;
+        height:16px;
+    }
+
+    /* Summary */
+
+    .select-seat-page .summary-box{
+        padding:14px !important;
+        border-radius:14px !important;
+        font-size:13px !important;
+    }
+
+    /* Button */
+
+    .select-seat-page .btn-warning{
+        min-height:48px !important;
+
+        border-radius:12px !important;
+
+        font-size:15px !important;
+        font-weight:700 !important;
+    }
+
+    /* =========================
+    SELECT SEAT PREMIUM
+    ========================= */
+
+    .select-seat-page .booking-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .select-seat-page .seat-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .select-seat-page .seat-btn:active{
+        transform:scale(.94);
+    }
+
+    .select-seat-page .btn-warning{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .select-seat-page .btn-warning:active{
+        transform:scale(.96);
+    }
+
+    .select-seat-page .summary-box{
+        box-shadow:
+            0 4px 12px rgba(0,0,0,.06);
+    }
+
+
+    /* =========================
+    BOOKING CONFIRMATION PAGE
+    ========================= */
+
+    .select-ticket-page .confirmation-container{
+        padding:30px 12px !important;
+        align-items:flex-start !important;
+    }
+
+    .select-ticket-page .confirmation-card{
+        padding:20px !important;
+        border-radius:20px !important;
+    }
+
+    .select-ticket-page .movie-title{
+        font-size:22px !important;
+        line-height:1.25;
+    }
+
+    .select-ticket-page .movie-meta{
+        font-size:13px !important;
+        margin-bottom:18px !important;
+    }
+
+    .select-ticket-page .info-row{
+        font-size:13px !important;
+        margin-bottom:10px !important;
+    }
+
+    .select-ticket-page h5{
+        font-size:16px !important;
+        margin-top:25px !important;
+        margin-bottom:15px !important;
+    }
+
+    .select-ticket-page .seat-ticket-row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        gap:12px;
+
+        border-radius:14px !important;
+
+        margin-bottom:-5px !important;
+    }
+
+    .select-ticket-page .seat-number{
+        min-width:45px;
+        flex-shrink:0;
+
+        font-size:15px !important;
+        font-weight:700;
+    }
+
+    .select-ticket-page .ticket-select{
+        flex:1;
+
+        height:44px !important;
+
+        font-size:13px !important;
+    }
+
+    .select-ticket-page .total-price{
+        font-size:20px !important;
+        margin-top:30px !important;
+    }
+
+    .select-ticket-page .btn-warning{
+        min-height:48px !important;
+
+        border-radius:12px !important;
+
+        font-size:15px !important;
+        font-weight:700 !important;
+    }
+
+    .select-ticket-page .btn-outline-dark{
+        min-height:48px !important;
+
+        border-radius:12px !important;
+
+        font-size:14px !important;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+
+    /* =========================
+    BOOKING CONFIRMATION PREMIUM
+    ========================= */
+
+    .select-ticket-page .confirmation-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+
+    .select-ticket-page .seat-ticket-row:active{
+        transform:scale(.985);
+    }
+
+    .select-ticket-page .btn-warning{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .select-ticket-page .btn-warning:active{
+        transform:scale(.96);
+    }
+
+    .select-ticket-page .ticket-select:focus{
+        box-shadow:
+            0 6px 18px rgba(245,197,24,.25) !important;
+    }
+
+
+    /* =========================
+    BOOKING SUCCESS PAGE
+    ========================= */
+
+    .success-page .success-container{
+        padding:30px 12px !important;
+        align-items:flex-start !important;
+    }
+
+    .success-page .success-card{
+        padding:24px 20px !important;
+        border-radius:20px !important;
+    }
+
+    .success-page .success-icon{
+        width:60px !important;
+        height:60px !important;
+
+        font-size:30px !important;
+
+        margin-bottom:18px !important;
+    }
+
+    .success-page .success-title{
+        font-size:26px !important;
+        line-height:1.2;
+    }
+
+    .success-page .success-card p.text-muted{
+        font-size:11px !important;
+    }
+
+    .success-page .booking-info{
+        padding:18px !important;
+        border-radius:16px !important;
+        margin:20px 0 !important;
+    }
+
+    .success-page .info-row{
+        font-size:13px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .success-page .info-label{
+        font-size:12px !important;
+    }
+
+    .success-page .info-value{
+        font-size:12px !important;
+
+        max-width:60%;
+
+        word-break:break-word;
+    }
+
+    .success-page .status-badge{
+        font-size:11px !important;
+
+        padding:6px 12px !important;
+
+    }
+
+    .success-page .total-price{
+        font-size:18px !important;
+    }
+
+    .success-page .btn-warning,
+    .success-page .btn-outline-dark{
+        width:100% !important;
+
+        min-height:48px !important;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        margin:8px 0 !important;
+
+        border-radius:12px !important;
+
+        font-size:14px !important;
+    }
+    
+    /* =========================
+    BOOKING SUCCESS PREMIUM
+    ========================= */
+
+    .success-page .success-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .success-page .booking-info{
+        box-shadow:
+            0 4px 12px rgba(0,0,0,.05);
+    }
+
+    .success-page .btn-warning{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .success-page .btn-warning:active{
+        transform:scale(.96);
+    }
+
+    .success-page .btn-outline-dark{
+        transition:
+            transform .18s ease;
+    }
+
+    .success-page .btn-outline-dark:active{
+        transform:scale(.96);
+    }
+
+
+    /* =========================
+    NOTIFICATIONS PAGE
+    ========================= */
+
+    .notifications-page .notification-container{
+        margin:0 !important;
+        padding:30px 12px !important;
+    }
+
+    .notifications-page .notification-card{
+        padding:20px !important;
+        border-radius:20px !important;
+    }
+
+    .notifications-page .page-title{
+        font-size:28px !important;
+        margin-bottom:18px !important;
+    }
+
+    .notifications-page .top-actions{
+        display:flex;
+        justify-content:flex-end !important;
+
+        margin-bottom:16px !important;
+    }
+
+    .notifications-page .mark-all-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+
+        width:auto !important;
+
+        border-radius:12px !important;
+
+        font-size:10px !important;
+    }
+
+    .notifications-page .notification-item{
+        padding:8px !important;
+
+        border-radius:14px !important;
+
+        margin-bottom:12px !important;
+    }
+
+    .notifications-page .notification-message{
+        font-size:11px !important;
+
+        line-height:1;
+    }
+
+    .notifications-page .notification-time{
+        font-size:10px !important;
+
+        margin-top:6px;
+    }
+
+    .notifications-page .empty-alert{
+        padding:30px 20px !important;
+
+        border-radius:16px !important;
+
+        font-size:13px !important;
+    }
+
+    
+    /* =========================
+    NOTIFICATIONS PREMIUM
+    ========================= */
+
+    .notifications-page .notification-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .notifications-page .notification-item{
+        box-shadow:
+            0 4px 12px rgba(0,0,0,.05);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .notifications-page .notification-item:active{
+        transform:scale(.985);
+    }
+
+    .notifications-page .mark-all-btn{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+
+        transition:
+            transform .18s ease;
+    }
+
+    .notifications-page .mark-all-btn:active{
+        transform:scale(.96);
+    }
+    
+
+}
 

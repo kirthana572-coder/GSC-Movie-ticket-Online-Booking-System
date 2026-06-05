@@ -181,7 +181,7 @@ require_once 'config/db.php';
             <button type="submit" class="btn auth-btn w-100">Sign In</button>
         </form>
 
-        <div class="text-center mt-4">
+        <div class="text-center mt-2">
             <a href="<?= BASE_URL ?>/register.php" class="auth-link">
             Don't have an account? Register
             </a>

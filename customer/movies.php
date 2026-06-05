@@ -56,12 +56,20 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html>
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Browse Movies - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+
     <style>
         /* ===== Page Background ===== */
     body{
 
+        margin:0;
+        
         background:
         linear-gradient(
             180deg,
@@ -277,8 +285,11 @@ $result = $conn->query($sql);
     }
 
     </style>
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
 </head>
-<body>
+<body class="browse-movies-page">
 
 <?php include '../includes/navbar.php'; ?>
 
@@ -303,7 +314,7 @@ $result = $conn->query($sql);
     <br>
 
     <!-- 筛选表单 -->
-    <form method="GET" class="row g-3 mb-4 filter-box">
+    <form method="GET" class="row g-2 mb-4 filter-box">
         <div class="col-md-3">
             <select name="branch_id" class="form-select">
                 <option value="">All Branches</option>
@@ -332,7 +343,7 @@ $result = $conn->query($sql);
             </select>
 
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" name="search" class="form-control" placeholder="Search movie..."
                    value="<?= htmlspecialchars($search) ?>">
         </div>
@@ -341,10 +352,10 @@ $result = $conn->query($sql);
 
     <br><br>
     <!-- 电影卡片列表 -->
-    <div class="row">
+    <div class="row movies-grid">
         <?php if ($result && $result->num_rows > 0): ?>
             <?php while($row = $result->fetch_assoc()): ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4 movie-col">
                     <div class="card movie-card">
 
                         <img

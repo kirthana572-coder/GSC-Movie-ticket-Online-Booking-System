@@ -219,10 +219,10 @@ require_once 'config/db.php';
                 </div>
             </div>
 
-            <button type="submit" class="btn auth-btn w-100">Register</button>
+            <button type="submit" class="btn auth-btn w-100 register-btn">Register</button>
         </form>
 
-        <div class="text-center mt-4">
+        <div class="text-center mt-2">
 
             <a
                 href="<?= BASE_URL ?>/login.php"

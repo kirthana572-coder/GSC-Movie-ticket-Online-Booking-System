@@ -33,8 +33,12 @@ $seats = $conn->query("
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Select Seat - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+
     <style>
         body{
             margin: 0;
@@ -311,8 +315,14 @@ $seats = $conn->query("
         }
 
     </style>
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
 </head>
-<body>
+<body class="select-seat-page">
+
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
 
 <?php include '../includes/navbar.php'; ?>
 
@@ -376,7 +386,10 @@ $seats = $conn->query("
                             $btnClass = 'unavailable';
 
                         }
-                    if($rowCounter % 10 == 5) echo '<div class="aisle"></div>';
+                    if($rowCounter % 10 == 5){
+                        echo '<div class="aisle"></div>';
+                        echo '<div class="mobile-break"></div>';
+                    }
                 ?>
 
                 <button type="button" 

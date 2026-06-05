@@ -60,10 +60,15 @@ $bookings = $conn->query("
 <!DOCTYPE html>
 <html>
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Booking History - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
 
     <style>
 
@@ -368,8 +373,11 @@ $bookings = $conn->query("
             font-weight:600;
         }
     </style>
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
 </head>
-<body>
+<body class="history-page">
 
 <?php include '../includes/navbar.php'; ?>
 

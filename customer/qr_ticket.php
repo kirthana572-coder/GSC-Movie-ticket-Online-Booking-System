@@ -68,10 +68,13 @@ $qr = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . urlenco
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My QR Ticket - GSC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
 
     <style>
 
@@ -106,17 +109,17 @@ $qr = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . urlenco
     }
 
     .ticket-header{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
 
-            padding:22px 28px;
+        padding:22px 28px;
 
-            background: linear-gradient(135deg, #1f1f1f, #2b2b2b);
+        background: linear-gradient(135deg, #1f1f1f, #2b2b2b);
 
-            border-bottom:1px solid rgba(255,255,255,.06);
+        border-bottom:1px solid rgba(255,255,255,.06);
 
-            color:#fff;
+        color:#fff;
         }
 
     .ticket-header h1{
@@ -344,8 +347,11 @@ $qr = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . urlenco
 
     </style>
 
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
+
 </head>
-<body>
+<body class="qr-ticket-page">
 
 <div class="ticket-container">
 

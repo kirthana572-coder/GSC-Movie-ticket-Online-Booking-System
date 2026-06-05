@@ -1300,13 +1300,13 @@ $upcomingMovies = $conn->query("
 
             <div class="quick-actions text-center">
 
-                <div class="row">
+                <div class="section-header">
 
-                    <div class="section-header">
+                    <h2>Quick Actions</h2>
 
-                        <h2>Quick Actions</h2>
+                </div>
 
-                    </div>
+                <div class="row quick-actions-row">
 
                     <div class="col-md-4 mb-4">
 
@@ -1358,7 +1358,6 @@ $upcomingMovies = $conn->query("
                         </a>
 
                     </div>
-
                 </div>
 
             </div>
@@ -1379,7 +1378,7 @@ $upcomingMovies = $conn->query("
 
                     <?php while($movie = $nowShowing->fetch_assoc()): ?>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-6 col-md-4 mb-3">
 
                             <div class="card movie-card">
 
@@ -1439,7 +1438,7 @@ $upcomingMovies = $conn->query("
 
                     <?php while($movie = $upcomingMovies->fetch_assoc()): ?>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-6 col-md-4 mb-3">
 
                             <div class="card movie-card">
 

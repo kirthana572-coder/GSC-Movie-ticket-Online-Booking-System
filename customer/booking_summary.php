@@ -51,8 +51,12 @@ $seatText = implode('<br>', $seatList);
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Booking Successful - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+
     <style>
         body {
             margin: 0;
@@ -133,8 +137,11 @@ $seatText = implode('<br>', $seatList);
         }
         .btn-outline-dark:hover { background: #f8f2f2; color: #000; }
     </style>
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
 </head>
-<body>
+<body class="success-page">
 
 <?php include '../includes/navbar.php'; ?>
 
