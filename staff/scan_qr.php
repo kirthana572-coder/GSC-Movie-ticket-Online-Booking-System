@@ -116,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Scan QR Ticket - GSC</title>
 
@@ -127,6 +128,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- QR Scanner -->
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
     <style>
 
@@ -225,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         #reader__scan_region{
-            min-height:350px;
+            height:240px !important;
         }
 
         #reader__dashboard{
@@ -340,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 
-<body>
+<body class="staff-page scan-qr-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
 
@@ -356,7 +366,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         <!-- QR Scanner -->
-        <div id="reader"></div>
+        <div class="scanner-wrapper">
+
+            <div id="reader"></div>
+
+            <div class="scanner-overlay">
+
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <div class="scan-line"></div>
+
+            </div>
+
+        </div>
 
         <hr>
 

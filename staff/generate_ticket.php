@@ -92,6 +92,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>GSC Ticket</title>
 
@@ -101,6 +102,14 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
         rel="stylesheet"
     >
 
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
     <style>
 
        body{
@@ -342,7 +351,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 
 </head>
 
-<body>
+<body class="staff-page staff-ticket-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
 

@@ -1,8 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<head>
-
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
 
     <style>
 
@@ -156,22 +151,18 @@
     }
 
     </style>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
-<head>
-
 
     <button
         class="staff-sidebar-toggle"
         id="sidebarToggle"
     >
-        ☰
+        <i class="bi bi-app-indicator"></i>
     </button>
 
     <div
         class="staff-sidebar-overlay"
         id="sidebarOverlay"
     ></div>
-
 
     <div class="sidebar">
 

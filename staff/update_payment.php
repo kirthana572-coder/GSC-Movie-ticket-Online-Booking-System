@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Update Payment Status - GSC</title>
 
@@ -116,6 +117,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
     <style>
 
@@ -262,8 +272,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </head>
 
-<body>
-
+<body class="staff-page staff-payment-status-page">
+    
 <?php include '../includes/staff_sidebar.php'; ?>
 
 <div class="page-container">

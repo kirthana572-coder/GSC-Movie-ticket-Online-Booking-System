@@ -410,9 +410,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Add Walk-in Booking - GSC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
     <style>
 
@@ -459,14 +470,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color:#212529;
 
             letter-spacing:-0.5px;
-
+            text-align:center;
             margin-bottom:6px;
+            
         }
 
         .page-subtitle{
             color:#6c757d;
             font-size:14px;
             margin-bottom:28px;
+            text-align:center;
+            
         }
 
         .form-label{
@@ -676,7 +690,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 
-<body>
+<body class="staff-page add-walkin-booking-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
 

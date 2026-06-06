@@ -1443,27 +1443,21 @@
         display:flex;
         align-items:center;
         justify-content:space-between;
-
         gap:12px;
-
         border-radius:14px !important;
-
         margin-bottom:-5px !important;
     }
 
     .select-ticket-page .seat-number{
         min-width:45px;
         flex-shrink:0;
-
         font-size:15px !important;
         font-weight:700;
     }
 
     .select-ticket-page .ticket-select{
         flex:1;
-
         height:44px !important;
-
         font-size:13px !important;
     }
 
@@ -1474,20 +1468,15 @@
 
     .select-ticket-page .btn-warning{
         min-height:48px !important;
-
         border-radius:12px !important;
-
         font-size:15px !important;
         font-weight:700 !important;
     }
 
     .select-ticket-page .btn-outline-dark{
         min-height:48px !important;
-
         border-radius:12px !important;
-
         font-size:14px !important;
-
         display:flex;
         align-items:center;
         justify-content:center;
@@ -1504,9 +1493,7 @@
     }
 
 
-    .select-ticket-page .seat-ticket-row:active{
-        transform:scale(.985);
-    }
+    .select-ticket-page .seat-ticket-row:active{ transform:scale(.985); }
 
     .select-ticket-page .btn-warning{
         box-shadow:
@@ -1517,9 +1504,7 @@
             box-shadow .18s ease;
     }
 
-    .select-ticket-page .btn-warning:active{
-        transform:scale(.96);
-    }
+    .select-ticket-page .btn-warning:active{ transform:scale(.96); }
 
     .select-ticket-page .ticket-select:focus{
         box-shadow:
@@ -1544,9 +1529,7 @@
     .success-page .success-icon{
         width:60px !important;
         height:60px !important;
-
         font-size:30px !important;
-
         margin-bottom:18px !important;
     }
 
@@ -1555,9 +1538,7 @@
         line-height:1.2;
     }
 
-    .success-page .success-card p.text-muted{
-        font-size:11px !important;
-    }
+    .success-page .success-card p.text-muted{ font-size:11px !important; }
 
     .success-page .booking-info{
         padding:18px !important;
@@ -1570,43 +1551,31 @@
         margin-bottom: 2px !important;
     }
 
-    .success-page .info-label{
-        font-size:12px !important;
-    }
+    .success-page .info-label{ font-size:12px !important; }
 
     .success-page .info-value{
         font-size:12px !important;
-
         max-width:60%;
-
         word-break:break-word;
     }
 
     .success-page .status-badge{
         font-size:11px !important;
-
         padding:6px 12px !important;
 
     }
 
-    .success-page .total-price{
-        font-size:18px !important;
-    }
+    .success-page .total-price{ font-size:18px !important; }
 
     .success-page .btn-warning,
     .success-page .btn-outline-dark{
         width:100% !important;
-
         min-height:48px !important;
-
         display:flex;
         align-items:center;
         justify-content:center;
-
         margin:8px 0 !important;
-
         border-radius:12px !important;
-
         font-size:14px !important;
     }
     
@@ -1633,18 +1602,14 @@
             box-shadow .18s ease;
     }
 
-    .success-page .btn-warning:active{
-        transform:scale(.96);
-    }
+    .success-page .btn-warning:active{ transform:scale(.96); }
 
     .success-page .btn-outline-dark{
         transition:
             transform .18s ease;
     }
 
-    .success-page .btn-outline-dark:active{
-        transform:scale(.96);
-    }
+    .success-page .btn-outline-dark:active{ transform:scale(.96); }
 
 
     /* =========================
@@ -1669,7 +1634,6 @@
     .notifications-page .top-actions{
         display:flex;
         justify-content:flex-end !important;
-
         margin-bottom:16px !important;
     }
 
@@ -1677,39 +1641,30 @@
         display:inline-flex;
         align-items:center;
         justify-content:center;
-
         width:auto !important;
-
         border-radius:12px !important;
-
         font-size:10px !important;
     }
 
     .notifications-page .notification-item{
         padding:8px !important;
-
         border-radius:14px !important;
-
         margin-bottom:12px !important;
     }
 
     .notifications-page .notification-message{
         font-size:11px !important;
-
         line-height:1;
     }
 
     .notifications-page .notification-time{
         font-size:10px !important;
-
         margin-top:6px;
     }
 
     .notifications-page .empty-alert{
         padding:30px 20px !important;
-
         border-radius:16px !important;
-
         font-size:13px !important;
     }
 
@@ -1732,9 +1687,7 @@
             box-shadow .18s ease;
     }
 
-    .notifications-page .notification-item:active{
-        transform:scale(.985);
-    }
+    .notifications-page .notification-item:active{ transform:scale(.985); }
 
     .notifications-page .mark-all-btn{
         box-shadow:
@@ -1744,9 +1697,7 @@
             transform .18s ease;
     }
 
-    .notifications-page .mark-all-btn:active{
-        transform:scale(.96);
-    }
+    .notifications-page .mark-all-btn:active{ transform:scale(.96); }
     
 
 
@@ -1757,27 +1708,18 @@
     ========================= */
 
     .staff-page .sidebar{
-
         width:260px !important;
-
         display:flex;
         flex-direction:column;
-
         padding-bottom:30px;
-
         overflow:hidden;
-
         transform:translateX(-100%);
-
         transition:transform .25s ease;
-
         z-index:1100;
     }
 
     .staff-page .menu-group{
-
         flex:1;
-
         overflow-y:auto;
     }
 
@@ -1786,84 +1728,60 @@
         margin-bottom:20px;
     }
 
-    .staff-page .sidebar-divider{
-        margin:0 0 18px;
-    }
+    .staff-page .sidebar-divider{ margin:0 0 18px; }
 
     .staff-page .sidebar a{
-
         padding:11px 16px;
-
         margin-bottom:4px;
-
         font-size:15px;
     }
 
-    .staff-page .logout-section{
-
-        margin-top:20px;
-
-        padding-top:18px;
-    }
+    .staff-page .logout-section{ margin-top:20px; padding-top:18px; }
 
     .staff-page .staff-sidebar-toggle{
-
         display:flex;
-
         align-items:center;
         justify-content:center;
-
         position:fixed;
-
         top:40px;
-        left:16px;
-
-        width:46px;
-        height:46px;
-
+        left:15px;
+        width:clamp(42px,11vw,48px);
+        height:clamp(42px,11vw,48px);
         border:none;
-
         border-radius:50%;
-
-        background:#252525;
-
-        color:#f5c518;
-
-        font-size:20px;
-
+        background:rgba(37,37,37,.55);
+        color:rgba(245,197,24,.75);
+        font-size:clamp(14px,4vw,18px);
         z-index:1101;
-
         box-shadow:
             0 6px 18px rgba(0,0,0,.18);
+        backdrop-filter:blur(8px);
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
     }
 
+    .staff-page .staff-sidebar-toggle:active{ transform:scale(.94); }
+
+    .staff-page .staff-sidebar-toggle:hover{ background:rgba(37,37,37,.7); }
+
     .staff-page .staff-sidebar-overlay{
-
         display:block;
-
         position:fixed;
-
         inset:0;
-
         background:rgba(0,0,0,.45);
-
         opacity:0;
         visibility:hidden;
-
         transition:.25s;
-
         z-index:1099;
     }
 
     .staff-page .staff-sidebar-overlay.show{
-
         opacity:1;
         visibility:visible;
     }
 
-    .staff-page .sidebar.show{
-        transform:translateX(0);
-    }
+    .staff-page .sidebar.show{ transform:translateX(0); }
 
 
     /* =========================
@@ -1873,16 +1791,12 @@
     .staff-dashboard-page .main-content{
         margin-left:0 !important;
         width:100% !important;
-
-        padding:20px 14px 20px !important;
+        padding:0px 14px 20px !important;
     }
 
-    .staff-dashboard-page .dashboard-container{
-        padding-top: 0px !important;
-    }
+    .staff-dashboard-page .dashboard-container{ padding-top: 0px !important; }
 
     /* Header */
-
     .staff-dashboard-page .dashboard-header{
         margin-bottom:40px !important;
         padding-bottom:0 !important;
@@ -1890,7 +1804,7 @@
     }
 
     .staff-dashboard-page .dashboard-header h1{
-        font-size:clamp(28px, 6vw, 32px) !important;
+        font-size:clamp(30px, 6vw, 32px) !important;
         line-height:1.2;
         margin-bottom:8px !important;
         text-align:center;
@@ -1901,10 +1815,8 @@
         line-height:1.5 !important;
         margin-bottom:0 !important;
         max-width:clamp(260px, 80vw, 360px) !important;
-
         margin-left:auto !important;
         margin-right:auto !important;
-
         text-align:left !important;
 
     }
@@ -1913,30 +1825,23 @@
         display:block !important;
         margin-left:0 !important;
         margin-top:8px !important;
-
         font-size:12px !important;
     }
 
     .staff-dashboard-page .welcome-text{
         margin-top:30px !important;
-
         display:flex !important;
         justify-content:flex-end !important;
         padding-right:4px !important;
     }
 
-    .staff-dashboard-page .welcome-text span{
-        font-size:13px;
-    }
+    .staff-dashboard-page .welcome-text span{ font-size:13px; }
 
     /* Statistics */
-
     .staff-dashboard-page .stats-grid{
         grid-template-columns:
             repeat(3,1fr) !important;
-
         gap:10px !important;
-
         margin-top:0 !important;
     }
 
@@ -1958,7 +1863,6 @@
     }
 
     /* Quick Actions */
-
     .staff-dashboard-page .quick-actions h3{
         font-size:20px !important;
         margin-bottom:15px !important;
@@ -1967,7 +1871,6 @@
     .staff-dashboard-page .quick-grid{
         grid-template-columns:
             repeat(2,1fr) !important;
-
         gap:12px !important;
     }
 
@@ -1977,17 +1880,12 @@
         align-items:center;
         justify-content:center;
         text-align:center;
-
         padding:16px !important;
-
         border-radius:14px !important;
-
         font-size:13px !important;
         font-weight:700;
-
         line-height:1.3;
     }
-
 
     /* =========================
     STAFF DASHBOARD PREMIUM
@@ -1996,15 +1894,12 @@
     .staff-dashboard-page .stats-card{
         box-shadow:
             0 8px 24px rgba(0,0,0,.08) !important;
-
         transition:
             transform .18s ease,
             box-shadow .18s ease;
     }
 
-    .staff-dashboard-page .stats-card:active{
-        transform:scale(.985);
-    }
+    .staff-dashboard-page .stats-card:active{ transform:scale(.985); }
 
     .staff-dashboard-page .quick-card{
         box-shadow:
@@ -2015,13 +1910,1396 @@
             box-shadow .18s ease;
     }
 
-    .staff-dashboard-page .quick-card:active{
+    .staff-dashboard-page .quick-card:active{ transform:scale(.98); }
+
+    .staff-sidebar-toggle:active{ transform:scale(.94); }
+    
+
+    /* =========================
+        STAFF PROFILE PAGE
+    ========================= */
+
+    .staff-profile-page .main-container{
+        margin-left:0 !important;
+        min-height:100vh;
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+        align-items:flex-start !important;
+    }
+
+    .staff-profile-page .profile-card{
+        max-width:100% !important;
+        padding:
+            clamp(22px,5vw,30px) !important;
+        border-radius:20px !important;
+        margin-top: 20px;
+    }
+
+    .staff-profile-page .profile-avatar{
+        width:70px !important;
+        height:70px !important;
+        font-size:
+            clamp(24px,6vw,30px) !important;
+    }
+
+    .staff-profile-page .page-title{
+        font-size:
+            clamp(26px,6vw,30px) !important;
+        line-height:1.2;
+        margin-bottom:8px !important;
+    }
+
+    .staff-profile-page .page-subtitle{
+        font-size:
+            clamp(12px,3vw,14px) !important;
+        margin-bottom:24px !important;
+        padding-bottom:14px !important;
+    }
+
+    .staff-profile-page .page-subtitle::after{ width:60px; }
+
+    .staff-profile-page form{ margin-top:0 !important; }
+
+    .staff-profile-page label{
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        margin-bottom:6px !important;
+    }
+
+    .staff-profile-page .form-control{
+        min-height:48px;
+        padding:
+            12px
+            14px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        border-radius:12px !important;
+    }
+
+    .staff-profile-page .button-group{ margin-top:30px !important; }
+
+    .staff-profile-page .btn-update,
+    .staff-profile-page .btn-password{
+        min-height:48px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        border-radius:12px !important;
+    }
+
+    .staff-profile-page .btn-password{ margin-top:10px !important; }
+
+    .staff-profile-page .alert{
+        padding:12px !important;
+        font-size:
+            clamp(12px,3vw,13px) !important;
+    }
+
+
+    /* =========================
+        STAFF PROFILE PREMIUM
+    ========================= */
+
+    .staff-profile-page .profile-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+
+    }
+
+    .staff-profile-page .profile-avatar{
+        box-shadow:
+            0 8px 20px rgba(245,197,24,.22);
+    }
+
+    .staff-profile-page .btn-update,
+    .staff-profile-page .btn-password{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-profile-page .btn-update:active,
+    .staff-profile-page .btn-password:active{
+        transform:scale(.97);
+    }
+
+    .staff-profile-page .form-control:focus{
+        box-shadow:
+            0 0 0 .15rem rgba(245,197,24,.20);
+    }
+
+    /* =========================
+        STAFF CHANGE PASSWORD PAGE
+    ========================= */
+
+    .staff-change-password-page .main-container{
+        margin-left:0 !important;
+        min-height:100vh;
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+        align-items:center !important;
+        justify-content:center !important;
+    }
+
+    .staff-change-password-page .change-pwd-card{
+        max-width:100% !important;
+        padding:
+            clamp(22px,5vw,30px) !important;
+        border-radius:20px !important;
+
+    }
+
+    .staff-change-password-page .page-title{
+        font-size:
+            clamp(30px,6vw,34px) !important;
+        line-height:1.15;
+        margin-bottom:10px !important;
+    }
+
+    .staff-change-password-page .page-subtitle{
+        font-size:
+            clamp(13px,3vw,15px) !important;
+        margin-bottom:24px !important;
+        padding-bottom:14px !important;
+    }
+
+    .staff-change-password-page .page-subtitle::after{ width:60px; }
+
+    .staff-change-password-page label{
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        margin-bottom:6px !important;
+    }
+
+    .staff-change-password-page .form-control{
+        min-height:48px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        padding:
+            12px
+            14px !important;
+        border-radius:12px !important;
+    }
+
+    .staff-change-password-page .input-group-text{ min-width:48px;  }
+
+    .staff-change-password-page .btn-warning,
+    .staff-change-password-page .btn-back{
+        min-height:48px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        border-radius:12px !important;
+    }
+
+    .staff-change-password-page .btn-warning{ margin-top:10px !important; }
+
+    .staff-change-password-page .btn-back{ margin-top:12px !important; }
+
+    .staff-change-password-page .alert{
+        padding:12px !important;
+        font-size:
+            clamp(12px,3vw,13px) !important;
+    }
+
+
+    /* =========================
+        STAFF CHANGE PASSWORD PREMIUM
+    ========================= */
+
+    .staff-change-password-page .change-pwd-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .staff-change-password-page .btn-warning,
+    .staff-change-password-page .btn-back{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-change-password-page .btn-warning{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+    }
+
+    .staff-change-password-page .btn-warning:active,
+    .staff-change-password-page .btn-back:active{
+        transform:scale(.97);
+    }
+
+    .staff-change-password-page .form-control:focus{
+        box-shadow:
+            0 0 0 .15rem rgba(245,197,24,.20) !important;
+    }
+    
+    /* =========================
+        SCAN QR PAGE
+    ========================= */
+
+    .scan-qr-page .container-custom{
+        margin-left:0 !important;
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+        justify-content:center;
+    }
+
+    .scan-qr-page .card{
+        max-width:100% !important;
+        padding:
+            clamp(20px,5vw,28px) !important;
+        border-radius:20px !important;
+        margin-top:20px;
+    }
+
+    .scan-qr-page .page-title{
+        font-size:
+            clamp(26px,6vw,32px) !important;
+        line-height:1.2;
+        margin-bottom:8px !important;
+    }
+
+    .scan-qr-page .page-subtitle{
+        font-size:
+            clamp(12px,3vw,14px) !important;
+        margin-bottom:24px !important;
+        padding-bottom:14px !important;
+    }
+
+    .scan-qr-page .page-subtitle::after{ width:60px; }
+
+
+    /* QR Scanner */
+
+    .scan-qr-page .scanner-wrapper{ position:relative; }
+
+    .scan-qr-page #reader{
+        padding:10px !important;
+        border-radius:14px !important;
+        position:relative;
+        overflow:hidden;
+    }
+
+    .scan-qr-page #reader__scan_region{
+        height:240px !important;
+        min-height:240px !important;
+    }
+
+
+    .scan-qr-page .scanner-overlay{
+
+        position:absolute;
+
+        top:50%;
+        left:50%;
+
+        width:70%;
+        aspect-ratio:1;
+
+        transform:translate(-50%,-50%);
+
+        pointer-events:none;
+
+        z-index:20;
+    }
+
+    .scan-qr-page .corner{
+        position:absolute;
+        width:28px;
+        height:28px;
+        border-color:#f5c518;
+        border-style:solid;
+        border-width:0;
+    }
+
+    .scan-qr-page .top-left{
+        top:0;
+        left:0;
+        border-top-width:4px;
+        border-left-width:4px;
+        border-radius:12px 0 0 0;
+    }
+
+    .scan-qr-page .top-right{
+        top:0;
+        right:0;
+        border-top-width:4px;
+        border-right-width:4px;
+        border-radius:0 12px 0 0;
+    }
+
+    .scan-qr-page .bottom-left{
+        bottom:0;
+        left:0;
+        border-bottom-width:4px;
+        border-left-width:4px;
+        border-radius:0 0 0 12px;
+    }
+
+    .scan-qr-page .bottom-right{
+        bottom:0;
+        right:0;
+        border-bottom-width:4px;
+        border-right-width:4px;
+        border-radius:0 0 12px 0;
+    }
+
+    .scan-qr-page .scan-line{
+        position:absolute;
+        left:10px;
+        right:10px;
+        height:3px;
+        border-radius:999px;
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                #f5c518,
+                transparent
+            );
+        box-shadow:
+            0 0 10px rgba(245,197,24,.7);
+        animation:
+            scanMove 2.2s linear infinite;
+    }
+
+    @keyframes scanMove{
+        0%{
+
+            top:10px;
+            opacity:.3;
+        }
+
+        50%{
+
+            opacity:1;
+        }
+
+        100%{
+
+            top:167px;
+            opacity:.3;
+        }
+    }
+
+
+    /* Manual Validation */
+    .scan-qr-page .manual-box{
+        padding:16px !important;
+        border-radius:14px !important;
+        margin-top:16px !important;
+    }
+
+    .scan-qr-page .manual-title{
+        font-size:
+            clamp(15px,4vw,18px) !important;
+    }
+
+    .scan-qr-page .manual-subtitle{
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        margin-bottom:16px !important;
+    }
+
+
+    /* Form */
+    .scan-qr-page .manual-form{
+        flex-direction:column !important;
+        gap:10px !important;
+    }
+
+    .scan-qr-page .manual-form .form-select,
+    .scan-qr-page .manual-form .form-control,
+    .scan-qr-page .btn-validate{
+        width:100% !important;
+    }
+
+    .scan-qr-page .manual-form .form-select{
+        flex:none !important;
+    }
+
+    .scan-qr-page .form-control,
+    .scan-qr-page .form-select{
+        min-height:48px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        border-radius:12px !important;
+    }
+
+    .scan-qr-page .btn-validate{
+        height:48px !important;
+        min-width:unset !important;
+        border-radius:12px !important;
+        margin-top: 15px;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+    }
+
+
+    /* Alert */
+    .scan-qr-page .alert{
+        padding:12px !important;
+        font-size:
+            clamp(12px,3vw,13px) !important;
+    }
+
+
+    /* =========================
+        SCAN QR PREMIUM
+    ========================= */
+
+    .scan-qr-page .card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .scan-qr-page .manual-box{
+        box-shadow:
+            0 4px 12px rgba(0,0,0,.04);
+    }
+
+    .scan-qr-page .btn-validate{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .scan-qr-page .btn-validate:active{ transform:scale(.97);}
+
+    .scan-qr-page .form-control:focus,
+    .scan-qr-page .form-select:focus{
+        box-shadow:
+            0 0 0 .15rem rgba(245,197,24,.20) !important;
+    }
+
+    /* =========================
+    STAFF PAYMENT STATUS PAGE
+    ========================= */
+
+    .staff-payment-status-page .page-container{
+        margin-left:0 !important;
+        min-height:100vh;
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+        justify-content:center !important;
+        align-items:center !important;
+    }
+
+    .staff-payment-status-page .payment-card{
+        max-width:100% !important;
+        padding:
+            clamp(22px,5vw,30px) !important;
+        border-radius:20px !important;
+    }
+
+    .staff-payment-status-page .page-title{
+        font-size:
+            clamp(30px,6vw,34px) !important;
+        line-height:1.15;
+        margin-bottom:10px !important;
+    }
+
+    .staff-payment-status-page .page-subtitle{
+        font-size:
+            clamp(13px,3vw,15px) !important;
+        margin-bottom:24px !important;
+        padding-bottom:14px !important;
+    }
+
+    .staff-payment-status-page .page-subtitle::after{
+        width:60px;
+    }
+
+    .staff-payment-status-page .form-label{
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        margin-bottom:6px !important;
+    }
+
+    .staff-payment-status-page .form-control,
+    .staff-payment-status-page .form-select{
+        min-height:48px !important;
+        padding:
+            12px
+            14px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        border-radius:12px !important;
+    }
+
+    .staff-payment-status-page .button-group{
+        margin-top:28px !important;
+    }
+
+    .staff-payment-status-page .btn-update{
+        width:100% !important;
+        min-width:unset !important;
+        min-height:48px !important;
+        border-radius:12px !important;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+    }
+
+    /* =========================
+        STAFF PAYMENT STATUS PREMIUM
+    ========================= */
+
+    .staff-payment-status-page .payment-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .staff-payment-status-page .btn-update{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-payment-status-page .btn-update:not(:disabled){
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+    }
+
+    .staff-payment-status-page .btn-update:active:not(:disabled){
+        transform:scale(.97);
+    }
+
+    .staff-payment-status-page .form-control:focus,
+    .staff-payment-status-page .form-select:focus{
+        box-shadow:
+            0 0 0 .15rem rgba(245,197,24,.20) !important;
+    }
+  
+
+    /*staff customer-booking*/
+    .staff-page.customer-bookings-page .container-box{
+        margin-left:0;
+        padding:20px 12px;
+        padding-top:clamp(80px, 10vw, 100px);
+    }
+
+    .staff-page.customer-bookings-page .page-header{
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .staff-page.customer-bookings-page .page-header-row{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:clamp(10px, 2vw, 14px);
+        margin-top:clamp(10px, 2vw, 17px);
+        margin-bottom:clamp(18px, 3vw, 25px);
+    }
+
+    .staff-page.customer-bookings-page .page-header-row h1{
+        font-size:clamp(24px, 5vw, 28px);
+        line-height:1.2;
+        text-align:center;
+    }
+
+    .staff-page.customer-bookings-page .page-header-row p{
+        font-size:clamp(12px, 2.8vw, 14px);
+        line-height:1.5;
+        text-align:center;
+        max-width:600px;
+        margin-top:clamp(10px, 2vw, 17px);
+    }
+
+    .staff-page.customer-bookings-page td,
+    .staff-page.customer-bookings-page th{
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    .staff-page.customer-bookings-page .table tbody td{
+        line-height: 1.3;
+        max-width: 160px;
+    }
+
+    .staff-page.customer-bookings-page .mini-search{
+        width: 100%;
+        max-width: 100%;
+        transform: none;
+        flex: 1;
+        margin: 0 auto;
+    }
+
+    .staff-page.customer-bookings-page .search-wrapper{
+        flex-direction: column;
+        gap: 10px;
+        transform: none;
+        align-items: center;
+    }
+
+    .staff-page.customer-bookings-page .search-box{ width: 100%; }
+
+    .staff-page.customer-bookings-page .btn-reset{
+        width: 100%;
+        height: 42px;
+        font-size: 13px;
+    }
+
+    .staff-page.customer-bookings-page .input-group{  height: 42px; }
+
+    .staff-page.customer-bookings-page .form-control{
+        font-size: 13px;
+        height: 42px;
+    }
+
+    .staff-page.customer-bookings-page .btn-search{
+        height: 42px;
+        font-size: 13px;
+    }
+
+    .staff-page.customer-bookings-page .table-card{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 14px;
+    }
+
+    .staff-page.customer-bookings-page table{ min-width: 900px; }
+
+    .staff-page.customer-bookings-page .table thead th{
+        font-size: 12px;
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    .staff-page.customer-bookings-page .table tbody td{
+        font-size: 12px;
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    .staff-page.customer-bookings-page .status-cell{ min-width: 160px; }
+
+    .staff-page.customer-bookings-page .action-cell{ min-width: 120px; }
+
+    .staff-page.customer-bookings-page .status-cell .form-select,
+    .staff-page.customer-bookings-page .status-cell .form-control{
+        font-size: 12px;
+    }
+
+    .staff-page.customer-bookings-page .action-cell .btn{
+        display: block;
+        font-size: 11.5px;
+        padding: 6px 8px;
+    }
+
+    .staff-page.customer-bookings-page .btn-ticket{ margin-top: 8px; }
+
+    .staff-page.customer-bookings-page .table-card{
+        box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+
+    /* =========================
+        STAFF BOOKING DETAILS PAGE
+    ========================= */
+
+    .staff-page.booking-details-page .details-container{
+        margin-left:0 !important;
+        width:100% !important;
+        min-height:100vh;
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+        justify-content:center;
+        transform:none !important;
+    }
+
+    .staff-page.booking-details-page .details-card{
+        max-width:100% !important;
+        padding:
+            clamp(22px,5vw,30px) !important;
+        border-radius:20px !important;
+        margin-top:20px;
+    }
+
+    .staff-page.booking-details-page .booking-info { padding: 5px !important; }
+
+    .staff-page.booking-details-page .page-title{
+        font-size:
+            clamp(26px,6vw,32px) !important;
+        line-height:1.2;
+        margin-bottom:8px !important;
+        text-align:center;
+    }
+
+    .staff-page.booking-details-page .page-subtitle{
+        font-size:
+            clamp(12px,3vw,14px) !important;
+        text-align:center;
+        margin-bottom:24px !important;
+        padding-bottom:14px !important;
+    }
+
+    .staff-page.booking-details-page .page-subtitle::after{ width:60px; }
+
+    .staff-page.booking-details-page .info-row{
+        padding:7px 0 !important;
+        gap:10px;
+        align-items:flex-start;
+        display:flex;
+        justify-content:space-between;
+    }
+
+    .staff-page.booking-details-page .info-label{
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        flex:0 0 35%;
+    }
+
+    .staff-page.booking-details-page .info-value{
+        font-size:
+            clamp(12px,3vw,14px) !important;
+        max-width:65% !important;
+        word-break:break-word;
+    }
+
+    .staff-page.booking-details-page .status-badge{
+        padding:7px 12px !important;
+        font-size:11px !important;
+    }
+
+    .staff-page.booking-details-page .btn-history{
+        width:100%;
+        min-height:48px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:
+            clamp(13px,3vw,14px) !important;
+        border-radius:12px !important;
+    }
+
+    /* =========================
+        STAFF BOOKING DETAILS PREMIUM
+    ========================= */
+
+    .staff-page.booking-details-page .details-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .staff-page.booking-details-page .btn-history{
+        box-shadow:
+            0 4px 12px rgba(0,0,0,.12);
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-page.booking-details-page .btn-history:active{
+        transform:scale(.97);
+    }
+
+
+    /* =========================
+        STAFF QR TICKET PAGE
+    ========================= */
+
+    .staff-page.staff-ticket-page{
+        padding-left:0 !important;
+    }
+
+    .staff-ticket-page .ticket-container{
+        margin-left:0 !important;
+        width:100% !important;
+        max-width:100% !important;
+        box-sizing:border-box;
+        margin:0 !important;
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+        padding-top:
+            clamp(70px,10vw,90px) !important;
+    }
+
+    .staff-ticket-page .ticket-card{
+        margin-top:20px;
+        border-radius:20px !important;
+        overflow:hidden;
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .staff-ticket-page .ticket-header{
+        padding:
+            clamp(18px,4vw,24px)
+            clamp(18px,4vw,24px) !important;
+    }
+
+    .staff-ticket-page .ticket-header h1{
+        font-size:
+            clamp(18px,4.5vw,22px) !important;
+        justify-content:center;
+    }
+
+    .staff-ticket-page .ticket-body{
+        padding:
+            clamp(20px,5vw,28px) !important;
+    }
+
+    .staff-ticket-page .info-row{
+        padding:10px 0 !important;
+        gap:12px;
+    }
+
+    .staff-ticket-page .label{
+        flex:0 0 35%;
+        font-size:
+            clamp(12px,3vw,13px) !important;
+    }
+
+    .staff-ticket-page .value{
+        flex:1;
+        text-align:right;
+        font-size:
+            clamp(12px,3vw,14px) !important;
+        overflow-wrap:anywhere;
+        padding-left:10px !important;
+    }
+
+    .staff-ticket-page .ticket-status{
+        margin-bottom:30px !important;
+        justify-content:center;
+        font-size:
+            clamp(11px,3vw,12px) !important;
+    }
+
+    .staff-ticket-page .expiry-box{
+        text-align:center;
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        padding:10px 14px !important;
+    }
+
+    .staff-ticket-page .qr-box{
+        margin-top:20px !important;
+        padding-top:20px !important;
+    }
+
+    .staff-ticket-page .qr-box img{
+        width:min(220px,65vw) !important;
+        max-width:100%;
+    }
+
+    .staff-ticket-page .ticket-id{
+        font-size:
+            clamp(13px,3vw,14px) !important;
+    }
+
+    .staff-ticket-page .no-print{
+        display:flex;
+        justify-content:center;
+        gap:12px;
+    }
+
+    .staff-ticket-page .btn-back{
+        margin-left:0 !important;
+    }
+
+    /* =========================
+        STAFF QR TICKET PREMIUM
+    ========================= */
+
+    .staff-ticket-page .btn-print{
+        box-shadow:
+            0 4px 12px rgba(245,197,24,.25);
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-ticket-page .btn-back{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-ticket-page .btn-print:active,
+    .staff-ticket-page .btn-back:active{
+        transform:scale(.97);
+    }
+
+    /* =========================
+        STAFF WALK-IN BOOKINGS PAGE
+    ========================= */
+
+    .staff-page.walkin-bookings-page .page-container{
+        margin-left:0;
+        padding:20px 12px;
+        padding-top:clamp(90px,10vw,110px);
+    }
+
+    .staff-page.walkin-bookings-page .page-header-row{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        gap:12px;
+    }
+
+    .staff-page.walkin-bookings-page .page-title{
+        font-size:clamp(22px,5vw,30px) !important;
+        line-height:1.2;
+        text-align:center;
+    }
+
+    .staff-page.walkin-bookings-page .page-subtitle{
+        font-size:clamp(12px,2.8vw,14px) !important;
+        text-align:center;
+        max-width:300px;
+    }
+
+    .staff-page.walkin-bookings-page .btn-add{
+        width:auto;
+        margin-top: -25px;
+        padding:8px 18px;
+        font-size:13px;
+        align-self:flex-end;
+    }
+
+    .staff-page.walkin-bookings-page .mini-search{
+        width:100%;
+        max-width:100%;
+    }
+
+    .staff-page.walkin-bookings-page .search-box{ width:100%; }
+
+    .staff-page.walkin-bookings-page .mini-search .d-flex{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .staff-page.walkin-bookings-page .btn-reset{
+        width:100%;
+        height:42px;
+    }
+
+    .staff-page.walkin-bookings-page .input-group{ height:42px; }
+
+    .staff-page.walkin-bookings-page .form-control{
+        height:42px;
+        font-size:13px;
+    }
+
+    .staff-page.walkin-bookings-page .btn-search{
+        height:42px;
+        font-size:13px;
+    }
+
+    .staff-page.walkin-bookings-page .table-card{
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+        border-radius:14px;
+        box-shadow:
+            0 6px 18px rgba(0,0,0,.06);
+    }
+
+    .staff-page.walkin-bookings-page table{ min-width:650px; }
+
+    .staff-page.walkin-bookings-page .table thead th{
+        font-size:12px;
+        padding:10px;
+        white-space:nowrap;
+    }
+
+    .staff-page.walkin-bookings-page .table tbody td{
+        font-size:12px;
+        padding:10px;
+    }
+
+    .staff-page.walkin-bookings-page .customer-name{font-size:12px; }
+
+    .staff-page.walkin-bookings-page .movie-name,
+    .staff-page.walkin-bookings-page .showtime{ font-size:11px; }
+
+    .staff-page.walkin-bookings-page .badge{
+        font-size:11px;
+        padding:7px 10px;
+    }
+
+    .staff-page.walkin-bookings-page .action-group{
+        flex-direction:column;
+        gap:4px;
+        width:max-content;
+    }
+
+    .staff-page.walkin-bookings-page .btn-action{
+        width:85px;
+        height:32px;
+        font-size:11px;
+        border-radius:8px;
+    }
+
+
+    /* =========================
+        STAFF WALK-IN BOOKINGS PREMIUM
+    ========================= */
+
+    .staff-page.walkin-bookings-page .btn-add,
+    .staff-page.walkin-bookings-page .btn-action{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-page.walkin-bookings-page .btn-add:active,
+    .staff-page.walkin-bookings-page .btn-action:active{
+        transform:scale(.97);
+    }
+
+    /* =========================
+        STAFF ADD WALK-IN BOOKING
+    ========================= */
+
+    .staff-page.add-walkin-booking-page .page-container{
+        margin-left:0;
+        width:100%;
+        padding:20px 12px;
+        padding-top:clamp(40px,9vw,50px);
+        display:block;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .staff-page.add-walkin-booking-page .booking-card{
+        max-width:100%;
+        padding:20px;
+        border-radius:18px;
+    }
+
+    .staff-page.add-walkin-booking-page .header-top{
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        margin-bottom:24px;
+    }
+
+    .staff-page.add-walkin-booking-page .page-title{
+        font-size:clamp(23px,5vw,31px) !important;
+        line-height:1.2 !important;
+        margin-top: 10px;
+    }
+
+    .staff-page.add-walkin-booking-page .page-subtitle{
+        font-size:clamp(12px,3vw,14px) !important;
+        max-width:320px !important;
+        margin:8px auto 0 !important;
+    }
+
+    .staff-page.add-walkin-booking-page .mb-4 { margin-bottom: 0.9rem !important; }
+
+    .staff-page.add-walkin-booking-page .form-label{
+        font-size:13px;
+    }
+
+    .staff-page.add-walkin-booking-page .form-control,
+    .staff-page.add-walkin-booking-page .form-select{
+        height:44px;
+        font-size:13px;
+        margin-top: -3px;
+    }
+
+    .staff-page.add-walkin-booking-page .seat-card{
+        padding:16px;
+        border-radius:14px;
+    }
+
+    .staff-page.add-walkin-booking-page .section-header{
+        font-size:14px;
+    }
+
+    .staff-page.add-walkin-booking-page .ticket-box{
+        padding:18px;
+        border-radius:16px;
+    }
+
+    .staff-page.add-walkin-booking-page .ticket-box .row{
+        row-gap:12px;
+    }
+
+    .staff-page.add-walkin-booking-page .ticket-box .col-md-6{
+        width:100%;
+       margin-bottom: 0.1rem !important;
+    }
+
+    .staff-page.add-walkin-booking-page .price-tag{
+        font-size:11px;
+    }
+
+    .staff-page.add-walkin-booking-page .checkout-box{
+        padding:20px 16px;
+        border-radius:18px;
+    }
+
+    .staff-page.add-walkin-booking-page .total-title{
+        font-size:13px;
+    }
+
+    .staff-page.add-walkin-booking-page .total-price{
+        font-size:clamp(26px,8vw,34px);
+    }
+
+    .staff-page.add-walkin-booking-page .btn-book{
+        width:100%;
+        min-width:unset;
+        height:48px;
+        margin-top:20px;
+        font-size:14px;
+        border-radius:12px;
+    }
+
+    /* =========================
+        STAFF VIEW WALK-IN BOOKING
+    ========================= */
+
+    .staff-page.view-walkin-booking-page .page-container{
+        margin-left:0;
+        width:100%;
+        padding:20px 12px;
+        padding: clamp(20px, 4vw, 30px) clamp(12px, 3vw, 18px) !important;
+        display:block;
+    }
+
+    .staff-page.view-walkin-booking-page .details-card{
+        max-width:100%;
+        padding: clamp(20px, 5vw, 28px) !important;
+        border-radius:18px;
+        margin-top: 20px;
+    }
+
+    .staff-page.view-walkin-booking-page .page-title{
+        text-align:center;
+        font-size:
+            clamp(23px,5vw,31px) !important;
+        line-height:1.2;
+    }
+
+    .staff-page.view-walkin-booking-page .page-subtitle{
+        text-align:center;
+        font-size:
+            clamp(12px,3vw,14px);
+        max-width:300px;
+        margin:
+            8px auto
+            20px auto;
+    }
+
+    .staff-page.view-walkin-booking-page .booking-info{
+        padding:0 14px;
+        border-radius:14px;
+    }
+
+    .staff-page.view-walkin-booking-page .info-row{
+        gap:12px;
+        align-items:flex-start;
+        padding:10px 0;
+    }
+
+    .staff-page.view-walkin-booking-page .info-label{
+        flex:0 0 40%;
+        font-size:12px;
+    }
+
+    .staff-page.view-walkin-booking-page .info-value{
+        flex:1;
+        font-size:12px;
+        text-align:right;
+        overflow-wrap:anywhere;
+    }
+
+    .staff-page.view-walkin-booking-page .status-badge{
+        font-size:11px;
+    }
+
+    .staff-page.view-walkin-booking-page .section-title{
+        text-align:center;
+        font-size:15px;
+    }
+
+    .staff-page.view-walkin-booking-page .price-box{
+        margin-top:20px;
+        padding:22px 16px;
+        border-radius:18px;
+    }
+
+    .staff-page.view-walkin-booking-page .price-title{
+        font-size:12px;
+    }
+
+    .staff-page.view-walkin-booking-page .price-value{
+        font-size:
+            clamp(26px,8vw,34px) !important;
+    }
+
+    .staff-page.view-walkin-booking-page .back-btn{
+        width:100%;
+        min-width:unset;
+        height:48px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:14px;
+        border-radius:12px;
+        margin-top:20px;
+    }
+
+    /* =========================
+        STAFF VIEW WALK-IN BOOKING PREMIUM
+    ========================= */
+
+    .staff-page.view-walkin-booking-page .details-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .staff-page.view-walkin-booking-page .booking-info{
+        box-shadow:
+            0 4px 12px rgba(0,0,0,.04);
+    }
+
+    .staff-page.view-walkin-booking-page .back-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-page.view-walkin-booking-page .back-btn:active{
+        transform:scale(.97);
+    }
+
+    /* =========================
+        STAFF WALK-IN QR TICKET
+    ========================= */
+
+    .staff-page.walkin-ticket-page{
+        overflow-x:hidden;
+        padding-left:0;
+    }
+
+    .staff-page.walkin-ticket-page .ticket-container{
+        max-width:100%;
+        margin:0;
+        padding:20px 12px;
+        padding-top:clamp(90px,10vw,110px);
+    }
+
+    .staff-page.walkin-ticket-page .ticket-card{
+        border-radius:18px;
+        overflow:hidden;
+    }
+
+    .staff-page.walkin-ticket-page .ticket-header{
+        padding:
+            clamp(18px,4vw,24px)
+            clamp(18px,4vw,24px) !important;
+    }
+
+    .staff-page.walkin-ticket-page .ticket-header h1{
+        font-size:
+            clamp(18px,4.5vw,22px) !important;
+        gap:8px;
+    }
+
+    .staff-page.walkin-ticket-page .ticket-body{
+        padding:18px;
+    }
+
+    .staff-page.walkin-ticket-page .ticket-status{
+        margin-bottom:30px !important;
+            justify-content:center;
+            font-size:
+                clamp(11px,3vw,12px) !important;
+        }
+
+    .staff-page.walkin-ticket-page .expiry-box{
+        text-align:center;
+        font-size:
+            clamp(12px,3vw,13px) !important;
+        padding:10px 14px !important;
+    }
+
+    .staff-page.walkin-ticket-page .info-row{
+        gap:10px;
+        padding:9px 0;
+
+    }
+
+    .staff-page.walkin-ticket-page .label{
+        flex:0 0 38%;
+        font-size:12px;
+    }
+
+    .staff-page.walkin-ticket-page .value{
+        flex:1;
+        max-width:none;
+        font-size:12px;
+        text-align:right;
+        overflow-wrap:anywhere;
+    }
+
+    .staff-page.walkin-ticket-page .qr-box{
+        margin-top:22px;
+        padding-top:20px;
+    }
+
+    .staff-ticket-page .qr-box img{
+        width:min(220px,65vw) !important;
+        max-width:100%;
+    }
+
+    .staff-page.walkin-ticket-page .ticket-id{
+        font-size:
+            clamp(13px,3vw,14px) !important;
+    }
+
+    .staff-ticket-page .btn-back{
+        margin-left:0 !important;
+    }
+
+
+    .staff-page.walkin-ticket-page .ms-2{
+        margin-left:0 !important;
+    }
+
+
+    /* =========================
+        STAFF WALK-IN QR TICKET PREMIUM
+    ========================= */
+
+    .staff-page.walkin-ticket-page .ticket-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .staff-page.walkin-ticket-page .btn-print,
+    .staff-page.walkin-ticket-page .btn-back{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .staff-page.walkin-ticket-page .btn-print:active,
+    .staff-page.walkin-ticket-page .btn-back:active{
+        transform:scale(.97);
+    }
+
+    .staff-page.walkin-ticket-page .qr-box img{
+        transition:transform .2s ease;
+    }
+
+    .staff-page.walkin-ticket-page .qr-box img:active{
         transform:scale(.98);
     }
 
-    .staff-sidebar-toggle:active{
-        transform:scale(.94);
 
-    }
 }
-

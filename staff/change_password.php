@@ -8,9 +8,19 @@ require_once '../config/db.php';
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Change Password - GSC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/GSC-Movie-ticket-Online-Booking-System/frontend/gsc-style.css">
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
     <style>
         body{
             margin:0;
@@ -246,7 +256,7 @@ require_once '../config/db.php';
 </head>
 
 
-<body>
+<body class="staff-page staff-change-password-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
     <div class="main-container">

@@ -58,6 +58,7 @@ while ($seat = $seatResult->fetch_assoc()) {
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         View Walk-in Booking - GSC
@@ -67,6 +68,15 @@ while ($seat = $seatResult->fetch_assoc()) {
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
     <style>
 
@@ -281,7 +291,7 @@ while ($seat = $seatResult->fetch_assoc()) {
 
 </head>
 
-<body>
+<body class="staff-page view-walkin-booking-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
 

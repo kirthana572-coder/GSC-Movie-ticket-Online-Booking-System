@@ -228,6 +228,7 @@ $walkinBookings = $conn->query($sql);
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Walk-in Booking - GSC</title>
 
@@ -235,6 +236,15 @@ $walkinBookings = $conn->query($sql);
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
     <style>
 
@@ -592,7 +602,7 @@ $walkinBookings = $conn->query($sql);
 
 </head>
 
-<body>
+<body class="staff-page walkin-bookings-page">
 
 <?php include '../includes/staff_sidebar.php'; ?>
 
@@ -685,7 +695,7 @@ $walkinBookings = $conn->query($sql);
                     <th>Customer</th>
                     <th>Date</th>
                     <th>Status</th>
-                    <th width="420">Action</th>
+                    <th width="150">Action</th>
                 </tr>
 
             </thead>
