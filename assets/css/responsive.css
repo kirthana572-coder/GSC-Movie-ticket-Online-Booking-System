@@ -52,20 +52,31 @@
         margin-top:0 !important;
         margin-bottom:-5px !important;
 
-        font-size:10px !important;
-        letter-spacing:1.5px !important;
+        font-size:
+            clamp(10px,2.5vw,12px) !important;
+
+        letter-spacing:
+            clamp(1px,0.3vw,1.5px) !important;
     }
 
     .hero-box h1{
-        font-size:30px !important;
+        font-size:
+            clamp(30px,8vw,42px) !important;
+
         line-height:1.2 !important;
-        margin-bottom:12px !important;
+
+        margin-bottom:
+            clamp(10px,2vw,16px) !important;
     }
 
     .hero-box p{
-        font-size:14px !important;
+        font-size:
+            clamp(14px,3.5vw,16px) !important;
+
         line-height:1.8 !important;
-        max-width:340px;
+
+        max-width:
+            clamp(280px,85vw,420px);
 
         margin-left:auto;
         margin-right:auto;
@@ -80,7 +91,7 @@
 
     .hero-actions .btn{
         width:100%;
-        max-width:320px;
+        max-width:300px;
 
         height:50px !important;
 
@@ -106,15 +117,22 @@
     .feature-section .col-md-3{ flex:0 0 100%; max-width:100%; }
 
     .feature-card{
-        padding:24px 18px !important;
+
+        width:100%;
+        max-width:500px;
+        padding:
+            clamp(24px,6vw,28px)
+            clamp(20px,5vw,22px) !important;
         border-radius:20px !important;
+
+        margin:0 auto;
     }
 
     .feature-card h5{ font-size:18px; }
 
     .feature-card p{ font-size:13px; }
 
-    .feature-section .row{ gap:10px; }
+    .feature-section .row{ gap:0px; justify-content:center;}
 
     .feature-icon{ font-size:38px !important; }
 
