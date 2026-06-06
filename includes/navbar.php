@@ -1,6 +1,12 @@
 <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
+
 <style>
 .custom-navbar{
 
@@ -352,7 +358,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 }
 
 </style>
-<nav class="navbar navbar-dark custom-navbar">
+<nav class="navbar navbar-dark custom-navbar user-navbar">
   <div class="container-fluid px-5">
 
     <a class="navbar-brand d-flex align-items-center"
