@@ -523,10 +523,32 @@
     PROFILE PAGE
     ========================= */
 
-    .profile-page .main-container{ align-items:center; padding:0 14px !important; }
+    .profile-page .main-container{
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        min-height:90vh;
+
+        margin:0 auto;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+    }
 
     .profile-page .profile-card{
-        padding:22px 18px !important;
+        width:100%;
+        max-width:500px;
+
+        margin:0 auto;
+
+        padding:
+            clamp(20px,5vw,28px)
+            clamp(18px,4vw,24px) !important;
+
         border-radius:18px !important;
     }
 
@@ -594,15 +616,33 @@
 
     .change-password-page .main-container{
         max-width:100%;
-        padding:0 16px !important;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
         align-items:center;
-        
+
+        min-height:90vh;
+
+        margin:0 auto;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
     }
 
     .change-password-page .change-pwd-card{
+        width:100%;
+        max-width:500px;
+
         transform:none !important;
-        padding:22px !important;
+
+        padding:
+            clamp(20px,5vw,28px) !important;
+
         border-radius:18px !important;
+
         box-shadow:
             0 8px 24px rgba(0,0,0,.08) !important;
     }
@@ -1409,12 +1449,30 @@
     ========================= */
 
     .select-ticket-page .confirmation-container{
-        padding:30px 12px !important;
-        align-items:flex-start !important;
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center !important;
+
+        min-height:90vh;
+
+        margin:0 auto;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
     }
 
     .select-ticket-page .confirmation-card{
-        padding:20px !important;
+        width:100%;
+        max-width:500px;
+
+        margin:0 auto;
+
+        padding:
+            clamp(20px,5vw,28px) !important;
+
         border-radius:20px !important;
     }
 
