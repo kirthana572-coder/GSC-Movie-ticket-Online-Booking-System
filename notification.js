@@ -1,20 +1,13 @@
-// ==================== 工具函数 ====================
 function getBaseUrl() {
-    // 自动识别本地或线上环境
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        // 本地 XAMPP：项目可能放在子目录下，例如 /GSC-Movie-ticket-Online-Booking-System
         let path = window.location.pathname;
         let parts = path.split('/');
-        if (parts.length > 1 && parts[1].includes('GSC')) {
-            return '/' + parts[1];
-        }
+        if (parts.length > 1 && parts[1].includes('GSC')) return '/' + parts[1];
         return '';
     }
-    // 线上环境：假设项目在根目录，直接返回空字符串；如果有子目录请手动修改
     return '';
 }
 
-// ==================== Toast 提示（页面内浮动条） ====================
 function showToast(message, duration = 5000) {
     let container = document.querySelector('.toast-container');
     if (!container) {
@@ -60,7 +53,6 @@ function showToast(message, duration = 5000) {
     }, duration);
 }
 
-// 添加动画样式（如果页面没有定义）
 if (!document.querySelector('#toast-keyframes')) {
     const style = document.createElement('style');
     style.id = 'toast-keyframes';
@@ -73,7 +65,6 @@ if (!document.querySelector('#toast-keyframes')) {
     document.head.appendChild(style);
 }
 
-// ==================== 桌面通知 ====================
 function requestNotificationPermission() {
     if (Notification.permission === 'default') {
         Notification.requestPermission().then(permission => {
@@ -82,31 +73,24 @@ function requestNotificationPermission() {
     }
 }
 
-// 显示桌面通知（像 WhatsApp 那样）
 function showSystemNotification(title, body) {
     if (Notification.permission === 'granted') {
-        new Notification(title, { body: body, icon: '/favicon.ico', requireInteraction: true });
+        new Notification(title, { body: body, requireInteraction: true });
     } else {
-        // 如果用户拒绝了桌面通知，至少用 toast 提示
         showToast(title + '\n' + body, 8000);
     }
 }
 
-// ==================== 轮询提醒 ====================
 let reminderInterval = null;
 let notificationInterval = null;
 
 function checkMovieReminders() {
     const baseUrl = getBaseUrl();
     fetch(baseUrl + '/check_reminder.php')
-        .then(response => {
-            if (!response.ok) throw new Error('HTTP ' + response.status);
-            return response.json();
-        })
+        .then(response => response.ok ? response.json() : Promise.reject('HTTP error'))
         .then(data => {
             if (data.reminders && data.reminders.length) {
                 data.reminders.forEach(rem => {
-                    // rem.message 已经是英文提醒文案（来自 check_reminder.php）
                     showSystemNotification('Movie Reminder', rem.message);
                     showToast(rem.message, 8000);
                 });
@@ -118,10 +102,7 @@ function checkMovieReminders() {
 function checkGeneralNotifications() {
     const baseUrl = getBaseUrl();
     fetch(baseUrl + '/api/get_new_notifications.php')
-        .then(response => {
-            if (!response.ok) throw new Error('HTTP ' + response.status);
-            return response.json();
-        })
+        .then(response => response.ok ? response.json() : Promise.reject('HTTP error'))
         .then(data => {
             if (data.notifications && data.notifications.length) {
                 data.notifications.forEach(notif => {
@@ -133,23 +114,18 @@ function checkGeneralNotifications() {
         .catch(err => console.error('General notification error:', err));
 }
 
-// ==================== 启动所有通知功能 ====================
 function startNotifications() {
-    // 请求权限（只在用户首次访问时弹出）
     if (window.Notification && Notification.permission !== 'denied') {
         requestNotificationPermission();
     }
-    // 立即执行一次
     checkMovieReminders();
     checkGeneralNotifications();
-    // 设置轮询（30秒一次）
     if (reminderInterval) clearInterval(reminderInterval);
     if (notificationInterval) clearInterval(notificationInterval);
     reminderInterval = setInterval(checkMovieReminders, 30000);
     notificationInterval = setInterval(checkGeneralNotifications, 30000);
 }
 
-// 页面加载完成后启动
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', startNotifications);
 } else {

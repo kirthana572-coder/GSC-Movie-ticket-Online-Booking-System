@@ -40,6 +40,15 @@ if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_ADDR'] == '127.0.0.
 } else {
     // 线上环境：如果项目在根目录，留空；否则填子目录名（如 /gsc）
     define('BASE_URL', '');
-
 }
-?>  
+
+// ==========================================
+// 3. 邮件 SMTP 配置（请务必修改成你自己的）
+// ==========================================
+define('SMTP_HOST', 'smtp.gmail.com');      // 你的 SMTP 服务器
+define('SMTP_PORT', 587);
+define('SMTP_USER', 'gscmovieticketonlinebookingsys@gmail.com'); // 发件邮箱（替换）
+define('SMTP_PASS', 'dfdajqrfbilgylme');    // 邮箱密码或授权码（替换）
+define('SMTP_FROM', 'your_email@gmail.com');
+define('SMTP_FROM_NAME', 'GSC Cinema');
+?>

@@ -17,34 +17,19 @@ if (!$booking || $booking['payment_status'] !== 'Pending') {
 
 $conn->begin_transaction();
 try {
-    // 更新预订状态为 Cancelled
     $conn->query("UPDATE bookings SET payment_status = 'Cancelled' WHERE id = $booking_id");
-    
-    // 释放座位
-        $conn->query("
-            UPDATE seats s
-            JOIN booking_seats bs ON s.id = bs.seat_id
-            SET s.status = 'available'
-            WHERE bs.booking_id = $booking_id
-        ");
-    
+    $conn->query("UPDATE seats s JOIN booking_seats bs ON s.id = bs.seat_id SET s.status = 'available' WHERE bs.booking_id = $booking_id");
     $conn->query("DELETE FROM booking_seats WHERE booking_id = $booking_id");
-    
-    // 记录取消历史
-    $user_id = $_SESSION['user_id'];
 
-    $conn->query("
-        INSERT INTO booking_cancellations
-        (user_id, booking_id)
-        VALUES
-        ($user_id, $booking_id)
-    ");
-    
-    // 添加通知
     $user_id = $_SESSION['user_id'];
+    $stmt = $conn->prepare("INSERT INTO booking_cancellations (user_id, booking_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $user_id, $booking_id);
+    $stmt->execute();
+    $stmt->close();
+
     $msg = "Your booking (ID: $booking_id) has been cancelled.";
-    $conn->query("INSERT INTO notifications (user_id, message) VALUES ($user_id, '$msg')");
-    
+    $conn->query("INSERT INTO notifications (user_id, message, is_read, is_popup_shown, created_at) VALUES ($user_id, '$msg', 0, 0, NOW())");
+
     $conn->commit();
     header("Location: " . BASE_URL . "/customer/history.php?msg=cancelled");
     exit();
