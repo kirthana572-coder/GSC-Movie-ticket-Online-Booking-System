@@ -3667,4 +3667,3382 @@
     }
 
 
+
+
+    /* =========================
+        ADMIN MOBILE SIDEBAR
+    ========================= */
+
+    .admin-page .sidebar{
+        width:260px !important;
+
+        display:flex;
+        flex-direction:column;
+
+        transform:translateX(-100%);
+        transition:transform .25s ease;
+
+        overflow:hidden;
+        padding:
+        clamp(80px,9vw,120px)
+        clamp(21px,4vw,25px);
+
+        z-index:1100;
+    }
+
+    .admin-page .sidebar a{
+        display:block;
+
+        padding:
+        clamp(12px,3vw,16px)
+        clamp(16px,4vw,20px);
+
+        margin-bottom:2px; 
+
+        font-size:
+        clamp(12px,4vw,14px);
+
+        line-height:1.2;
+
+        border-left:4px solid transparent;
+
+        text-decoration:none;
+
+        color:#d6d6d6;
+
+        border-radius:10px;
+
+        font-weight:600;
+
+        transition:.25s;
+    }
+
+    .admin-page .sidebar-header{
+        margin-bottom:
+            clamp(18px,4vw,28px);
+
+    }
+
+    .admin-page .sidebar h2{
+        font-size:
+            clamp(30px,7vw,36px);
+    }
+
+    .admin-page .panel-label{
+        font-size:
+            clamp(9px,2.5vw,11px);
+
+        letter-spacing:
+            clamp(1px,.5vw,3px);
+    }
+
+    .admin-page .sidebar-divider{
+        margin:
+            0 0
+            clamp(30px,4vw,39px);
+    }
+
+    .admin-page .menu-group{
+        flex:1;
+        overflow-y:auto;
+ 
+        min-height:0;
+        /* Firefox */
+        scrollbar-width:none;
+
+        /* IE */
+        -ms-overflow-style:none;
+    }
+
+    /* Chrome / Edge / Safari */
+    .admin-page .menu-group::-webkit-scrollbar{
+        display:none;
+    }
+
+    .admin-page .sidebar.active{
+        transform:translateX(0);
+    }
+
+    .admin-page .sidebar-overlay{
+        display:block;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.45);
+        opacity:0;
+        visibility:hidden;
+        transition:.25s;
+        z-index:1099;
+    }
+
+    .admin-page .sidebar-overlay.active{
+        opacity:1;
+        visibility:visible;
+    }
+
+    .admin-page .admin-sidebar-toggle{
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        position:fixed;
+
+        top:clamp(40px,6vw,50px);
+        left:clamp(12px,3vw,18px);
+
+        width:clamp(42px,11vw,48px);
+        height:clamp(42px,11vw,48px);
+
+        border:none;
+        border-radius:50%;
+
+        background:rgba(37,37,37,.55);
+
+        color:rgba(245,197,24,.75);
+        z-index:1101;
+
+        backdrop-filter:blur(8px);
+
+        box-shadow:
+            0 6px 18px rgba(0,0,0,.18);
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page .admin-sidebar-toggle i{
+
+        font-size:clamp(18px,5vw,22px);
+
+        line-height:1;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+
+    .admin-page .admin-sidebar-toggle:hover{
+
+        background:rgba(37,37,37,.7);
+    }
+
+    .admin-page .admin-sidebar-toggle:active{
+
+        transform:scale(.94);
+    }
+
+    .admin-page .logout-section{
+        margin-top:auto;
+
+        flex-shrink:0;
+
+        padding-top:10px;
+        margin-bottom: clamp(-40px,-5vw,-30px);
+
+        border-top:
+            1px solid rgba(255,255,255,.08);
+    }
+
+    /* =========================
+        ADMIN DASHBOARD
+    ========================= */
+
+    .admin-page.admin-dashboard-page .main{
+        margin-left:0;
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(50px,18vw,70px);
+    }
+
+    /* HEADER */
+
+    .admin-page.admin-dashboard-page .topbar{
+        flex-direction:column;
+        align-items:center;
+
+        text-align:center;
+
+        gap:10px;
+
+        padding:
+            clamp(20px,5vw,26px);
+
+        border-radius:20px;
+    }
+
+    .admin-page.admin-dashboard-page .topbar h1{
+        font-size:
+            clamp(24px,6vw,32px);
+
+        margin:0;
+    }
+
+    .admin-page.admin-dashboard-page .admin-info{
+        font-size:
+            clamp(12px,3vw,14px);
+    }
+
+    /* STAT CARDS */
+
+    .admin-page.admin-dashboard-page .cards{
+        grid-template-columns:
+            repeat(2, minmax(0,1fr));
+
+        gap:12px;
+    }
+
+    .admin-page.admin-dashboard-page .card-box{
+        padding:
+            clamp(18px,4vw,24px);
+
+        border-radius:18px;
+    }
+
+    .admin-page.admin-dashboard-page .card-title{
+        font-size:
+            clamp(12px,3vw,14px);
+
+        margin-bottom:10px;
+    }
+
+    .admin-page.admin-dashboard-page .card-value{
+        font-size:
+            clamp(24px,6vw,34px);
+
+        line-height:1.1;
+
+        overflow-wrap:anywhere;
+    }
+
+    /* CHART + RECENT */
+
+    .admin-page.admin-dashboard-page .bottom-grid{
+        display:flex;
+        flex-direction:column;
+
+        gap:16px;
+    }
+
+    .admin-page.admin-dashboard-page .panel{
+        padding:
+            clamp(20px,5vw,26px);
+
+        border-radius:20px;
+    }
+
+    .admin-page.admin-dashboard-page .panel h3{
+        font-size:
+            clamp(18px,4.5vw,24px);
+
+        text-align:center;
+
+        margin-bottom:18px;
+    }
+
+    /* CHART */
+
+    .admin-page.admin-dashboard-page #salesChart{
+        max-height:300px;
+    }
+
+    /* RECENT BOOKINGS */
+
+    .admin-page.admin-dashboard-page .recent-item{
+        padding:12px 0;
+    }
+
+    .admin-page.admin-dashboard-page .booking-title{
+        font-size:
+            clamp(13px,3vw,14px);
+
+        overflow-wrap:anywhere;
+    }
+
+    .admin-page.admin-dashboard-page .booking-user{
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-dashboard-page .badge{
+        font-size:
+            clamp(10px,3vw,12px);
+
+        padding:
+            clamp(5px,1.5vw,8px)
+            clamp(10px,3vw,14px);
+    }
+
+    /* =========================
+        ADMIN DASHBOARD PREMIUM
+    ========================= */
+
+    .admin-page.admin-dashboard-page .topbar,
+    .admin-page.admin-dashboard-page .card-box,
+    .admin-page.admin-dashboard-page .panel{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-dashboard-page .dashboard-card{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-dashboard-page .dashboard-card:active{
+        transform:scale(.98);
+    }
+
+    .admin-page.admin-dashboard-page .card-box:active{
+        transform:scale(.98);
+    }
+
+    /* =========================
+        ADMIN PROFILE PAGE
+    ========================= */
+
+    .admin-page.admin-profile-page .main{
+        margin-left:0 !important;
+
+        min-height:100vh;
+
+        display:flex;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+    }
+
+    .admin-page.admin-profile-page .profile-card{
+        width:100%;
+        max-width:500px;
+
+        padding:
+            clamp(22px,5vw,30px) !important;
+
+        border-radius:20px !important;
+
+        transform:none !important;
+    }
+
+    .admin-page.admin-profile-page .profile-avatar{
+        width:
+            clamp(90px,25vw,120px);
+
+        height:
+            clamp(90px,25vw,120px);
+
+        font-size:
+            clamp(36px,10vw,52px);
+
+        margin-bottom:20px;
+    }
+
+    .admin-page.admin-profile-page .profile-title{
+        font-size:
+            clamp(24px,6vw,32px);
+
+        margin-bottom:25px;
+    }
+
+    .admin-page.admin-profile-page .form-label{
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-profile-page .form-control{
+        padding:
+            clamp(12px,3vw,14px);
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-profile-page .btn-save,
+    .admin-page.admin-profile-page .btn-password{
+        min-height:48px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    /* =========================
+        ADMIN PROFILE PREMIUM
+    ========================= */
+
+    .admin-page.admin-profile-page .profile-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .admin-page.admin-profile-page .btn-save,
+    .admin-page.admin-profile-page .btn-password{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-profile-page .btn-save:active,
+    .admin-page.admin-profile-page .btn-password:active{
+        transform:scale(.97);
+    }
+
+    .admin-page.admin-profile-page .profile-avatar{
+        box-shadow:
+            0 8px 24px rgba(245,197,24,.25);
+    }
+
+    /* =========================
+        ADMIN CHANGE PASSWORD
+    ========================= */
+
+    .admin-page.admin-change-password-page .main{
+        margin-left:0 !important;
+
+        min-height:100vh;
+
+        display:flex;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+    }
+
+    .admin-page.admin-change-password-page .password-card{
+        width:100%;
+        max-width:500px;
+
+        padding:
+            clamp(22px,5vw,30px) !important;
+
+        border-radius:20px !important;
+
+        transform:none !important;
+    }
+
+    .admin-page.admin-change-password-page .icon-circle{
+        width:
+            clamp(90px,25vw,120px);
+
+        height:
+            clamp(90px,25vw,120px);
+
+        font-size:
+            clamp(36px,10vw,50px);
+
+        margin-bottom:20px;
+    }
+
+    .admin-page.admin-change-password-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px);
+
+        margin-bottom:8px;
+    }
+
+    .admin-page.admin-change-password-page .page-subtitle{
+        font-size:
+            clamp(12px,3vw,14px);
+
+        margin-bottom:25px;
+    }
+
+    .admin-page.admin-change-password-page .form-label{
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-change-password-page .form-control{
+        padding:
+            clamp(12px,3vw,14px);
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-change-password-page .btn-save,
+    .admin-page.admin-change-password-page .btn-back{
+        min-height:48px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    /* =========================
+        ADMIN CHANGE PASSWORD PREMIUM
+    ========================= */
+
+    .admin-page.admin-change-password-page .password-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08) !important;
+    }
+
+    .admin-page.admin-change-password-page .btn-save,
+    .admin-page.admin-change-password-page .btn-back{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-change-password-page .btn-save:active,
+    .admin-page.admin-change-password-page .btn-back:active{
+        transform:scale(.97);
+    }
+
+    .admin-page.admin-change-password-page .icon-circle{
+        box-shadow:
+            0 8px 24px rgba(245,197,24,.25);
+    }
+
+    /* =========================
+        ADMIN MOVIES PAGE
+    ========================= */
+
+    .admin-page.admin-movies-page .main{
+        margin-left:0;
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-movies-page .top-bar{
+        display:flex;
+
+        justify-content:space-between;
+        align-items:center;
+
+        gap:12px;
+
+        margin-bottom:30px;
+        margin-top:clamp(20px,6vw,50px);
+    }
+
+    .admin-page.admin-movies-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px);
+    }
+
+    .admin-page.admin-movies-page .add-btn{
+        min-width:120px;
+        min-height:42px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        white-space:nowrap;
+
+        padding:
+            clamp(8px,2vw,10px)
+            clamp(12px,3vw,16px);
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        line-height:1;
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-movies-page .search-card form{
+        display:flex;
+        align-items:center;
+
+        gap:6px !important;
+    }
+
+    .admin-page.admin-movies-page .search-card .position-relative{
+        flex:1;
+    }
+
+    .admin-page.admin-movies-page .search-input{
+        height:42px;
+
+        font-size:
+            clamp(12px,3vw,14px);
+    }
+
+    .admin-page.admin-movies-page .search-card .btn-dark,
+    .admin-page.admin-movies-page .search-card .btn-secondary{
+
+        min-width:60px;
+        height:42px;
+
+        padding:0 10px;
+
+        font-size:
+            clamp(10px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-movies-page .table-card{
+        padding:16px;
+        border-radius:20px;
+
+        overflow-x:auto;
+    }
+
+    .admin-page.admin-movies-page .table{
+        min-width:600px;
+    }
+
+    .admin-page.admin-movies-page .table tbody td{
+        padding:8px 10px;
+    }
+
+    .admin-page.admin-movies-page .table th,
+    .admin-page.admin-movies-page .table td{
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-movies-page .poster{
+        width:50px !important;
+        height:70px !important;
+    }
+
+    .admin-page.admin-movies-page .movie-title{
+        font-size:
+            clamp(13px,3vw,15px);
+        
+            white-space:normal;
+            word-break:break-word;
+
+            max-width:180px;
+    }
+
+    .admin-page.admin-movies-page .genre{
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-movies-page .table td:last-child .d-flex{
+        display:inline-flex;
+        gap:4px;
+
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .admin-page.admin-movies-page .action-btn{
+        width:auto;
+        flex:none;
+
+        min-width:70px !important;
+        min-height:34px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-movies-page .toast-msg{
+        left:50%;
+        right:auto;
+
+        transform:translateX(-50%);
+
+        width:
+            min(90vw,320px);
+
+        text-align:center;
+    }
+
+    /* =========================
+        ADMIN MOVIES PREMIUM
+    ========================= */
+
+    .admin-page.admin-movies-page .table-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-movies-page .add-btn,
+    .admin-page.admin-movies-page .action-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-movies-page .add-btn:active,
+    .admin-page.admin-movies-page .action-btn:active{
+        transform:scale(.97);
+    }
+
+    .admin-page.admin-movies-page .poster{
+        transition:
+            transform .18s ease;
+    }
+
+    .admin-page.admin-movies-page .poster:active{
+        transform:scale(.96);
+    }
+
+    /* =========================
+        ADMIN ADD SHOWTIME
+    ========================= */
+
+    .admin-page.add-showtime-page .main{
+        margin-left:0 !important;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px) !important;
+    }
+
+    .admin-page.add-showtime-page .form-card{
+        width:100%;
+        max-width:500px;
+
+        padding:
+            clamp(22px,5vw,30px);
+
+        border-radius:20px;
+
+        margin:0 auto;
+    }
+
+    .admin-page.add-showtime-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px) !important;
+
+        margin-bottom:clamp(30px,4vw,40px) !important;
+        margin-top:clamp(0px,2vw,-20px)!important;
+
+        text-align:center;
+    }
+
+    .admin-page.add-showtime-page .form-label{
+        font-size:
+            clamp(13px,3vw,15px);
+
+        margin-bottom:8px;
+    }
+
+    .admin-page.add-showtime-page .form-control,
+    .admin-page.add-showtime-page .form-select{
+
+        height:48px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+
+        padding:
+            0 clamp(12px,3vw,16px);
+    }
+
+    .admin-page.add-showtime-page .d-flex{
+        flex-direction:row;
+        justify-content:center;
+
+        gap:10px !important;
+
+        flex-wrap:nowrap;
+    }
+
+    .admin-page.add-showtime-page .btn-save,
+    .admin-page.add-showtime-page .btn-back{
+
+        min-width:80px;
+
+        min-height:48px;
+
+        margin-top:clamp(10px,3vw,20px)!important;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+
+        white-space:nowrap;
+    }
+
+    /* =========================
+        ADMIN ADD SHOWTIME PREMIUM
+    ========================= */
+
+    .admin-page.add-showtime-page .form-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.add-showtime-page .btn-save,
+    .admin-page.add-showtime-page .btn-back{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.add-showtime-page .btn-save:active,
+    .admin-page.add-showtime-page .btn-back:active{
+
+        transform:scale(.97);
+    }
+
+    .admin-page.add-showtime-page .form-control:focus,
+    .admin-page.add-showtime-page .form-select:focus{
+
+        box-shadow:
+            0 0 0 3px rgba(245,197,24,.18);
+    }
+
+    /* =========================
+        ADMIN SHOWTIMES PAGE
+    ========================= */
+
+    .admin-page.admin-showtimes-page .main{
+        margin-left:0;
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-showtimes-page .top-bar{
+        display:flex;
+
+        justify-content:space-between;
+        align-items:center;
+
+        gap:12px;
+
+        margin-bottom:30px;
+        margin-top:clamp(20px,6vw,50px);
+    }
+
+    .admin-page.admin-showtimes-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px);
+    }
+
+    .admin-page.admin-showtimes-page .add-btn{
+        min-width:130px;
+        min-height:42px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        white-space:nowrap;
+
+        padding:
+            clamp(8px,2vw,10px)
+            clamp(12px,3vw,16px);
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        line-height:1;
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-showtimes-page .search-card form{
+        display:flex;
+        align-items:center;
+
+        gap:6px !important;
+    }
+
+    .admin-page.admin-showtimes-page .search-card .position-relative{
+        flex:1;
+    }
+
+    .admin-page.admin-showtimes-page .search-input{
+        height:42px;
+
+        font-size:
+            clamp(12px,3vw,14px);
+    }
+
+    .admin-page.admin-showtimes-page .search-card .btn-dark,
+    .admin-page.admin-showtimes-page .search-card .btn-secondary{
+
+        min-width:60px;
+        height:42px;
+
+        padding:0 10px;
+
+        font-size:
+            clamp(10px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-showtimes-page .table-card{
+        padding:16px;
+        border-radius:20px;
+
+        overflow-x:auto;
+    }
+
+    .admin-page.admin-showtimes-page .table{
+        min-width:650px;
+    }
+
+    
+    .admin-page.admin-showtimes-page .table tbody td{
+        padding:8px 10px;
+    }
+
+    .admin-page.admin-showtimes-page .table th,
+    .admin-page.admin-showtimes-page .table td{
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-showtimes-page .table td:nth-child(3),
+    .admin-page.admin-showtimes-page .table td:nth-child(4),
+    .admin-page.admin-showtimes-page .table td:nth-child(5){
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        color:#666;
+    }
+
+    .admin-page.admin-showtimes-page .movie-title{
+        font-size:
+            clamp(14px,3vw,15px);
+
+        white-space:normal;
+        word-break:break-word;
+
+        max-width:180px;
+    }
+
+    .admin-page.admin-showtimes-page .branch{
+        font-size:
+            clamp(11px,4vw,13px);
+
+        white-space:normal;
+    }
+
+    .admin-page.admin-showtimes-page .table td:last-child .d-flex{
+        display:inline-flex;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:4px !important;
+    }
+
+    .admin-page.admin-showtimes-page .action-btn{
+        width:auto;
+        flex:none;
+
+        min-width:70px !important;
+        min-height:34px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-showtimes-page .toast-msg{
+        left:50%;
+        right:auto;
+
+        transform:translateX(-50%);
+
+        width:
+            min(90vw,320px);
+
+        text-align:center;
+    }
+
+
+    /* =========================
+        ADMIN SHOWTIMES PREMIUM
+    ========================= */
+
+    .admin-page.admin-showtimes-page .table-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-showtimes-page .add-btn,
+    .admin-page.admin-showtimes-page .action-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-showtimes-page .add-btn:active,
+    .admin-page.admin-showtimes-page .action-btn:active{
+        transform:scale(.97);
+    }
+
+      
+    /* =========================
+        ADMIN USERS PAGE
+    ========================= */
+
+    .admin-page.admin-users-page .main{
+        margin-left:0;
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-users-page .top-bar{
+        display:flex;
+
+        justify-content:space-between;
+        align-items:center;
+
+        gap:12px;
+
+        margin-bottom:30px;
+        margin-top:clamp(20px,6vw,50px);
+    }
+
+    .admin-page.admin-users-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px);
+    }
+
+    .admin-page.admin-users-page .add-btn{
+        min-width:90px;
+        min-height:42px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        white-space:nowrap;
+
+        padding:
+            clamp(8px,2vw,10px)
+            clamp(12px,3vw,16px);
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        line-height:1;
+
+        border-radius:12px;
+    }
+    .admin-page.admin-users-page .search-card form{
+        display:flex;
+        align-items:center;
+
+        gap:6px !important;
+    }
+
+    .admin-page.admin-users-page select.form-select{
+        width:90px !important;
+
+        height:42px;
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-users-page .search-card .position-relative{
+        flex:1;
+    }
+
+    .admin-page.admin-users-page .search-input{
+        height:42px;
+
+        font-size:
+            clamp(12px,3vw,14px);
+    }
+
+    .admin-page.admin-users-page .search-wrapper{
+        overflow:hidden;
+    }
+
+    .admin-page.admin-users-page .search-hint{
+
+        position:absolute;
+
+        left:14px;
+        top:50%;
+
+        transform:translateY(-50%);
+
+        color:#999;
+
+        pointer-events:none;
+
+        white-space:nowrap;
+
+        width:max-content;
+
+        z-index:2;
+    }
+
+    .admin-page.admin-users-page .search-input::placeholder{
+        color:transparent;
+    }
+
+
+    .admin-page.admin-users-page .btn-dark,
+    .admin-page.admin-users-page .btn-secondary{
+
+        min-width:60px;
+
+        height:42px;
+
+        padding:0 10px;
+
+        font-size:
+            clamp(10px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-users-page .table-card{
+        padding:16px;
+        border-radius:20px;
+
+        overflow-x:auto;
+    }
+
+    .admin-page.admin-users-page .table{
+        min-width:520px;
+    }
+
+    .admin-page.admin-users-page .table tbody td{
+        padding:8px 10px;
+    }
+
+    .admin-page.admin-users-page .table th,
+    .admin-page.admin-users-page .table td{
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-users-page .user-name{
+        font-size:
+            clamp(13px,3vw,15px);
+
+        white-space:normal;
+        word-break:break-word;
+
+        max-width:180px;
+    }
+
+    .admin-page.admin-users-page .email{
+        font-size:
+            clamp(11px,3vw,13px);
+
+        white-space:normal;
+
+        color:#666;
+    }
+
+    .admin-page.admin-users-page .table td:nth-child(2),
+    .admin-page.admin-users-page .table td:nth-child(3){
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        color:#666;
+
+        text-align:center;
+    }
+
+    .admin-page.admin-users-page .table td:nth-child(4) .d-flex{
+        display:inline-flex;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:4px !important;
+    }
+
+    .admin-page.admin-users-page .table td:nth-child(5){
+        text-align:center;
+    }
+
+
+    .admin-page.admin-users-page .action-btn{
+        width:auto;
+        flex:none;
+
+        min-width:90px;
+
+        min-height:34px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-users-page .status-badge{
+        font-size:
+            clamp(10px,3vw,12px) !important;
+
+        padding:
+            6px 10px !important;
+        width:60px;
+        margin:0 auto;
+    }
+
+    .admin-page.admin-users-page .toast{
+        left:50% !important;
+        right:auto !important;
+
+        transform:translateX(-50%);
+    }
+
+    /* =========================
+        ADMIN USERS PREMIUM
+    ========================= */
+
+    .admin-page.admin-users-page .table-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-users-page .add-btn,
+    .admin-page.admin-users-page .action-btn{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-users-page .add-btn:active,
+    .admin-page.admin-users-page .action-btn:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN CUSTOMERS PAGE
+    ========================= */
+    .admin-page.admin-customers-page .main{
+        margin-left:0;
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-customers-page .top-bar{
+        display:flex;
+
+        justify-content:center;
+        align-items:center;
+
+        gap:12px;
+
+        margin-bottom:30px;
+        margin-top:clamp(20px,6vw,50px);
+    }
+
+    .admin-page.admin-customers-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px);
+    }
+
+    .admin-page.admin-customers-page .add-btn{
+        min-width:90px;
+        min-height:42px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        white-space:nowrap;
+
+        padding:
+            clamp(8px,2vw,10px)
+            clamp(12px,3vw,16px);
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        line-height:1;
+
+        border-radius:12px;
+    }
+    .admin-page.admin-customers-page .search-card form{
+        display:flex;
+        align-items:center;
+
+        gap:6px !important;
+    }
+
+    .admin-page.admin-customers-page .form-select{
+        width:90px !important;
+
+        height:42px;
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-customers-page .search-card .position-relative{
+        flex:1;
+    }
+
+    .admin-page.admin-customers-page .search-input{
+        height:42px;
+
+        font-size:
+            clamp(12px,3vw,14px);
+    }
+
+    .admin-page.admin-customers-page .btn-dark,
+    .admin-page.admin-customers-page .btn-secondary{
+
+        min-width:60px;
+
+        height:42px;
+
+        padding:0 10px;
+
+        font-size:
+            clamp(10px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-customers-page .table-card{
+        padding:16px;
+        border-radius:20px;
+
+        overflow-x:auto;
+    }
+
+    .admin-page.admin-customers-page .table{
+        min-width:500px;
+    }
+
+    .admin-page.admin-customers-page .table tbody td{
+        padding:8px 10px;
+    }
+
+    .admin-page.admin-customers-page .table th,
+    .admin-page.admin-customers-page .table td{
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-customers-page .user-name{
+        font-size:
+            clamp(13px,3vw,15px);
+
+        white-space:normal;
+        word-break:break-word;
+
+        max-width:180px;
+    }
+
+    .admin-page.admin-customers-page .email{
+        font-size:
+            clamp(11px,3vw,13px);
+
+        white-space:normal;
+
+        color:#666;
+    }
+
+    .admin-page.admin-customers-page .table td:nth-child(2),
+    .admin-page.admin-customers-page .table td:nth-child(3){
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        color:#666;
+
+        text-align:center;
+    }
+
+    .admin-page.admin-customers-page .table td:nth-child(4) .d-flex{
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:4px !important;
+    }
+
+    .admin-page.admin-customers-page .table td:nth-child(5){
+        text-align:center;
+    }
+
+
+    .admin-page.admin-customers-page .action-btn{
+        width:auto;
+        flex:none;
+
+        min-width:80px;
+
+        min-height:34px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        padding: 0px 0px;
+    }
+
+    .admin-page.admin-customers-page .status-badge{
+        font-size:
+            clamp(10px,3vw,12px) !important;
+
+        padding:
+            6px 10px !important;
+        width:60px;
+        margin:0 auto;
+    }
+
+    .admin-page.admin-customers-page .toast{
+        left:50% !important;
+        right:auto !important;
+
+        transform:translateX(-50%);
+    }
+
+    /* =========================
+        ADMIN CUSTEMERS PREMIUM
+    ========================= */
+
+    .admin-page.admin-customers-page .table-card{
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-customers-page .action-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-customers-page .action-btn:active{
+        transform:scale(.97);
+    }
+
+
+    /* =========================
+        ADMIN SEATS PAGE
+    ========================= */
+    .admin-page.admin-seats-page .main{
+        margin-left:0;
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-seats-page .top-bar{
+        display:flex;
+
+        justify-content:center;
+        align-items:center;
+
+        gap:12px;
+
+        margin-bottom:30px;
+        margin-top:clamp(20px,6vw,50px);
+    }
+
+    .admin-page.admin-seats-page .page-title{
+        font-size:
+            clamp(24px,6vw,32px);
+    }
+
+    .admin-page.admin-seats-page .search-card form{
+        display:flex;
+        align-items:center;
+        gap:6px !important;
+    }
+
+    .admin-page.admin-seats-page .search-card .position-relative{
+        flex:1;
+    }
+
+    .admin-page.admin-seats-page .search-input{
+        max-width:none;
+        height:42px;
+
+        font-size:clamp(12px,3vw,14px);
+    }
+
+    .admin-page.admin-seats-page .btn-dark,
+    .admin-page.admin-seats-page .btn-secondary{
+
+        min-width:60px;
+
+        height:42px;
+
+        padding:0 10px;
+
+        font-size:
+            clamp(10px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-seats-page .table-card{
+        padding:16px;
+        border-radius:20px;
+
+        overflow-x:auto;
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-seats-page .table{
+        min-width:650px;
+    }
+
+    .admin-page.admin-seats-page .movie-title{
+        font-size:clamp(13px,3vw,15px);
+        white-space:normal;
+        word-break:break-word;
+    }
+
+    .admin-page.admin-seats-page .branch{
+        font-size:clamp(11px,3vw,13px);
+        white-space:normal;
+    }
+
+    .admin-page.admin-seats-page .table tbody td{
+        padding:8px 10px;
+    }
+
+    .admin-page.admin-seats-page .table td:nth-child(2){
+        font-size:clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-seats-page .table td:nth-child(3){
+        min-width:140px;
+    }
+
+    .admin-page.admin-seats-page .seat-badge{
+        display:block;
+
+        margin-right:0;
+        margin-bottom:4px;
+
+        width:max-content;
+
+        font-size:clamp(10px,3vw,12px);
+    }
+
+    .admin-page.admin-seats-page .manage-btn{
+
+        max-width:110px;
+        min-height:36px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:clamp(10px,3vw,11px);
+    }
+
+    .admin-page.admin-seats-page .search-wrapper{
+        overflow:hidden;
+    }
+
+    .admin-page.admin-seats-page .search-hint{
+
+        position:absolute;
+
+        left:14px;
+        top:50%;
+
+        transform:translateY(-50%);
+
+        color:#999;
+
+        pointer-events:none;
+
+        white-space:nowrap;
+
+        width:max-content;
+
+        z-index:2;
+    }
+
+    .admin-page.admin-seats-page .search-input::placeholder{
+        color:transparent;
+    }
+
+
+    .admin-page.admin-seats-page .manage-btn{
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-seats-page .manage-btn:active{
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN ADD MOVIE PAGE
+    ========================= */
+
+    .admin-page.admin-add-movie-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(0px,10vw,40px);
+    }
+
+    .admin-page.admin-add-movie-page .form-card{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,35px);
+
+        border-radius:20px;
+
+        margin:0 auto;
+    }
+
+    .admin-page.admin-add-movie-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:clamp(40px,6vw,50px)!important;
+    }
+
+
+    .admin-page.admin-add-movie-page .form-control{
+
+        min-height:44px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-add-movie-page textarea{
+
+        min-height:120px;
+    }
+
+    .admin-page.admin-add-movie-page form .d-flex{
+        flex-direction:row;
+        justify-content:center;
+
+        gap:10px !important;
+
+        flex-wrap:nowrap;
+
+    }
+
+    .admin-page.admin-add-movie-page .btn-save,
+    .admin-page.admin-add-movie-page .btn-back{
+
+        min-width:80px;
+
+        min-height:48px;
+
+        margin-top:clamp(10px,3vw,20px)!important;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-add-movie-page .form-card{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-add-movie-page .btn-save,
+    .admin-page.admin-add-movie-page .btn-back{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-add-movie-page .btn-save:active,
+    .admin-page.admin-add-movie-page .btn-back:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN MOVIE DETAILS PAGE
+    ========================= */
+
+    .admin-page.admin-movie-details-page .main{
+
+        margin-left:0;
+        width:100%;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-movie-details-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:
+            clamp(20px,5vw,40px) !important;
+    }
+
+    .admin-page.admin-movie-details-page .details-card{
+
+        width:100%;
+
+        max-width:650px;
+
+        display:flex;
+        flex-direction:column;
+
+        border-radius:20px;
+
+        overflow:hidden;
+    }
+
+    .admin-page.admin-movie-details-page .poster-side{
+
+        padding:clamp(20px,5vw,30px);
+    }
+
+    .admin-page.admin-movie-details-page .poster-img{
+
+        width:100%;
+
+        max-width:260px;
+
+        display:block;
+
+        margin:0 auto;
+
+        border-radius:18px;
+    }
+
+    .admin-page.admin-movie-details-page .info-side{
+
+        padding:
+            clamp(20px,5vw,30px);
+    }
+
+    .admin-page.admin-movie-details-page .movie-title{
+
+        font-size:
+            clamp(24px,6vw,32px);
+
+        line-height:1.2;
+
+        margin-bottom:18px;
+    }
+
+    .admin-page.admin-movie-details-page .info-badge{
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        padding:
+            8px 12px;
+
+        margin-bottom:8px;
+    }
+
+    .admin-page.admin-movie-details-page .description{
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        line-height:1.8;
+    }
+
+    .admin-page.admin-movie-details-page .created{
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-movie-details-page .button-group{
+
+        display:flex;
+
+        gap:10px;
+
+        margin-top:50px;
+
+        margin-bottom: -20px;
+    }
+
+    .admin-page.admin-movie-details-page .btn-edit,
+    .admin-page.admin-movie-details-page .btn-back{
+
+        flex:1;
+
+        min-height:48px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-movie-details-page .toast-msg{
+
+        left:50%;
+
+        right:auto;
+
+        transform:translateX(-50%);
+    }
+
+    /* =========================
+        ADMIN MOVIE DETAILS PREMIUM
+    ========================= */
+
+    .admin-page.admin-movie-details-page .details-card{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-movie-details-page .btn-edit,
+    .admin-page.admin-movie-details-page .btn-back{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-movie-details-page .btn-edit:active,
+    .admin-page.admin-movie-details-page .btn-back:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN EDIT MOVIE PAGE
+    ========================= */
+
+    .admin-page.admin-edit-movie-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(0px,10vw,40px);
+    }
+
+    .admin-page.admin-edit-movie-page .form-card{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,35px);
+
+        border-radius:20px;
+
+        margin:0 auto;
+    }
+
+    .admin-page.admin-edit-movie-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:
+            clamp(30px,5vw,60px) !important;
+
+        margin-top:0;
+    }
+
+    .admin-page.admin-edit-movie-page .form-label{
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-edit-movie-page .form-control{
+
+        min-height:44px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-edit-movie-page textarea{
+
+        min-height:120px;
+    }
+
+    .admin-page.admin-edit-movie-page .poster-preview{
+
+        width:
+            clamp(120px,35vw,180px);
+
+        border-radius:16px;
+    }
+
+    .admin-page.admin-edit-movie-page .mb-4{
+
+        margin-bottom:
+            clamp(14px,4vw,20px) !important;
+    }
+
+    /* BUTTONS */
+
+    .admin-page.admin-edit-movie-page form .d-flex{
+
+        flex-direction:row;
+
+        justify-content:center;
+
+        gap:10px !important;
+
+        flex-wrap:nowrap;
+
+        margin-top: clamp(30px,5vw,40px) !important;
+    }
+
+    .admin-page.admin-edit-movie-page .save-btn,
+    .admin-page.admin-edit-movie-page .btn-back{
+
+        min-width:110px;
+
+        min-height:48px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+
+        white-space:nowrap;
+    }
+
+    /* =========================
+        ADMIN EDIT MOVIE PREMIUM
+    ========================= */
+
+    .admin-page.admin-edit-movie-page .form-card{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-edit-movie-page .save-btn,
+    .admin-page.admin-edit-movie-page .btn-back{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-edit-movie-page .save-btn:active,
+    .admin-page.admin-edit-movie-page .btn-back:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN EDIT SHOWTIME PAGE
+    ========================= */
+
+    .admin-page.admin-edit-showtime-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(0px,10vw,40px);
+    }
+
+    .admin-page.admin-edit-showtime-page .form-card{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,35px);
+
+        border-radius:20px;
+
+        margin:0 auto;
+    }
+
+    .admin-page.admin-edit-showtime-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:
+            clamp(30px,5vw,40px) !important;
+
+        margin-top:0;
+    }
+
+    .admin-page.admin-edit-showtime-page .form-label{
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-edit-showtime-page .form-control,
+    .admin-page.admin-edit-showtime-page .form-select{
+
+        min-height:44px;
+
+        height:44px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-edit-showtime-page .mb-4{
+
+        margin-bottom:
+            clamp(14px,4vw,20px) !important;
+    }
+
+    /* BUTTONS */
+
+    .admin-page.admin-edit-showtime-page form .d-flex{
+
+        flex-direction:row;
+
+        justify-content:center;
+
+        gap:10px !important;
+
+        flex-wrap:nowrap;
+
+        margin-top:
+            clamp(40px,6vw,50px) !important;
+    }
+
+    .admin-page.admin-edit-showtime-page .btn-save,
+    .admin-page.admin-edit-showtime-page .btn-back{
+
+        min-width:120px;
+
+        min-height:48px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+
+        white-space:nowrap;
+    }
+
+    /* =========================
+        ADMIN EDIT SHOWTIME PREMIUM
+    ========================= */
+
+    .admin-page.admin-edit-showtime-page .form-card{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-edit-showtime-page .btn-save,
+    .admin-page.admin-edit-showtime-page .btn-back{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-edit-showtime-page .btn-save:active,
+    .admin-page.admin-edit-showtime-page .btn-back:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN VIEW CUSTOMER PAGE
+    ========================= */
+
+    .admin-page.admin-view-customer-page .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(40px,6vw,50px);
+    }
+
+    .admin-page.admin-view-customer-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-top:
+            clamp(0px,0vw,0px);
+        margin-bottom:30px !important;
+    }
+
+    .admin-page.admin-view-customer-page .card-box{
+
+        border-radius:20px;
+
+        padding:
+            clamp(18px,4vw,24px);
+
+        margin-bottom:16px;
+    }
+
+    .admin-page.admin-view-customer-page .section-title{
+
+        font-size:
+            clamp(18px,4vw,22px);
+    }
+
+   .admin-page.admin-view-customer-page .info-row{
+        align-items:flex-start;
+
+        gap:4px;
+    } 
+
+    .admin-page.admin-view-customer-page .card-box{
+
+        overflow-x:auto;
+    }
+
+    .admin-page.admin-view-customer-page .table{
+
+        min-width:750px;
+    }
+
+    .admin-page.admin-view-customer-page .table td:nth-child(2){
+
+        white-space:normal;
+
+        min-width:180px;
+    }
+
+    .admin-page.admin-view-customer-page .table td:nth-child(3){
+
+        white-space:normal;
+
+        min-width:120px;
+    }
+
+    .admin-page.admin-view-customer-page .table td:nth-child(4){
+
+        white-space:normal;
+
+        min-width:120px;
+    }
+
+    .admin-page.admin-view-customer-page .table td:nth-child(6){
+
+        white-space:normal;
+
+        min-width:100px;
+    }
+
+    .admin-page.admin-view-customer-page .status{
+
+        font-size:
+            clamp(10px,3vw,12px);
+    }
+
+    .admin-page.admin-view-customer-page .action-btn{
+
+        min-width:70px;
+
+        min-height:34px;
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-view-customer-page .back-btn{
+
+
+        min-height:48px;
+
+        display:inline-flex;
+
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+    }
+
+    /* =========================
+        ADMIN VIEW CUSTOMER PREMIUM
+    ========================= */
+
+    .admin-page.admin-view-customer-page .card-box{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-view-customer-page .action-btn,
+    .admin-page.admin-view-customer-page .back-btn{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-view-customer-page .action-btn:active,
+    .admin-page.admin-view-customer-page .back-btn:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN VIEW BOOKING PAGE
+    ========================= */
+
+    .admin-page.admin-view-booking-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(40px,5vw,60px)
+            clamp(12px,3vw,18px);
+    }
+
+    .admin-page.admin-view-booking-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:
+            clamp(40px,7vw,50px) !important;
+    }
+
+    .admin-page.admin-view-booking-page .card-box{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,30px);
+
+        border-radius:20px;
+
+        margin:0 auto;
+    }
+
+    .admin-page.admin-view-booking-page .info-row{
+        align-items:flex-start;
+
+        gap:4px;
+
+        padding:12px 0;
+    }
+
+    .admin-page.admin-view-booking-page .info-label{
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-view-booking-page .info-value{
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        word-break:break-word;
+    }
+
+    .admin-page.admin-view-booking-page .status{
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        padding:6px 12px;
+    }
+
+    .admin-page.admin-view-booking-page .back-wrapper{
+
+        margin-top:
+            clamp(20px,5vw,30px);
+
+        display:flex;
+
+        justify-content:center;
+    }
+
+    .admin-page.admin-view-booking-page .back-btn{
+
+        min-width:80px;
+
+        min-height:44px;
+
+        padding:0 18px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        border-radius:12px;
+
+        white-space:nowrap;
+    }
+
+    .admin-page.admin-view-booking-page .card-box{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-view-booking-page .back-btn{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-view-booking-page .back-btn:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN ADD STAFF PAGE
+    ========================= */
+
+    .admin-page.admin-add-staff-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(0px,10vw,40px);
+    }
+
+    .admin-page.admin-add-staff-page .card-box{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,35px);
+
+        border-radius:20px;
+
+        margin:0 auto;
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-add-staff-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:
+            clamp(25px,5vw,35px) !important;
+    }
+
+    .admin-page.admin-add-staff-page .form-label{
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        margin-bottom:8px;
+    }
+
+    .admin-page.admin-add-staff-page .form-control,
+    .admin-page.admin-add-staff-page .form-select{
+
+        min-height:48px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-add-staff-page .alert{
+
+        font-size:
+            clamp(12px,3vw,14px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-add-staff-page form .d-flex{
+
+        flex-direction:row;
+
+        justify-content:center;
+
+        gap:10px !important;
+
+        flex-wrap:nowrap;
+
+        margin-top:
+            clamp(20px,4vw,30px);
+    }
+
+    .admin-page.admin-add-staff-page .btn-save,
+    .admin-page.admin-add-staff-page .back-btn{
+
+        min-width:80px;
+
+        min-height:48px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+
+        white-space:nowrap;
+
+        margin-top:
+            clamp(10px,3vw,20px);
+    }
+
+    .admin-page.admin-add-staff-page .btn-save,
+    .admin-page.admin-add-staff-page .back-btn{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-add-staff-page .btn-save:active,
+    .admin-page.admin-add-staff-page .back-btn:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN VIEW STAFF PAGE
+    ========================= */
+
+    .admin-page.admin-view-staff-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(0px,5vw,50px);
+    }
+
+    .admin-page.admin-view-staff-page .card-box{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,30px);
+
+        border-radius:20px;
+    }
+
+    .admin-page.admin-view-staff-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        margin-bottom:
+            clamp(25px,5vw,35px) !important;
+    }
+
+    .admin-page.admin-view-staff-page .info-row{
+
+        padding:
+            clamp(12px,3vw,16px)
+            0;
+    }
+
+    .admin-page.admin-view-staff-page .label{
+
+        font-size:
+            clamp(12px,2.8vw,14px);
+    }
+
+    .admin-page.admin-view-staff-page .value{
+
+        font-size:
+            clamp(14px,3vw,17px);
+
+        word-break:break-word;
+    }
+
+    .admin-page.admin-view-staff-page .status-active,
+    .admin-page.admin-view-staff-page .status-inactive{
+
+        font-size:
+            clamp(11px,2.5vw,13px);
+    }
+
+    .admin-page.admin-view-staff-page .d-flex{
+
+        justify-content:center !important;
+
+        gap:10px !important;
+
+        margin-top:
+            clamp(40px,6vw,50px) !important;
+    }
+
+    .admin-page.admin-view-staff-page .btn-edit{
+
+        min-height:48px;
+
+        padding:
+            0
+            clamp(16px,4vw,22px);
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-view-staff-page .back-btn{
+
+        min-height:48px;
+
+        min-width:80px;
+
+        padding:0 18px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+
+    /* =========================
+        ADMIN EDIT STAFF PAGE
+    ========================= */
+
+    .admin-page.admin-edit-staff-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(0px,10vw,60px);
+    }
+
+    .admin-page.admin-edit-staff-page .card-box{
+
+        width:100%;
+
+        max-width:650px;
+
+        padding:
+            clamp(20px,5vw,30px);
+
+        border-radius:20px;
+    }
+
+    .admin-page.admin-edit-staff-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        margin-bottom:
+            clamp(25px,5vw,35px) !important;
+    }
+
+    .admin-page.admin-edit-staff-page .form-section{
+
+        margin-bottom:
+            clamp(16px,4vw,22px);
+    }
+
+    .admin-page.admin-edit-staff-page .form-label{
+
+        font-size:
+            clamp(12px,2.8vw,14px);
+    }
+
+    .admin-page.admin-edit-staff-page .form-control,
+    .admin-page.admin-edit-staff-page .form-select{
+
+        min-height:48px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:12px;
+    }
+
+    .admin-page.admin-edit-staff-page .d-flex{
+
+        justify-content:center;
+
+        gap:10px !important;
+
+        margin-top:
+            clamp(40px,6vw,50px);
+    }
+
+    .admin-page.admin-edit-staff-page .btn-save{
+
+        min-height:48px;
+
+        padding:
+            0
+            clamp(16px,4vw,22px);
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+    .admin-page.admin-edit-staff-page .back-btn{
+
+        min-height:48px;
+
+        min-width:80px;
+
+        padding:0 18px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+    }
+
+
+    /* =========================
+        ADMIN STAFF PREMIUM
+    ========================= */
+
+    .admin-page.admin-view-staff-page .card-box,
+    .admin-page.admin-edit-staff-page .card-box{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-view-staff-page .btn-edit,
+    .admin-page.admin-view-staff-page .back-btn,
+    .admin-page.admin-edit-staff-page .btn-save,
+    .admin-page.admin-edit-staff-page .back-btn{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-view-staff-page .btn-edit:active,
+    .admin-page.admin-view-staff-page .back-btn:active,
+    .admin-page.admin-edit-staff-page .btn-save:active,
+    .admin-page.admin-edit-staff-page .back-btn:active{
+
+        transform:scale(.97);
+    }
+
+    /* =========================
+        ADMIN VIEW SHOWTIME PAGE
+    ========================= */
+
+    .admin-page.admin-view-showtime-page .main{
+
+        margin-left:0;
+
+        min-height:100vh;
+
+        display:flex;
+        flex-direction:column;
+
+        justify-content:center;
+        align-items:center;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-view-showtime-page .details-card{
+
+        width:100%;
+
+        max-width:650px;
+
+        display:flex;
+        flex-direction:column;
+
+        border-radius:20px;
+
+        overflow:hidden;
+    }
+
+    .admin-page.admin-view-showtime-page .page-title{
+
+        font-size:
+            clamp(26px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:
+            clamp(20px,5vw,30px) !important;
+    }
+
+    .admin-page.admin-view-showtime-page .poster-side{
+
+        padding:clamp(20px,5vw,30px);
+    }
+
+    .admin-page.admin-view-showtime-page .poster-img{
+
+        width:100%;
+
+        max-width:220px;
+
+        margin:auto;
+
+        display:block;
+
+        border-radius:18px;
+    }
+
+    .admin-page.admin-view-showtime-page .info-side{
+
+        padding:
+            clamp(20px,5vw,30px);
+    }
+
+    .admin-page.admin-view-showtime-page .movie-title{
+
+        font-size:
+            clamp(24px,6vw,32px);
+
+        margin-bottom:18px;
+
+        word-break:break-word;
+    }
+
+    .admin-page.admin-view-showtime-page .info-badge{
+
+        font-size:
+            clamp(11px,3vw,13px);
+
+        padding:
+            8px 12px;
+
+        margin-bottom:8px;
+    }
+
+    .admin-page.admin-view-showtime-page .description{
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        line-height:1.4;
+    }
+
+    .admin-page.admin-view-showtime-page .description p{
+
+        margin-bottom:10px;
+    }
+
+    .admin-page.admin-view-showtime-page .created{
+
+        font-size:
+            clamp(11px,3vw,13px);
+    }
+
+    .admin-page.admin-view-showtime-page .button-group{
+
+        display:flex;
+
+        gap:10px;
+
+        margin-top:50px;
+
+        margin-bottom: -20px;
+    }
+
+    .admin-page.admin-movie-details-page .btn-edit,
+    .admin-page.admin-movie-details-page .btn-back{
+
+        flex:1;
+
+        min-height:48px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        white-space:nowrap;
+    }
+
+
+
+
+    /* =========================
+        ADMIN VIEW SHOWTIME PREMIUM
+    ========================= */
+
+    .admin-page.admin-view-showtime-page .details-card{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-view-showtime-page .btn-edit,
+    .admin-page.admin-view-showtime-page .btn-back{
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .admin-page.admin-view-showtime-page .btn-edit:active,
+    .admin-page.admin-view-showtime-page .btn-back:active{
+
+        transform:scale(.97);
+    }
+
+    .admin-page.admin-view-showtime-page .toast-msg{
+
+        top:85px;
+        right:12px;
+        left:12px;
+
+        width:auto;
+
+        text-align:center;
+
+        font-size:
+            clamp(12px,3vw,14px);
+    }
+
+
+    /* ========================================
+    ADMIN MANAGE SEATS PAGE
+    ======================================== */
+
+    .admin-page.admin-manage-seats-page .main{
+
+        margin-left:0;
+
+        padding:
+            clamp(20px,4vw,30px)
+            clamp(12px,3vw,18px);
+
+        padding-top:
+            clamp(80px,10vw,100px);
+    }
+
+    .admin-page.admin-manage-seats-page .page-title{
+
+        font-size:
+            clamp(28px,6vw,34px) !important;
+
+        text-align:center;
+
+        margin-bottom:8px !important;
+    }
+
+    .admin-page.admin-manage-seats-page .movie-info{
+
+        text-align:center;
+
+        max-width:
+            clamp(200px,90vw,500px);
+
+        margin:0 auto 24px;
+
+        word-wrap:break-word;
+
+        overflow-wrap:break-word;
+
+        font-size:
+            clamp(13px,3.5vw,15px);
+
+        line-height:1.7;
+
+        margin-bottom: 40px;
+    }
+
+    /* STATS */
+
+    .admin-page.admin-manage-seats-page .stats-grid{
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:10px;
+    }
+
+    .admin-page.admin-manage-seats-page .stat-card{
+
+        padding:14px 10px;
+
+        border-radius:16px;
+    }
+
+    .admin-page.admin-manage-seats-page .stat-number{
+
+        font-size:
+            clamp(20px,5vw,26px);
+    }
+
+    .admin-page.admin-manage-seats-page .stat-label{
+
+        font-size:12px;
+    }
+
+    /* CARD */
+
+    .admin-page.admin-manage-seats-page .seat-card{
+
+        padding:20px 12px;
+
+        border-radius:20px;
+    }
+
+    /* SCREEN */
+
+    .admin-page.admin-manage-seats-page .screen{
+
+        width:100%;
+
+        max-width:
+            clamp(360px,92vw,520px);
+
+        height:
+            clamp(46px,8vw,58px);
+
+        line-height:
+            clamp(46px,8vw,58px);
+
+        margin:
+            0 auto 28px;
+    }
+
+    /* SEATS */
+
+    .admin-page.admin-manage-seats-page .seat-layout{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,1fr);
+
+        gap:
+            clamp(8px,2vw,12px);
+
+        width:100%;
+
+        max-width:
+            clamp(360px,92vw,520px);
+
+        margin:auto;
+    }
+
+    .admin-page.admin-manage-seats-page .screen,
+    .admin-page.admin-manage-seats-page .seat-layout{
+
+        max-width:
+            clamp(340px,90vw,500px);
+    }
+
+    .admin-page.admin-manage-seats-page .seat-btn{
+
+        width:100%;
+
+        aspect-ratio:1/1;
+
+        height:auto;
+
+        font-size:
+            clamp(13px,4vw,18px);
+
+        font-weight:700;
+
+        border-radius:
+            clamp(12px,2vw,16px);
+
+        margin:0;
+    }
+
+    /* hide desktop aisle */
+    .admin-page.admin-manage-seats-page .aisle{
+
+        display:none;
+    }
+
+    /* row break between A-B, B-C etc */
+    .admin-page.admin-manage-seats-page .row-break{
+
+        grid-column:1/-1;
+
+        height:12px;
+    }
+
+    /* ACTION BUTTONS */
+
+    .admin-page.admin-manage-seats-page .seat-card > .d-flex{
+
+        display:flex;
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:12px !important;
+
+        margin-top:24px !important;
+    }
+
+
+    /* TOP ROW */
+
+    .admin-page.admin-manage-seats-page .add-seat-btn,
+    .admin-page.admin-manage-seats-page .delete-seat-btn{
+
+        flex:1 1 calc(50% - 6px);
+
+        max-width:220px;
+
+        justify-content:center;
+
+        padding:
+            clamp(15px,3vw,19px)
+            clamp(14px,4vw,22px);
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:
+            clamp(12px,2vw,16px);
+
+        margin-top: clamp(15px,3vw,25px);
+
+    }
+
+
+    /* SECOND ROW */
+
+    .admin-page.admin-manage-seats-page .btn-back{
+
+        flex:0 0 100%;
+
+        display:flex;
+
+        justify-content:center;
+        align-items:center;
+
+        max-width:
+            calc(440px + 12px);
+
+        margin:0 auto;
+
+        padding:
+            clamp(15px,3vw,19px)
+            clamp(18px,5vw,24px);
+
+        font-size:
+            clamp(13px,3vw,15px);
+
+        border-radius:
+            clamp(12px,2vw,16px);
+    }
+
+    /* MODAL */
+
+    .admin-page.admin-manage-seats-page .modal-dialog{
+
+        margin:12px;
+    }
+
+    .admin-page.admin-manage-seats-page .modal-body{
+
+        padding:20px !important;
+    }
+
+    /* TOAST */
+
+    .admin-page.admin-manage-seats-page .toast-msg{
+
+        top:90px;
+
+        right:12px;
+
+        left:12px;
+
+        width:auto;
+
+        text-align:center;
+
+        padding:14px 16px;
+
+        font-size:14px;
+    }
+
+    /* premium */
+
+    .admin-page.admin-manage-seats-page .seat-card,
+    .admin-page.admin-manage-seats-page .stat-card{
+
+        box-shadow:
+            0 8px 20px rgba(0,0,0,.08);
+    }
+
+    .admin-page.admin-manage-seats-page .seat-btn:active{
+
+        transform:scale(.95);
+    }
+
+    .admin-page.admin-manage-seats-page .add-seat-btn:active,
+    .admin-page.admin-manage-seats-page .delete-seat-btn:active,
+    .admin-page.admin-manage-seats-page .btn-back:active{
+
+        transform:scale(.98);
+    }
 }

@@ -52,6 +52,7 @@ $staff = $result->fetch_assoc();
 <html>
 
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Staff Details - GSC
@@ -61,6 +62,15 @@ $staff = $result->fetch_assoc();
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
     <style>
 
@@ -248,7 +258,7 @@ $staff = $result->fetch_assoc();
 
 </head>
 
-<body>
+<body class="admin-page admin-view-staff-page">
 
 <?php include '../../includes/admin_sidebar.php'; ?>
 

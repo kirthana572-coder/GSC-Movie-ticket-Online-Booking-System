@@ -98,6 +98,7 @@ $bookings = $conn->query("
 <html>
 
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
     View User - GSC
@@ -107,6 +108,14 @@ $bookings = $conn->query("
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet"
 >
+<!-- Bootstrap Icons -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+>
+
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
 
 <style>
 
@@ -139,7 +148,9 @@ body{
 
     text-align:center;
 
-    margin-bottom:35px;
+    margin-bottom:50px;
+
+    margin-top: -10px;
 }
 
 .card-box{
@@ -291,17 +302,18 @@ body{
 
 </head>
 
-<body>
+<body class="admin-page admin-view-customer-page">
 
 <?php include '../../includes/admin_sidebar.php'; ?>
 
 <div class="main">
 
+<div class="card-box">
+
 <h1 class="page-title">
     User Details
 </h1>
 
-<div class="card-box">
 
 <h3 class="section-title">
     Customer Information

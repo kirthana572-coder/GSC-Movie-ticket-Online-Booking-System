@@ -117,6 +117,7 @@ $users = $conn->query($sql);
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Admin Users - GSC
@@ -126,7 +127,14 @@ $users = $conn->query($sql);
         href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
         rel='stylesheet'
     >
-
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+    
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
     <style>
 
         body{
@@ -196,6 +204,28 @@ $users = $conn->query($sql);
 
             max-width:1000px;
             height:50px;
+        }
+
+        .search-wrapper{
+            overflow:hidden;
+        }
+
+        .search-hint{
+            position:absolute;
+            left:14px;
+            top:50%;
+
+            transform:translateY(-50%);
+
+            white-space:nowrap;
+
+            width:max-content;
+
+            color:#999;
+
+            pointer-events:none;
+
+            z-index:2;
         }
 
         .table-card{
@@ -354,11 +384,26 @@ $users = $conn->query($sql);
             color:#16a34a;
         }
 
+        @keyframes searchMarquee{
+
+            0%,20%{
+                transform:
+                    translateY(-50%)
+                    translateX(0);
+            }
+
+            80%,100%{
+                transform:
+                    translateY(-50%)
+                    translateX(var(--move-distance));
+            }
+        }
+
     </style>
 
 </head>
 
-<body>
+<body class="admin-page admin-users-page">
 
 <?php include '../../includes/admin_sidebar.php'; ?>
 
@@ -371,7 +416,7 @@ $users = $conn->query($sql);
         class="toast align-items-center text-bg-success border-0 position-fixed top-0 end-0 m-4 show"
         style="z-index:9999;"
     >
-        <div class="d-flex">S
+        <div class="d-flex">
 
             <div class="toast-body">
 
@@ -409,14 +454,17 @@ $users = $conn->query($sql);
                 <option value="staff" <?= ($role ?? '') == 'staff' ? 'selected' : '' ?>>Staff</option>
             </select>
 
-            <div class="position-relative flex-grow-1">
+            <div class="position-relative flex-grow-1 search-wrapper">
+
+                <div class="search-hint">
+                    Search user name or email...
+                </div>
 
                 <input
                     type="text"
                     id="searchInput"
                     name="search"
                     class="form-control search-input"
-                    placeholder="Search user name or email..."
                     autocomplete="off"
                     value="<?= htmlspecialchars($search) ?>"
                 >
@@ -466,7 +514,7 @@ $users = $conn->query($sql);
                         Created
                     </th>
 
-                    <th width="180">
+                    <th width="80">
                         Action
                     </th>
 
@@ -645,6 +693,61 @@ searchInput.addEventListener('input', () => {
     });
 
 });
+
+const hint =
+    document.querySelector('.search-hint');
+
+function setupMarquee(){
+
+    if(window.innerWidth > 768){
+
+        hint.style.animation = '';
+        return;
+    }
+
+    const overflow =
+        hint.scrollWidth -
+        (searchInput.clientWidth - 30);
+
+    if(overflow > 0){
+
+        hint.style.setProperty(
+            '--move-distance',
+            `-${overflow}px`
+        );
+
+        hint.style.animation =
+            'searchMarquee 8s linear infinite';
+    }
+}
+
+function updateHint(){
+
+    if(searchInput.value.trim() !== ''){
+
+        hint.style.display = 'none';
+
+    }else{
+
+        hint.style.display = 'block';
+
+        setupMarquee();
+    }
+}
+
+updateHint();
+
+searchInput.addEventListener(
+    'input',
+    updateHint
+);
+
+setupMarquee();
+
+window.addEventListener(
+    'resize',
+    setupMarquee
+);
 
 searchInput.addEventListener('keydown', e => {
 

@@ -9,6 +9,7 @@ require_once '../config/db.php';
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin Change Password</title>
 
@@ -17,6 +18,14 @@ require_once '../config/db.php';
         rel="stylesheet"
     >
 
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+    
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css">
     <style>
 
         body{
@@ -203,7 +212,7 @@ require_once '../config/db.php';
 
 </head>
 
-<body>
+<body class="admin-page admin-change-password-page">
 
 <?php include '../includes/admin_sidebar.php'; ?>
 
