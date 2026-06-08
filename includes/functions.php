@@ -1,11 +1,13 @@
 <?php
+
 /**
- * 发送邮件
+ * 发送邮件（使用 PHPMailer，不依赖 use 语句）
  */
 function sendMail($to, $subject, $body) {
+    // 加载 PHPMailer 类文件
+    require_once __DIR__ . '/../src/Exception.php';
     require_once __DIR__ . '/../src/PHPMailer.php';
     require_once __DIR__ . '/../src/SMTP.php';
-    require_once __DIR__ . '/../src/Exception.php';
 
     $mail = new PHPMailer\PHPMailer\PHPMailer(true);
     try {
@@ -28,6 +30,7 @@ function sendMail($to, $subject, $body) {
         $mail->send();
         return true;
     } catch (Exception $e) {
+        // 注意：这里需要写完整的异常类名，或者使用 use Exception; 但为了安全，直接用全局异常
         error_log("邮件发送失败: " . $mail->ErrorInfo);
         return false;
     }
