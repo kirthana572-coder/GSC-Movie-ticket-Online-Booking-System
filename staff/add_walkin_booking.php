@@ -66,6 +66,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $showtime_id = $showtime['id'];
 
+    $checkShowtime = $conn->prepare("
+
+        SELECT id
+
+        FROM showtimes
+
+        WHERE id = ?
+        AND TIMESTAMP(show_date, show_time) > NOW()
+
+    ");
+
+    $checkShowtime->bind_param(
+        "i",
+        $showtime_id
+    );
+
+    $checkShowtime->execute();
+
+    if(
+        $checkShowtime
+        ->get_result()
+        ->num_rows === 0
+    ){
+
+        echo "
+
+        <script>
+
+            alert('This showtime has already started or ended.');
+
+            history.back();
+
+        </script>
+
+        ";
+
+        exit();
+    }
+
+    $checkShowtime->close();
+
 
     // =========================
     // Check seat availability
@@ -747,6 +788,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $movies = $conn->query("
                         SELECT *
                         FROM movies
+                        WHERE status = 'active'
+                        ORDER BY title ASC
                     ");
 
                     while($movie = $movies->fetch_assoc()):

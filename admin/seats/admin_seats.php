@@ -16,11 +16,9 @@ if(isset($_GET['term'])){
     $stmt = $conn->prepare("
 
         SELECT DISTINCT title
-
         FROM movies
-
-        WHERE title LIKE CONCAT('%', ?, '%')
-
+        WHERE status = 'active'
+        AND title LIKE CONCAT('%', ?, '%')
         LIMIT 5
 
     ");
@@ -163,6 +161,8 @@ $sql = "
     LEFT JOIN seats se
     ON se.showtime_id = s.id
 
+    WHERE m.status = 'active'
+
 ";
 
 
@@ -172,10 +172,11 @@ if($search != ''){
 
     $sql .= "
 
-        WHERE
+        AND (
             m.title LIKE '%$search%'
             OR b.name LIKE '%$search%'
             OR s.id LIKE '%$search%'
+        )
 
     ";
 }

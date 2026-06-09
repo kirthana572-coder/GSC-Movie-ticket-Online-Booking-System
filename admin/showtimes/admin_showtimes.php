@@ -18,7 +18,8 @@ if(isset($_GET['term'])){
 
         FROM movies
 
-        WHERE title LIKE CONCAT('%', ?, '%')
+        WHERE status = 'active'
+        AND title LIKE CONCAT('%', ?, '%')
 
         LIMIT 5
 
@@ -99,6 +100,8 @@ $sql = "
     JOIN branches b
     ON s.branch_id = b.id
 
+    WHERE m.status = 'active'
+
 ";
 
 
@@ -108,10 +111,11 @@ if($search != ''){
 
     $sql .= "
 
-        WHERE
+        AND (
             m.title LIKE '%$search%'
             OR
             b.name LIKE '%$search%'
+        )
 
     ";
 }

@@ -7002,47 +7002,34 @@
     }
 
     .admin-page.admin-manage-seats-page .modal-body{
-
         padding:20px !important;
     }
 
     /* TOAST */
-
     .admin-page.admin-manage-seats-page .toast-msg{
-
         top:90px;
-
         right:12px;
-
         left:12px;
-
         width:auto;
-
         text-align:center;
-
         padding:14px 16px;
-
         font-size:14px;
     }
 
     /* premium */
-
     .admin-page.admin-manage-seats-page .seat-card,
     .admin-page.admin-manage-seats-page .stat-card{
-
         box-shadow:
             0 8px 20px rgba(0,0,0,.08);
     }
 
     .admin-page.admin-manage-seats-page .seat-btn:active{
-
         transform:scale(.95);
     }
 
     .admin-page.admin-manage-seats-page .add-seat-btn:active,
     .admin-page.admin-manage-seats-page .delete-seat-btn:active,
     .admin-page.admin-manage-seats-page .btn-back:active{
-
         transform:scale(.98);
     }
 }

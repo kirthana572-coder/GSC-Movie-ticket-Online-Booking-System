@@ -23,16 +23,27 @@ if (!$movie_id || !$date) {
 }
 
 
-// Get available showtimes
 $stmt = $conn->prepare("
-    SELECT DISTINCT show_time
-    FROM showtimes
-    WHERE movie_id = ?
-    AND show_date = ?
-    ORDER BY show_time ASC
+    SELECT s.show_time
+
+    FROM showtimes s
+
+    JOIN movies m
+    ON s.movie_id = m.id
+
+    WHERE s.movie_id = ?
+    AND s.show_date = ?
+    AND m.status = 'active'
+    AND TIMESTAMP(s.show_date, s.show_time) > NOW()
+
+    ORDER BY s.show_time ASC
 ");
 
-$stmt->bind_param("is", $movie_id, $date);
+$stmt->bind_param(
+    "is",
+    $movie_id,
+    $date
+);
 
 $stmt->execute();
 

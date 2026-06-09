@@ -461,6 +461,8 @@ unset($_SESSION['success']);
                         Created
                     </th>
 
+                    <th>Status</th>
+
                     <th width="120">
                         Actions
                     </th>
@@ -551,6 +553,24 @@ unset($_SESSION['success']);
 
                             </td>
 
+                            <td>
+
+                                <?php if($m['status'] === 'active'): ?>
+
+                                    <span class="badge bg-success">
+                                        Active
+                                    </span>
+
+                                <?php else: ?>
+
+                                    <span class="badge bg-secondary">
+                                        Inactive
+                                    </span>
+
+                                <?php endif; ?>
+
+                            </td>
+
 
                             <!-- ACTIONS -->
 
@@ -572,18 +592,39 @@ unset($_SESSION['success']);
                                         Edit
                                     </a>
 
-                                    <button
-                                        type="button"
-                                        class="action-btn btn-delete"
+                                    <?php if($m['status'] === 'active'): ?>
 
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
+                                        <button
+                                            type="button"
+                                            class="action-btn btn-delete btn-toggle-status"
 
-                                        data-id="<?= $m['id'] ?>"
-                                        data-title="<?= htmlspecialchars($m['title']) ?>"
-                                    >
-                                        Delete
-                                    </button>
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+
+                                            data-id="<?= $m['id'] ?>"
+                                            data-title="<?= htmlspecialchars($m['title']) ?>"
+                                            data-status="inactive"
+                                        >
+                                            Inactive
+                                        </button>
+
+                                    <?php else: ?>
+
+                                        <button
+                                            type="button"
+                                            class="action-btn btn-view btn-toggle-status"
+
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+
+                                            data-id="<?= $m['id'] ?>"
+                                            data-title="<?= htmlspecialchars($m['title']) ?>"
+                                            data-status="active"
+                                        >
+                                            Active
+                                        </button>
+
+                                    <?php endif; ?>
 
                                 </div>
 
@@ -639,13 +680,11 @@ unset($_SESSION['success']);
     <?php endif; ?>
 
 
-    <?php if($success == 'deleted'): ?>
+    <?php if($success == 'deactivated'): ?>
 
-        <div class="toast-msg success-toast">
-
-            Movie deleted successfully
-
-        </div>
+    <div class="toast-msg success-toast">
+        Movie deactivated successfully
+    </div>
 
     <?php endif; ?>
 
@@ -702,10 +741,11 @@ unset($_SESSION['success']);
 
             <div class="modal-body p-4 text-center">
 
-                <h3 class="fw-bold mb-3">
-
-                    Delete Movie?
-
+                <h3
+                    class="fw-bold mb-3"
+                    id="modalTitle"
+                >
+                    Change Movie Status
                 </h3>
 
                 <p
@@ -728,7 +768,7 @@ unset($_SESSION['success']);
                         id="confirmDeleteBtn"
                         class="btn btn-danger px-4 py-2 rounded-3"
                     >
-                        Delete
+                        Deactivate
                     </button>
 
                 </div>
@@ -772,17 +812,50 @@ setTimeout(() => {
 
 <script>
 
-document.querySelectorAll('.btn-delete').forEach(btn => {
+document.querySelectorAll('.btn-toggle-status')
+.forEach(btn => {
 
     btn.addEventListener('click', function(){
 
         const id = this.dataset.id;
         const title = this.dataset.title;
+        const status = this.dataset.status;
+
+        const actionText =
+            status === 'inactive'
+            ? 'deactivate'
+            : 'activate';
+
+        const modalTitle =
+            document.getElementById('modalTitle');
+
+        const confirmBtn =
+            document.getElementById('confirmDeleteBtn');
+
+        if(status === 'inactive'){
+
+            modalTitle.textContent =
+                'Deactivate Movie?';
+
+            confirmBtn.textContent =
+                'Deactivate';
+
+        }else{
+
+            modalTitle.textContent =
+                'Activate Movie?';
+
+            confirmBtn.textContent =
+                'Activate';
+        }
+
 
         document.getElementById(
             'deleteMovieText'
         ).innerHTML =
-            'Are you sure you want to delete <b>'
+            'Are you sure you want to '
+            + actionText +
+            ' <b>'
             + title +
             '</b>?';
 
@@ -791,7 +864,10 @@ document.querySelectorAll('.btn-delete').forEach(btn => {
         ).onclick = function(){
 
             window.location.href =
-                'delete_movie.php?id=' + id;
+                'toggle_movie_status.php?id=' +
+                id +
+                '&status=' +
+                status;
         };
 
     });

@@ -3,33 +3,37 @@ require_once 'config/db.php';
 
 // Now Showing（有showtime）
 $nowShowing = $conn->query("
-    SELECT DISTINCT
-        m.id,
-        m.title,
-        m.genre,
-        m.poster_image
+
+    SELECT DISTINCT m.*
     FROM movies m
-    INNER JOIN showtimes s
-        ON m.id = s.movie_id
+    JOIN showtimes s
+        ON s.movie_id = m.id
+    WHERE m.status = 'active'
+    AND TIMESTAMP(
+        s.show_date,
+        s.show_time
+    ) > NOW()
     ORDER BY m.id DESC
-    LIMIT 6
+
 ");
 
 // Upcoming（没有showtime）
 $upcomingMovies = $conn->query("
-    SELECT
-        m.id,
-        m.title,
-        m.genre,
-        m.poster_image
+
+    SELECT m.*
     FROM movies m
-    WHERE NOT EXISTS (
+    WHERE m.status = 'active'
+    AND NOT EXISTS (
         SELECT 1
         FROM showtimes s
         WHERE s.movie_id = m.id
+        AND TIMESTAMP(
+            s.show_date,
+            s.show_time
+        ) > NOW()
     )
     ORDER BY m.id DESC
-    LIMIT 6
+
 ");
 ?>
 
