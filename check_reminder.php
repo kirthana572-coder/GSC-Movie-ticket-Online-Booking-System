@@ -13,6 +13,10 @@ require_once __DIR__ . '/config/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $user_info = $conn->query("SELECT email, full_name FROM users WHERE id = $user_id")->fetch_assoc();
+if (!$user_info) {
+    echo json_encode(['error' => 'User not found']);
+    exit;
+}
 $user_email = $user_info['email'];
 $user_name = $user_info['full_name'];
 
@@ -37,27 +41,18 @@ while ($row = $result->fetch_assoc()) {
     $movie_title = $row['title'];
     $start_time = $row['start_time'];
 
-    // 开始事务
     $conn->begin_transaction();
     try {
-        // 更新订单状态为 Cancelled
         $conn->query("UPDATE bookings SET payment_status = 'Cancelled' WHERE id = $booking_id");
-        
-        // 释放座位
         $conn->query("
             UPDATE seats s
             JOIN booking_seats bs ON s.id = bs.seat_id
             SET s.status = 'available'
             WHERE bs.booking_id = $booking_id
         ");
-        
-        // 删除关联座位记录
         $conn->query("DELETE FROM booking_seats WHERE booking_id = $booking_id");
-        
-        // 插入取消通知
         $msg = "Your booking #$booking_id (Movie: $movie_title) has been automatically cancelled because payment was not completed within the allowed time.";
         $conn->query("INSERT INTO notifications (user_id, message, is_read, is_popup_shown, created_at) VALUES ($user_id, '$msg', 0, 0, NOW())");
-        
         $conn->commit();
     } catch (Exception $e) {
         $conn->rollback();
@@ -84,31 +79,36 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 while ($row = $result->fetch_assoc()) {
-    $msg = "⏰ Reminder: Your booking for '{$row['title']}' starts at {$row['start_time']}. Please complete payment within 1 hour, otherwise your booking will be automatically cancelled.";
+    $booking_id = $row['id'];
+    $start_time = $row['start_time'];
+    // 付款截止时间 = 电影开场时间 - 1小时
+    $payment_deadline = date('h:i A', strtotime($start_time) - 3600);
+    $msg = "⏰ Reminder: Your booking for '{$row['title']}' starts at {$start_time}. Please complete payment before {$payment_deadline}, otherwise your booking will be automatically cancelled.";
     
-    // 站内消息
     sendStationNotification($user_id, $msg);
-    
-    // 发送邮件
-    $subject = "Action Required: Complete Payment Within 1 Hour";
-    $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $row['id'];
+
+    $subject = "Action Required: Complete Payment Before {$payment_deadline}";
+    $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
     $body = "
     <html>
     <body>
         <h2>Payment Reminder – Urgent</h2>
         <p>Dear {$user_name},</p>
-        <p>Your booking for <strong>{$row['title']}</strong> at <strong>{$row['start_time']}</strong> is still pending payment.</p>
-        <p><strong>Please complete your payment at the cinema counter within 1 hour.</strong> Otherwise, your booking will be automatically cancelled.</p>
+        <p>Your booking for <strong>{$row['title']}</strong> at <strong>{$start_time}</strong> is still pending payment.</p>
+        <p><strong>Please complete your payment at the cinema counter by {$payment_deadline}.</strong> Otherwise, your booking will be automatically cancelled.</p>
         <p>You can view your booking details here: <a href='{$order_link}'>View Booking</a></p>
         <p>Thank you.</p>
     </body>
     </html>
     ";
-    sendMail($user_email, $subject, $body);
-    
-    // 标记已提醒
+    try {
+        sendMail($user_email, $subject, $body);
+    } catch (\Exception $e) {
+        error_log("2h reminder email failed for booking {$booking_id}: " . $e->getMessage());
+    }
+
     $update = $conn->prepare("UPDATE bookings SET two_hour_notified = 1 WHERE id = ?");
-    $update->bind_param('i', $row['id']);
+    $update->bind_param('i', $booking_id);
     $update->execute();
     $update->close();
 }
@@ -137,11 +137,8 @@ while ($row = $result->fetch_assoc()) {
     } else {
         $msg = "🎬 Movie '{$row['title']}' starts at {$row['start_time']}. Please complete payment and come to the cinema!";
     }
-    
-    // 站内消息
     sendStationNotification($user_id, $msg);
-    
-    // 发送邮件
+
     $subject = "Movie Starting Soon: {$row['title']}";
     $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $row['id'];
     $body = "
@@ -156,15 +153,19 @@ while ($row = $result->fetch_assoc()) {
     </body>
     </html>
     ";
-    sendMail($user_email, $subject, $body);
-    
+    try {
+        sendMail($user_email, $subject, $body);
+    } catch (\Exception $e) {
+        error_log("30min reminder email failed for booking {$row['id']}: " . $e->getMessage());
+    }
+
     $reminders[] = [
         'id' => $row['id'],
         'title' => $row['title'],
         'start_time' => $row['start_time'],
         'message' => $msg
     ];
-    
+
     $update = $conn->prepare("UPDATE bookings SET is_notified = 1 WHERE id = ?");
     $update->bind_param('i', $row['id']);
     $update->execute();

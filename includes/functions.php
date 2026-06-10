@@ -29,8 +29,7 @@ function sendMail($to, $subject, $body) {
 
         $mail->send();
         return true;
-    } catch (Exception $e) {
-        // 注意：这里需要写完整的异常类名，或者使用 use Exception; 但为了安全，直接用全局异常
+    } catch (\Exception $e) {
         error_log("邮件发送失败: " . $mail->ErrorInfo);
         return false;
     }
