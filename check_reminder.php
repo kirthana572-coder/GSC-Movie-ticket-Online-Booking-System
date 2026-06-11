@@ -81,7 +81,6 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
     $booking_id = $row['id'];
     $start_time = $row['start_time'];
-    // 付款截止时间 = 电影开场时间 - 1小时
     $payment_deadline = date('h:i A', strtotime($start_time) - 3600);
     $msg = "⏰ Reminder: Your booking for '{$row['title']}' starts at {$start_time}. Please complete payment before {$payment_deadline}, otherwise your booking will be automatically cancelled.";
     
@@ -96,7 +95,7 @@ while ($row = $result->fetch_assoc()) {
         <p>Dear {$user_name},</p>
         <p>Your booking for <strong>{$row['title']}</strong> at <strong>{$start_time}</strong> is still pending payment.</p>
         <p><strong>Please complete your payment at the cinema counter by {$payment_deadline}.</strong> Otherwise, your booking will be automatically cancelled.</p>
-        <p>You can view your booking details here: <a href='{$order_link}'>View Booking</a></p>
+        <p>View your booking: <a href='{$order_link}'>Booking Details</a></p>
         <p>Thank you.</p>
     </body>
     </html>

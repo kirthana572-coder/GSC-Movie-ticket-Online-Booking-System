@@ -68,7 +68,9 @@ try {
     $msg = "Your booking (ID: $booking_id) has been created. Please pay at the counter.";
     sendStationNotification($user_id, $msg);
 
-    // 发送购票成功邮件（立即提醒）
+    $conn->commit();
+
+    // ========== 发送购票成功邮件（放在 commit 之后，不影响订单） ==========
     $subject = "Booking Confirmation - Please Pay at Counter";
     $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
     $body = "
@@ -85,9 +87,12 @@ try {
     </body>
     </html>
     ";
-    sendMail($user_email, $subject, $body);
+    try {
+        sendMail($user_email, $subject, $body);
+    } catch (\Exception $e) {
+        error_log("Booking confirmation email failed: " . $e->getMessage());
+    }
 
-    $conn->commit();
     header("Location: " . BASE_URL . "/customer/booking_summary.php?booking_id=" . $booking_id);
     exit();
 } catch (Exception $e) {

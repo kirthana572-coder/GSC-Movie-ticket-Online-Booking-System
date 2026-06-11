@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 发送邮件（使用 PHPMailer，不依赖 use 语句）
+ * 发送邮件（使用 PHPMailer）
  */
 function sendMail($to, $subject, $body) {
     // 加载 PHPMailer 类文件
