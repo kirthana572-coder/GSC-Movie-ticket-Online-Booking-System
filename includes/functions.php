@@ -28,15 +28,17 @@ function sendMail($to, $subject, $body) {
         $mail->AltBody = strip_tags($body);
 
         $mail->send();
+        error_log("Email sent successfully to $to");
         return true;
     } catch (\Exception $e) {
         error_log("邮件发送失败: " . $mail->ErrorInfo);
+        error_log("Exception: " . $e->getMessage());
         return false;
     }
 }
 
 /**
- * 发送站内消息（初始 is_popup_shown = 0）
+ * 发送站内消息
  */
 function sendStationNotification($user_id, $message) {
     global $conn;

@@ -70,7 +70,7 @@ try {
 
     $conn->commit();
 
-    // ========== 发送购票成功邮件（放在 commit 之后，不影响订单） ==========
+    // ========== 发送购票成功邮件（放在事务提交之后） ==========
     $subject = "Booking Confirmation - Please Pay at Counter";
     $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
     $body = "
