@@ -70,7 +70,7 @@ try {
 
     $conn->commit();
 
-    // ========== 发送购票成功邮件（放在事务提交之后） ==========
+    // ========== 发送购票成功邮件 ==========
     $subject = "Booking Confirmation - Please Pay at Counter";
     $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
     $body = "
@@ -81,7 +81,7 @@ try {
         <p>You have successfully booked tickets for <strong>{$movie_title}</strong>.</p>
         <p>Showtime: {$show_date} at {$show_time}</p>
         <p><strong>Please proceed to the cinema counter to complete your payment.</strong></p>
-        <p>If you do not pay before the show, your booking will be automatically cancelled.</p>
+        <p><strong>Important:</strong> If you do not pay before 1 hour prior to the showtime, your booking will be automatically cancelled.</p>
         <p>View your booking: <a href='{$order_link}'>Booking Details</a></p>
         <p>Thank you for choosing GSC.</p>
     </body>

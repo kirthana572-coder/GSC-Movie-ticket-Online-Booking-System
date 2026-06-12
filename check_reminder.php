@@ -51,8 +51,31 @@ while ($row = $result->fetch_assoc()) {
             WHERE bs.booking_id = $booking_id
         ");
         $conn->query("DELETE FROM booking_seats WHERE booking_id = $booking_id");
-        $msg = "Your booking #$booking_id (Movie: $movie_title) has been automatically cancelled because payment was not completed within the allowed time.";
+        
+        // 站内通知
+        $msg = "Your booking #$booking_id (Movie: $movie_title) has been automatically cancelled because payment was not completed before 1 hour prior to the showtime.";
         $conn->query("INSERT INTO notifications (user_id, message, is_read, is_popup_shown, created_at) VALUES ($user_id, '$msg', 0, 0, NOW())");
+        
+        // 发送邮件通知订单已过期
+        $subject = "Booking Cancelled - Payment Not Completed";
+        $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
+        $body = "
+        <html>
+        <body>
+            <h2>Booking Cancelled</h2>
+            <p>Dear {$user_name},</p>
+            <p>Your booking for <strong>{$movie_title}</strong> at <strong>{$start_time}</strong> has been automatically cancelled because you did not complete payment before 1 hour prior to the showtime.</p>
+            <p>If you still wish to watch the movie, please make a new booking.</p>
+            <p>Thank you.</p>
+        </body>
+        </html>
+        ";
+        try {
+            sendMail($user_email, $subject, $body);
+        } catch (\Exception $e) {
+            error_log("Auto-cancel email failed for booking $booking_id: " . $e->getMessage());
+        }
+        
         $conn->commit();
     } catch (Exception $e) {
         $conn->rollback();
@@ -81,13 +104,10 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
     $booking_id = $row['id'];
     $start_time = $row['start_time'];
-    // 付款截止时间 = 电影开场时间 - 1小时（用于提醒文案）
-    $payment_deadline = date('h:i A', strtotime($start_time) - 3600);
-    $msg = "⏰ Reminder: Your booking for '{$row['title']}' starts at {$start_time}. Please complete payment before {$payment_deadline}, otherwise your booking will be automatically cancelled.";
+    $msg = "⏰ Reminder: Your booking for '{$row['title']}' starts at {$start_time}. Please complete payment immediately. If not paid within 1 hour, your booking will be cancelled.";
     
     sendStationNotification($user_id, $msg);
 
-    // ========== 修改后的“记得去还钱”邮件 ==========
     $subject = "Remember to pay for your movie ticket";
     $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
     $body = "
@@ -96,8 +116,8 @@ while ($row = $result->fetch_assoc()) {
         <h2>Remember to pay</h2>
         <p>Dear {$user_name},</p>
         <p>Your booking for <strong>{$row['title']}</strong> at <strong>{$start_time}</strong> is still unpaid.</p>
-        <p><strong>Please go to the counter and pay before the show starts.</strong></p>
-        <p>If you don't pay within 1 hour, your booking will be cancelled.</p>
+        <p><strong>Please go to the counter and pay as soon as possible.</strong></p>
+        <p>If you do not pay within 1 hour, your booking will be automatically cancelled.</p>
         <p>View your booking: <a href='{$order_link}'>Booking Details</a></p>
         <p>Thank you.</p>
     </body>
@@ -116,7 +136,7 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-// ==================== 3. 30分钟提醒（原有逻辑，区分付款状态） ====================
+// ==================== 3. 30分钟提醒 ====================
 $thirtyMinSql = "
     SELECT b.id, m.title, CONCAT(s.show_date, ' ', s.show_time) AS start_time, b.payment_status
     FROM bookings b
