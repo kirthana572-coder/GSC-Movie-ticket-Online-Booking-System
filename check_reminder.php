@@ -81,20 +81,23 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
     $booking_id = $row['id'];
     $start_time = $row['start_time'];
+    // 付款截止时间 = 电影开场时间 - 1小时（用于提醒文案）
     $payment_deadline = date('h:i A', strtotime($start_time) - 3600);
     $msg = "⏰ Reminder: Your booking for '{$row['title']}' starts at {$start_time}. Please complete payment before {$payment_deadline}, otherwise your booking will be automatically cancelled.";
     
     sendStationNotification($user_id, $msg);
 
-    $subject = "Action Required: Complete Payment Before {$payment_deadline}";
+    // ========== 修改后的“记得去还钱”邮件 ==========
+    $subject = "Remember to pay for your movie ticket";
     $order_link = BASE_URL . "/customer/booking_details.php?booking_id=" . $booking_id;
     $body = "
     <html>
     <body>
-        <h2>Payment Reminder – Urgent</h2>
+        <h2>Remember to pay</h2>
         <p>Dear {$user_name},</p>
-        <p>Your booking for <strong>{$row['title']}</strong> at <strong>{$start_time}</strong> is still pending payment.</p>
-        <p><strong>Please complete your payment at the cinema counter by {$payment_deadline}.</strong> Otherwise, your booking will be automatically cancelled.</p>
+        <p>Your booking for <strong>{$row['title']}</strong> at <strong>{$start_time}</strong> is still unpaid.</p>
+        <p><strong>Please go to the counter and pay before the show starts.</strong></p>
+        <p>If you don't pay within 1 hour, your booking will be cancelled.</p>
         <p>View your booking: <a href='{$order_link}'>Booking Details</a></p>
         <p>Thank you.</p>
     </body>
